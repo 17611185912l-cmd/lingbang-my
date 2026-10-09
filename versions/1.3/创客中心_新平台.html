@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>创客中心｜新平台</title>
+  <style>
+:root{--page:#f3f6f8;--surface:#fff;--soft:#edf3ff;--accent:#145cff;--accent-dark:#0749d8;--ink:#102958;--muted:#738294;--line:#e7edf1;--warning:#f59e0b;--radius:14px}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink);background:#e6edfa}
+button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+[hidden]{display:none!important}
+.stage{min-height:100vh;display:grid;place-items:center;padding:24px}
+.phone{position:relative;width:390px;height:min(844px,calc(100vh - 48px));min-height:640px;overflow:hidden;background:var(--page);border-radius:24px;box-shadow:0 22px 60px rgba(25,45,58,.2)}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--page);transform:translateX(100%);opacity:0;transition:transform .24s ease,opacity .18s ease;pointer-events:none}
+.screen.active{transform:translateX(0);opacity:1;pointer-events:auto}
+.screen.leaving{transform:translateX(-18%)}
+.statusbar{height:42px;display:flex;align-items:center;justify-content:space-between;padding:5px 22px 0 26px;background:var(--surface);font-size:14px;font-weight:700;flex:0 0 auto}
+.status-icons{display:flex;align-items:center;gap:7px;font-size:13px;letter-spacing:-1px}
+.signal{letter-spacing:-2px}
+.battery{width:22px;height:10px;border:1.8px solid #111;border-radius:2px;position:relative}
+.battery:before{content:"";position:absolute;inset:1.4px;background:#111;border-radius:1px}
+.battery:after{content:"";position:absolute;right:-3.4px;top:2px;width:2px;height:4px;background:#111;border-radius:0 1px 1px 0}
+.navbar{height:49px;position:relative;display:flex;align-items:center;justify-content:center;background:var(--surface);flex:0 0 auto}
+.navbar-title,.manage-title{font-size:18px;font-weight:700;letter-spacing:.2px}
+.back{position:absolute;left:8px;width:44px;height:44px;border:0;background:transparent;cursor:pointer}
+.back:before{content:"";position:absolute;left:17px;top:13px;width:12px;height:12px;border-left:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg)}
+.capsule{position:absolute;right:12px;width:76px;height:31px;border:1px solid var(--line);border-radius:18px;display:flex;align-items:center;justify-content:space-around;background:#fff}
+.dots{font-size:17px;letter-spacing:2px;transform:translateY(-3px)}
+.mini-circle{width:16px;height:16px;border:1.5px solid var(--ink);border-radius:50%;position:relative}
+.mini-circle:after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--ink)}
+.scroll{min-height:0;flex:1;overflow-y:auto;padding:14px 14px 28px;scrollbar-width:none;overscroll-behavior:contain}
+.scroll::-webkit-scrollbar{display:none}
+.stack{display:grid;gap:12px}
+.wire-card{border-radius:var(--radius);background:var(--surface);box-shadow:0 1px 1px rgba(33,55,68,.03)}
+.label{display:block;color:var(--muted);font-size:12px;line-height:18px}
+.number{font-variant-numeric:tabular-nums;white-space:nowrap}
+.white-button{height:40px;padding:0 15px;border:0;border-radius:10px;background:var(--accent);color:#fff;font-size:13px;font-weight:700;cursor:pointer}
+.white-button:hover{background:var(--accent-dark)}
+.white-button:active{transform:translateY(1px)}
+.income-card{padding:18px 17px 3px}
+.income-main{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;padding-bottom:17px}
+.available{display:block;margin-top:5px;font-size:25px;line-height:31px;font-weight:800;letter-spacing:-.45px}
+.currency{font-size:.72em;margin-right:3px}
+.income-list{border-top:1px solid var(--line)}
+.income-list>div{min-height:52px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line)}
+.income-list>div:last-child{border-bottom:0}
+.income-value{font-size:14px;line-height:21px;font-weight:700}
+.overview-scroll{padding-top:12px;padding-bottom:16px}
+.overview-stack{gap:10px}
+.member-tools{display:grid;grid-template-columns:64px 74px 96px minmax(92px,1fr);align-items:center;gap:5px;margin-top:10px}
+.filter-field{position:relative;min-width:0}
+.filter-field>span:first-child{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.count-row{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+.count-pill{height:32px;display:inline-flex;align-items:center;border:0;border-radius:8px;background:var(--soft);padding:0 11px;color:var(--accent);font-size:12px;font-weight:700}
+.empty-result{padding:42px 18px;border:1px dashed #cbd7de;border-radius:14px;background:rgba(255,255,255,.7);color:var(--muted);text-align:center;font-size:13px;line-height:1.7}
+.member-section{min-height:530px;margin-top:12px}
+.member-list{display:grid;gap:10px;margin-top:10px}
+.member-card{position:relative;padding:18px 12px 11px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:0 3px 12px rgba(37,58,72,.04);transition:border-color .16s ease,box-shadow .16s ease}
+.member-head{display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:9px;align-items:center;padding-top:20px}
+.avatar{width:42px;height:42px;display:grid;place-items:center;border-radius:50%;background:var(--soft);color:var(--accent);font-size:15px;font-weight:750}
+.member-name{font-size:14px;font-weight:700}
+.role-tag{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:8px;background:#eef1f4;color:#677687;font-size:9px;vertical-align:2px}
+.member-meta{display:flex;align-items:center;gap:8px;margin-top:5px;color:var(--muted);font-size:10px}
+.phone-link{min-height:20px;display:inline-flex;align-items:center;gap:3px;margin:-3px 0;padding:3px 4px;border-radius:6px;color:var(--accent);font-weight:700;text-decoration:none;white-space:nowrap}
+.phone-link:hover,.phone-link:focus-visible{outline:none;background:var(--soft);color:var(--accent-dark)}
+.phone-link:active{background:#dce8ff}
+.phone-icon{width:12px;height:12px;flex:0 0 auto;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.member-profit{text-align:right;color:var(--muted);font-size:10px}
+.member-profit strong{display:block;margin-top:5px;color:var(--ink);font-size:13px;font-weight:750}
+.trace{margin-top:10px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fafcfd}
+.trace-row{min-height:31px;display:grid;grid-template-columns:52px minmax(0,1fr) 59px;align-items:center;padding:4px 8px;border-bottom:1px solid var(--line);font-size:10px}
+.trace-row:last-child{border-bottom:0}
+.trace-row>span:first-child{color:var(--muted)}
+.trace-copy{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.trace-time{text-align:right;color:#526474}
+.team-summary{width:100%;min-height:38px;display:flex;align-items:center;gap:7px;margin:6px 0 0;border:0;border-radius:8px;background:transparent;padding:0 8px;color:var(--muted);font:inherit;font-size:12px;text-align:left;cursor:pointer}
+.team-summary:hover,.team-summary:focus-visible{outline:none;background:var(--soft);color:var(--accent)}
+.team-summary-chevron{margin-left:auto;color:#8b98a4;font-size:22px;line-height:1}
+.team-mask{position:absolute;z-index:46;inset:0;background:rgba(20,34,47,.42);opacity:0;transition:opacity .2s ease}.team-mask.open{opacity:1}
+.team-sheet{position:absolute;z-index:47;left:0;right:0;bottom:0;max-height:78%;display:flex;flex-direction:column;border-radius:20px 20px 0 0;background:var(--page);box-shadow:0 -14px 40px rgba(20,34,47,.2);transform:translateY(100%);transition:transform .24s cubic-bezier(.22,.8,.28,1)}.team-sheet.open{transform:translateY(0)}
+.team-sheet-header{display:flex;align-items:center;justify-content:space-between;padding:16px;border-bottom:1px solid var(--line)}.team-sheet-title{font-size:17px;font-weight:800}.team-sheet-close{width:30px;height:30px;border:1px solid var(--line);border-radius:50%;background:#fff;color:#7a8996;font-size:19px;line-height:26px;cursor:pointer}.team-sheet-summary{padding:12px 16px;color:var(--muted);font-size:12px}.team-member-list{overflow:auto;padding:0 14px 20px;display:grid;gap:8px}.team-member-item{display:flex;align-items:center;gap:10px;padding:10px 11px;border:1px solid var(--line);border-radius:11px;background:#fff}.team-member-avatar{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:var(--soft);color:var(--accent);font-weight:750}.team-member-copy{min-width:0;flex:1}.team-member-name{font-size:13px;font-weight:700}.team-member-meta{margin-top:3px;color:var(--muted);font-size:10px}.team-member-role{padding:2px 6px;border-radius:7px;background:#eef1f4;color:#677687;font-size:9px}
+.card-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:9px}
+.card-action{height:29px;border:1px solid var(--line);border-radius:8px;background:#fff;color:#455667;font-size:11px;cursor:pointer;white-space:nowrap}
+.card-action.revisit-action{border-color:var(--accent);background:var(--soft);color:var(--accent);font-weight:700}
+.revisit-mask{position:absolute;z-index:44;inset:0;background:rgba(20,34,47,.42);opacity:0;transition:opacity .2s ease}
+.revisit-mask.open{opacity:1}
+.revisit-sheet{position:absolute;z-index:45;left:0;right:0;bottom:0;max-height:calc(100% - 44px);display:flex;flex-direction:column;border-radius:20px 20px 0 0;background:var(--page);box-shadow:0 -14px 40px rgba(20,34,47,.2);transform:translateY(100%);transition:transform .24s cubic-bezier(.22,.8,.28,1)}
+.revisit-sheet.open{transform:translateY(0)}
+.revisit-handle{width:34px;height:4px;margin:9px auto 7px;border-radius:4px;background:#d0dbed}
+.revisit-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 16px 12px}
+.revisit-title{font-size:17px;font-weight:800}
+.revisit-close{width:32px;height:32px;border:1px solid var(--line);border-radius:50%;background:#fff;color:#7a8996;font-size:19px;line-height:28px;cursor:pointer}
+.revisit-body{min-height:0;overflow-y:auto;padding:0 14px 12px}
+.revisit-profile{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 13px;border-radius:12px;background:var(--accent);color:#fff}
+.revisit-profile-name{font-size:15px;font-weight:800}
+.revisit-profile-meta{font-size:11px;opacity:.86}
+.revisit-latest{margin-top:11px;padding:11px 12px;border:1px solid var(--line);border-radius:11px;background:#fff}
+.revisit-section-title{display:block;color:#455667;font-size:12px;font-weight:750}
+.revisit-latest p{display:-webkit-box;overflow:hidden;margin:6px 0 0;color:#70808e;font-size:11px;line-height:18px;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+.revisit-field{margin-top:11px}
+.revisit-textarea-wrap{margin-top:8px;border:1px solid var(--line);border-radius:11px;background:#fff;overflow:hidden}
+.revisit-textarea{width:100%;height:116px;display:block;resize:none;border:0;background:transparent;padding:11px 12px;color:var(--ink);font:inherit;font-size:12px;line-height:19px}
+.revisit-textarea:focus{outline:none}
+.revisit-textarea-wrap:focus-within{border-color:var(--accent);box-shadow:0 0 0 2px rgba(20,92,255,.1)}
+.revisit-textarea::placeholder{color:#9ba8b4}
+.revisit-field-meta{display:flex;align-items:center;justify-content:space-between;padding:7px 10px 9px}
+.revisit-phrase-trigger{height:28px;border:0;border-radius:8px;background:#f1f5f6;padding:0 10px;color:#526474;font-size:11px;cursor:pointer}
+.revisit-count{color:#97a3af;font-size:10px}
+.revisit-actions{display:grid;grid-template-columns:1fr 1.35fr;gap:9px;padding:11px 14px calc(13px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:#fff}
+.revisit-cancel,.revisit-submit{height:42px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer}
+.revisit-cancel{border:1px solid var(--accent);background:#fff;color:var(--accent)}
+.revisit-submit{border:0;background:var(--accent);color:#fff;box-shadow:0 5px 12px rgba(20,92,255,.18)}
+.revisit-submit:disabled{background:#c4d5f5;box-shadow:none;cursor:not-allowed}
+.revisit-phrases{position:absolute;z-index:46;inset:0;display:flex;flex-direction:column;border-radius:20px 20px 0 0;background:#fff}
+.revisit-phrases[hidden]{display:none}
+.revisit-phrases-header{display:grid;grid-template-columns:60px 1fr 60px;align-items:center;height:52px;border-bottom:1px solid var(--line);padding:0 14px}
+.revisit-phrases-header strong{text-align:center;font-size:16px}
+.revisit-phrases-back{border:0;background:transparent;padding:0;color:var(--accent);font-size:12px;text-align:left;cursor:pointer}
+.revisit-phrase-list{overflow-y:auto;padding:0 16px}
+.revisit-phrase-option{width:100%;min-height:66px;border:0;border-bottom:1px solid var(--line);background:#fff;padding:12px 2px;color:#526474;font-size:12px;line-height:20px;text-align:left;cursor:pointer}
+.revisit-phrase-option:hover,.revisit-phrase-option:focus-visible{outline:none;color:var(--accent);background:#f7fafb}
+.revisit-sheet.keyboard-open{bottom:278px;max-height:calc(100% - 310px);transition:bottom .22s cubic-bezier(.22,.8,.28,1),max-height .22s ease,transform .24s cubic-bezier(.22,.8,.28,1)}
+.revisit-sheet.keyboard-open .revisit-body{scroll-behavior:smooth}
+.iphone-keyboard{position:absolute;z-index:47;left:0;right:0;bottom:0;height:278px;padding:0 4px 8px;background:#d1d5db;box-shadow:0 -1px 0 rgba(20,34,47,.12),0 -10px 26px rgba(20,34,47,.12);transform:translateY(100%);transition:transform .22s cubic-bezier(.22,.8,.28,1);user-select:none}
+.iphone-keyboard.open{transform:translateY(0)}
+.iphone-suggestions{height:39px;display:grid;grid-template-columns:repeat(3,1fr);align-items:center;border-bottom:1px solid rgba(90,99,109,.2);background:#eef0f2}
+.iphone-suggestion{height:27px;border:0;border-right:1px solid #d1d5da;background:transparent;color:#253341;font-size:12px;cursor:pointer}
+.iphone-suggestion:last-child{border-right:0}
+.iphone-keyboard-rows{display:grid;gap:7px;padding-top:8px}
+.iphone-keyboard-row{display:flex;justify-content:center;gap:5px}
+.iphone-key{height:40px;min-width:31px;display:grid;place-items:center;border:0;border-radius:5px;background:#fff;color:#111820;font-size:18px;line-height:1;box-shadow:0 1px 0 #8b9299,0 1px 2px rgba(20,34,47,.16);cursor:pointer}
+.iphone-key:active,.iphone-key.active{background:#aeb4ba}
+.iphone-keyboard-row.middle{padding-inline:16px}
+.iphone-keyboard-row.control{justify-content:space-between}
+.iphone-key.control-key{min-width:43px;background:#aeb4ba;font-size:14px;font-weight:650}
+.iphone-key.delete-key{font-size:19px}
+.iphone-key.bottom-key{height:38px;font-size:12px}
+.iphone-key.globe-key{min-width:41px;font-size:17px}
+.iphone-key.space-key{flex:1;max-width:180px;background:#fff;font-size:12px}
+.iphone-key.done-key{min-width:64px;background:var(--accent);color:#fff;font-size:12px;font-weight:750}
+.iphone-home-indicator{position:absolute;left:50%;bottom:8px;width:126px;height:4px;border-radius:4px;background:#111820;transform:translateX(-50%)}
+.form-error{min-height:14px;margin-top:7px;color:#c05a2c;font-size:11px;line-height:14px}
+.bill-scroll{padding:12px 13px 28px}
+.withdraw-card{overflow:hidden;border-radius:16px;background:var(--surface)}
+.withdraw-summary{padding:16px 17px;background:var(--accent);color:#fff}
+.withdraw-summary-label{font-size:12px;line-height:18px;opacity:.8}
+.withdraw-summary-value{display:block;margin-top:3px;font-size:31px;line-height:37px;font-weight:800;letter-spacing:.2px}
+.withdraw-summary-note{margin-top:5px;font-size:11px;line-height:18px;opacity:.86}
+.withdraw-body{padding:14px 16px 16px}
+.withdraw-amount-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.withdraw-amount-wrap{display:flex;align-items:center;min-width:0}
+.withdraw-currency{font-size:20px;font-weight:750}
+.withdraw-input{width:190px;min-width:0;border:0;background:transparent;padding:0 0 0 5px;color:var(--ink);font:inherit;font-size:24px;line-height:32px;font-weight:800;font-variant-numeric:tabular-nums}
+.withdraw-input:focus{outline:none}
+.withdraw-all{min-height:32px;border:0;background:transparent;padding:0;color:var(--accent);font-size:12px;font-weight:700;cursor:pointer}
+.withdraw-all:hover,.withdraw-all:focus-visible{outline:none;text-decoration:underline}
+.payout-methods{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.payout-method{height:43px;border:1px solid var(--line);border-radius:10px;background:#fff;color:#526474;font-size:12px;cursor:pointer}
+.payout-method.active{border-color:var(--accent);background:var(--soft);color:var(--accent);font-weight:700}
+.payout-method:hover{border-color:#d0ddf5}
+.payout-method:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.withdraw-tax-notice{margin-top:10px;padding:10px 11px;border:1px solid #efcc91;border-radius:9px;background:#fff8eb;color:#875200}
+.withdraw-tax-notice[hidden]{display:none}
+.withdraw-tax-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-bottom:7px;border-bottom:1px solid #f2ddba}
+.withdraw-tax-head strong{font-size:12px;line-height:18px}
+.withdraw-tax-head span{color:#a36a13;font-size:10px;line-height:16px}
+.withdraw-tax-rows{display:grid;gap:5px;padding-top:7px}
+.withdraw-tax-row{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#8c6222;font-size:11px;line-height:17px}
+.withdraw-tax-row output{color:#704400;font-weight:700;font-variant-numeric:tabular-nums}
+.withdraw-tax-row.tax output{color:#b35f19}
+.withdraw-tax-row.net{margin-top:1px;padding-top:6px;border-top:1px dashed #e9ce9e;color:#704400;font-weight:700}
+.withdraw-tax-row.net output{color:var(--accent);font-size:15px;font-weight:800}
+.withdraw-submit{width:100%;height:43px;margin-top:12px;border:0;border-radius:10px;background:var(--accent);color:#fff;font-size:14px;font-weight:750;box-shadow:0 5px 12px rgba(20,92,255,.18);cursor:pointer}
+.withdraw-submit:hover{background:var(--accent-dark)}
+.withdraw-submit:active{transform:translateY(1px)}
+.withdraw-hint{margin:9px 0 0;color:#97a3af;font-size:10px;line-height:16px;text-align:center}
+.bill-tabs{display:grid;grid-template-columns:1fr 1fr;margin-top:12px;padding:3px;border-radius:11px;background:#e9eef1}
+.bill-tab{height:32px;border:0;border-radius:8px;background:transparent;color:#8794a1;font-size:12px;cursor:pointer}
+.bill-tab.active{background:#fff;color:var(--ink);font-weight:700;box-shadow:0 1px 3px rgba(37,58,72,.1)}
+.bill-tab:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.bill-panel{padding-top:12px}
+.bill-filters{display:flex;flex-wrap:wrap;gap:7px}
+.bill-filter{height:31px;border:1px solid #d9e2e7;border-radius:17px;background:#fff;padding:0 11px;color:#526474;font-size:11px;cursor:pointer;white-space:nowrap}
+.bill-filter:hover{border-color:#bccdea;color:var(--accent)}
+.bill-filter.active{border-color:var(--accent);background:var(--accent);color:#fff;font-weight:700}
+.bill-filter:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.commission-list-head{display:flex;align-items:center;justify-content:space-between;margin:14px 3px 9px}
+.commission-list-count{color:#7f8d9b;font-size:11px}
+.withdraw-record-title{margin:12px 3px 9px;color:#7f8d9b;font-size:11px;line-height:17px;font-weight:700}
+.bill-record-list{display:grid;gap:8px}
+.bill-record-item{min-height:70px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px;padding:12px 13px;border-radius:13px;background:#fff}
+.commission-record-item{grid-template-columns:36px minmax(0,1fr) auto;gap:10px;padding:11px 12px}
+.commission-record-icon{width:36px;height:36px;display:grid;place-items:center;border-radius:10px;background:#edf3ff;color:#145cff}
+.commission-record-icon.teacher{background:#eef2fb;color:#5471b8}
+.commission-record-icon.cooperation{background:#fff2df;color:#b97716}
+.commission-record-icon svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.bill-record-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:700}
+.bill-record-time{margin-top:5px;color:#8794a1;font-size:10px}
+.commission-record-detail{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.commission-list-head{justify-content:flex-end;margin:2px 3px 8px}
+.bill-record-side{text-align:right}
+.bill-record-money{display:block;color:#344454;font-size:15px;font-weight:800}
+.commission-record-item .bill-record-money{color:var(--accent)}
+.bill-record-status{display:inline-flex;align-items:center;height:21px;margin-top:5px;padding:0 8px;border-radius:11px;background:#fff2df;color:#bd6d00;font-size:10px}
+.bill-record-status.settled,.bill-record-status.done{background:#edf3ff;color:#18794e}
+.bill-filter-wrap{position:relative}
+.bill-filter-wrap .bill-filters{display:flex;flex-wrap:wrap;gap:5px;overflow:visible}
+.bill-filter-wrap .bill-filter{min-width:0;padding:0 8px;font-size:10px}
+.withdraw-limits{margin-top:10px;padding:10px 11px;border-radius:10px;background:#f1f5f6}
+.withdraw-limit-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px 12px}
+.withdraw-limit-item{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#71808e;font-size:10px;line-height:16px}
+.withdraw-limit-item strong{color:#455667;font-size:11px;font-weight:750;white-space:nowrap}
+.withdraw-today{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:9px;padding-top:8px;border-top:1px solid #dde6ea;color:#657585;font-size:10px;line-height:16px}
+.withdraw-today strong{color:var(--accent);font-weight:750;font-variant-numeric:tabular-nums}
+.bill-sticky-tools{position:sticky;z-index:14;top:-12px;margin:12px -1px 0;padding:12px 1px 7px;background:var(--page);box-shadow:0 8px 12px rgba(238,242,244,.92)}
+.bill-sticky-tools .bill-tabs{margin-top:0}
+.bill-sticky-tools #commissionFilterWrap{margin-top:7px}
+.follow-record-scroll{padding:12px 13px 28px}
+.follow-record-profile{display:grid;grid-template-columns:46px minmax(0,1fr) auto;align-items:center;gap:11px;padding:15px;border:1px solid var(--line);border-radius:14px 14px 0 0;background:var(--surface);box-shadow:0 3px 12px rgba(37,58,72,.04)}
+.follow-record-avatar{width:46px;height:46px;display:grid;place-items:center;border-radius:50%;background:var(--soft);color:var(--accent);font-size:16px;font-weight:800}
+.follow-record-user{min-width:0}
+.follow-record-name{display:flex;align-items:center;gap:6px;font-size:15px;line-height:22px;font-weight:800}
+.follow-record-meta{display:flex;align-items:center;gap:7px;margin-top:4px;color:var(--muted);font-size:10px}
+.follow-record-phone{color:var(--accent);font-weight:700;text-decoration:none;font-variant-numeric:tabular-nums}
+.follow-record-phone:hover,.follow-record-phone:focus-visible{outline:none;color:var(--accent-dark);text-decoration:underline;text-underline-offset:2px}
+.follow-record-heading{display:flex;align-items:center;justify-content:space-between;margin:15px 3px 9px}
+.follow-record-heading strong{font-size:15px;line-height:21px;font-weight:800}
+.follow-record-heading span{color:var(--muted);font-size:11px}
+.member-detail-summary{display:grid;grid-template-columns:1.05fr 1.95fr;align-items:center;gap:0;margin-top:9px;padding:12px 13px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.member-detail-stat{min-width:0}
+.member-detail-stat+ .member-detail-stat{padding-left:10px;border-left:1px solid var(--line)}
+.member-detail-stat span{display:block;color:var(--muted);font-size:10px;line-height:16px}
+.member-detail-stat strong{display:block;margin-top:2px;font-size:14px;line-height:20px;font-weight:800}
+.member-detail-action{height:36px;border:1px solid var(--line);border-radius:9px;background:#fff;color:#455667;font-size:11px;font-weight:650;cursor:pointer;white-space:nowrap}
+.member-detail-action:hover,.member-detail-action:focus-visible{outline:none;border-color:#c9d9fc;background:var(--soft);color:var(--accent)}
+.member-detail-action:active{background:#dce8ff}
+.member-detail-action.primary{border-color:var(--accent);background:var(--accent);color:#fff}
+.member-detail-action.primary:hover,.member-detail-action.primary:focus-visible{background:var(--accent-dark);color:#fff}
+.member-detail-action[hidden]{display:none}
+.member-detail-tabs{position:sticky;z-index:5;top:-12px;display:grid;grid-template-columns:repeat(4,1fr);margin:10px -13px 10px;padding:0 13px;border-bottom:1px solid var(--line);background:var(--page)}
+.member-detail-tab{position:relative;height:44px;padding:0 2px;border:0;background:transparent;color:#7d8b98;font-size:11px;font-weight:650;cursor:pointer;white-space:nowrap}
+.member-detail-tab.active{color:var(--accent);font-weight:800}
+.member-detail-tab.active:after{content:"";position:absolute;left:18%;right:18%;bottom:-1px;height:3px;border-radius:3px;background:var(--accent)}
+.member-detail-tab:hover,.member-detail-tab:focus-visible{outline:none;color:var(--accent)}
+.detail-record-list{display:grid;gap:9px}
+.detail-record-card{padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:0 3px 12px rgba(37,58,72,.04)}
+.detail-record-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.detail-record-kind{height:21px;display:inline-flex;align-items:center;padding:0 8px;border-radius:7px;background:var(--soft);color:var(--accent);font-size:9px;font-weight:750}
+.detail-record-time{color:#95a2ae;font-size:10px;font-variant-numeric:tabular-nums}
+.detail-record-title{margin-top:8px;font-size:13px;line-height:20px;font-weight:800}
+.detail-record-content{margin:4px 0 0;color:#526474;font-size:11px;line-height:18px}
+.detail-record-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid #f0f3f5;color:#8b98a4;font-size:10px}
+.detail-record-amount{color:var(--accent);font-size:13px;font-weight:800}
+.member-card{cursor:pointer}
+.member-card:hover{border-color:#c9d9fc}
+.member-card:focus-within{border-color:#c9d9fc}
+.toast{position:absolute;z-index:80;left:50%;top:50%;width:max-content;max-width:calc(100% - 56px);padding:13px 18px;border-radius:10px;background:rgba(20,34,47,.97);box-shadow:0 8px 24px rgba(20,34,47,.2);color:#fff;font-size:14px;font-weight:650;line-height:1.5;text-align:center;opacity:0;transform:translate(-50%,calc(-50% + 8px)) scale(.98);transition:opacity .18s ease,transform .18s ease;pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.follow-record-phone.masked{color:inherit;font-weight:400;cursor:default;text-decoration:none}
+.follow-record-phone.masked:hover,.follow-record-phone.masked:focus-visible{background:transparent;color:inherit;text-decoration:none}
+@media(max-width:480px){html,body{background:var(--page)}
+.stage{display:block;padding:0}
+.phone{width:100%;height:100vh;min-height:0;border-radius:0;box-shadow:none}}
+@media(max-width:360px){.scroll{padding-inline:10px}
+.available{font-size:22px}
+.income-card{padding-inline:14px}
+.member-tools{grid-template-columns:58px 68px 90px minmax(78px,1fr);gap:4px}
+.card-action{font-size:10px}
+.bill-filter-wrap .bill-filters{gap:3px}
+.bill-filter-wrap .bill-filter{padding-inline:6px;font-size:9.5px}
+.iphone-keyboard-row{gap:4px}
+.iphone-key{min-width:28px}
+.iphone-key.control-key{min-width:40px}
+.iphone-key.done-key{min-width:60px}}
+.member-detail-action.primary:disabled{border-color:#d7dde1;background:#e9edf0;color:#7f8a94;cursor:not-allowed;box-shadow:none}
+.member-list .card-actions [data-follow-record]{order:1}
+.member-list .card-actions .revisit-action{order:2}
+.member-list .card-actions> :last-child{order:-1}
+.identity-flat-field{grid-column:1/-1}
+.identity-flat-options{display:flex;gap:6px;width:100%}
+.identity-flat-option{height:32px;flex:1;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:#526474;font-size:11px;cursor:pointer}
+.identity-flat-option:hover,.identity-flat-option:focus-visible{outline:none;border-color:var(--accent)}
+.identity-flat-option.active{border-color:var(--accent);background:var(--soft);color:var(--accent);font-weight:700}
+.income-card{padding:14px 14px 0;border-radius:14px;background:linear-gradient(125deg,#edf3ff 0%,#fff 80%)}
+.income-main{gap:10px;padding-bottom:13px}
+.income-main .label{font-size:11px}
+.available{margin-top:3px;font-size:26px;line-height:30px;letter-spacing:-.35px}
+.income-main .white-button{height:38px;padding:0 16px;border-radius:10px;font-size:13px}
+.income-list{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);gap:0}
+.income-list>div{min-height:48px;display:block;padding:10px 8px 9px 0;border-bottom:0}
+.income-list>div+div{padding-left:12px;border-left:1px solid var(--line)}
+.income-list .label{display:block;font-size:10px}
+.income-value{display:block;margin-top:3px;font-size:13px;line-height:18px;white-space:nowrap}
+.income-value .currency{font-size:.8em}
+.member-list{gap:8px;margin-top:8px}
+.member-card{padding:12px 12px 10px;border-radius:12px}
+.member-card .member-head{grid-template-columns:40px minmax(0,1fr) auto;gap:10px;padding-top:0}
+.member-card .avatar{width:40px;height:40px;font-size:14px}
+.member-card .member-info{min-width:0}
+.member-card .member-name{font-size:14px;line-height:1.35}
+.member-card .member-meta{margin-top:4px;gap:7px}
+.member-card .member-profit{font-size:10px;line-height:1.3}
+.member-card .member-profit strong{margin-top:3px;font-size:13px}
+.member-card .trace{margin-top:8px;border-radius:9px}
+.member-card .trace-row{min-height:28px;grid-template-columns:50px minmax(0,1fr) 58px;padding:3px 8px;font-size:10px}
+.member-card .team-summary{min-height:36px;margin-top:5px;padding-inline:7px;font-size:11px}
+.member-card .card-actions{margin-top:8px;gap:6px}
+.member-card .card-actions.cols-1{grid-template-columns:minmax(0,1fr)}
+.member-card .card-actions.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.member-card .card-action{height:30px;font-size:11px}
+.member-list .card-actions [data-follow-record]{order:0}
+.member-list .card-actions .revisit-action{order:2}
+.follow-record-scroll{padding:14px 14px 24px;background:#f5f8f9}
+.follow-record-profile{grid-template-columns:46px minmax(0,1fr);gap:11px;padding:16px 15px 12px;border:0;border-radius:15px 15px 0 0;background:#fff;box-shadow:none}
+.follow-record-avatar{width:46px;height:46px;font-size:16px}
+.follow-record-name{font-size:16px;line-height:22px}
+.follow-record-meta{margin-top:5px;gap:8px}
+.member-detail-summary{display:block;margin-top:12px;padding:14px 15px;border:0;border-radius:14px;background:#fff;box-shadow:0 2px 8px rgba(37,58,72,.04)}
+.member-detail-stat{min-height:40px;padding:0;background:transparent}
+.member-detail-stat span{font-size:11px;color:#82909b}
+.member-detail-stat strong{margin-top:4px;font-size:21px;line-height:26px}
+.member-detail-action{height:38px;border-radius:10px;font-size:12px}
+.member-detail-tabs{display:flex;gap:5px;margin-top:14px;padding:4px;border:0;border-radius:12px;background:#e9eff1}
+.member-detail-tab{flex:1;height:32px;min-width:0;padding-inline:1px;border-radius:8px;font-size:10px}
+.member-detail-tab.active{background:#fff;box-shadow:0 1px 3px rgba(37,58,72,.1)}
+.member-commission-panel[hidden]{display:none}
+.member-commission-toolbar[hidden]{display:none}
+#followRecordScreen>.navbar{position:relative;z-index:30;background:var(--surface)}
+.member-detail-sticky{position:sticky;top:0;z-index:20;margin:-14px -14px 0;padding:14px 14px 0;background:#f5f8f9;isolation:isolate}
+.member-commission-filters{margin:0 0 10px;gap:4px}
+.member-commission-filters .bill-filter{height:29px;padding-inline:8px;font-size:10px}
+.member-commission-panel .commission-record-item{min-height:66px;padding:10px}
+.follow-record-heading{margin:16px 3px 9px}
+.follow-record-heading strong{display:none}
+.detail-record-list{gap:8px}
+.detail-record-card{padding:12px 13px;border-radius:12px;box-shadow:0 2px 8px rgba(37,58,72,.03)}
+.follow-record-profile{grid-template-columns:40px minmax(0,1fr) auto;align-items:center;gap:10px;padding:16px 14px;border-radius:15px;box-shadow:0 2px 8px rgba(37,58,72,.04)}
+.follow-record-profile .follow-record-avatar{width:40px;height:40px;font-size:16px}
+.follow-record-profile .follow-record-name{font-size:16px;line-height:22px}
+.follow-record-meta{flex-direction:column;align-items:flex-start;gap:3px;margin-top:3px;line-height:16px}
+#followRecordCity{font-size:10px;color:#8a97a3}
+#followRecordPhone{font-size:11px;letter-spacing:.15px}
+.follow-record-phone{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.follow-record-phone .phone-icon{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.follow-record-profile .member-detail-action{min-width:76px;height:32px;padding:0 10px;border-radius:8px;font-size:11px;white-space:nowrap}
+#followRecordScreen [hidden]{display:none!important}
+.follow-record-profile .follow-record-name{flex-wrap:wrap;gap:4px 6px}
+.follow-record-roles{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.role-tag{padding:1px 7px;border-radius:8px;background:#eef1f4;color:#677687;font-size:9px;line-height:16px;font-weight:500;white-space:nowrap}
+.follow-record-roles .role-tag{margin-left:0;vertical-align:baseline}
+:root{--page:#f4f7fd;--surface:#fff;--soft:#edf3ff;--accent:#145cff;--accent-dark:#0749d8;--ink:#102958;--muted:#6c7c97;--line:#e2e9f5;--warning:#f4a641;--brand-gradient:linear-gradient(110deg,#246bff 0%,#0953ed 100%)}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink);background:#e6edfa;-webkit-font-smoothing:antialiased}
+button,input,textarea,select{font-family:inherit}
+.navbar-title,.manage-title,.revisit-title,.follow-record-name,.member-name,.bill-record-title,.detail-record-title{color:var(--ink);font-weight:650}
+.available,.withdraw-summary-value,.member-detail-stat strong{font-weight:700}
+.follow-record-scroll,.member-detail-sticky,.member-detail-sticky:after{background:var(--page)}
+.member-detail-tabs,.bill-tabs{background:#e9effb}
+.member-detail-tab,.bill-tab{color:#677998;font-weight:500}
+.member-detail-tab.active,.bill-tab.active{background:#fff;color:var(--accent-dark);font-weight:650;box-shadow:0 2px 6px rgba(20,92,255,.06)}
+.role-tag{background:#edf3ff;color:#145cff;font-weight:500}
+.follow-record-avatar,.avatar{background:#edf3ff;color:#145cff}
+.member-meta,.follow-record-meta,.bill-record-time,.detail-record-time,.detail-record-meta,.commission-list-count,.label{color:#6c7c97}
+.follow-record-phone,.phone-link{color:#145cff;font-weight:600}
+.white-button,.income-main .white-button,.withdraw-submit,.revisit-submit,.member-detail-action.primary,.follow-record-profile .member-detail-action.primary{border-radius:999px;border-color:transparent;background:var(--brand-gradient);color:#fff;font-weight:600;box-shadow:none}
+.white-button:hover,.withdraw-submit:hover,.revisit-submit:hover,.member-detail-action.primary:hover{background:linear-gradient(110deg,#155bec,#0749d8)}
+.card-action,.member-detail-action,.follow-record-profile .member-detail-action,.revisit-cancel,.payout-method,.identity-flat-option,.bill-filter{border-radius:999px;border-color:#dce5f5;background:#fff;color:#586b89;font-weight:500;box-shadow:none}
+.card-action.revisit-action,.revisit-cancel{border-color:#8db1ff;background:#fff;color:#145cff;font-weight:600}
+.identity-flat-option.active,.payout-method.active{border-color:#7aa5ff;background:#edf3ff;color:#145cff;font-weight:600}
+.bill-filter.active{border-color:transparent;background:var(--brand-gradient);color:#fff;font-weight:600}
+.revisit-submit:disabled,.withdraw-submit:disabled{background:#bacbed;border-color:#bacbed;color:#fff;box-shadow:none}
+.withdraw-summary,.revisit-profile{background:var(--brand-gradient);color:#fff}
+.commission-record-icon{background:#edf3ff;color:#145cff}
+.commission-record-icon.teacher{background:#eaf4ff;color:#285fbe}
+.commission-record-icon.cooperation{background:#fff5e2;color:#94610e}
+.commission-record-item .bill-record-money{color:#145cff;font-weight:700}
+.bill-record-status{background:#fff4e5;color:#94610e}
+.bill-record-status.settled,.bill-record-status.done{background:#e7f8ef;color:#24735a}
+.detail-record-kind{background:#edf3ff;color:#145cff;font-weight:600}
+.revisit-phrase-trigger{border-radius:999px;background:#edf3ff;color:#586b89}
+.revisit-textarea-wrap{border-color:#dfe7f5;background:#fff}
+#followRecordScreen .follow-record-scroll{display:flex;flex-direction:column;overflow:hidden;padding:0 14px;min-height:0}
+#followRecordScreen .member-detail-sticky{position:relative;top:auto;flex:0 0 auto;margin:0 -14px;padding:14px 14px 0;display:flow-root;background:var(--page)}
+#followRecordScreen .member-detail-tabs{position:static}
+#followRecordList,#memberCommissionPanel{flex:1 1 0;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;padding-bottom:24px}
+#followRecordList{align-content:start;grid-auto-rows:max-content}
+#followRecordList::-webkit-scrollbar,#memberCommissionPanel::-webkit-scrollbar{display:none}
+#followRecordList .detail-record-card,#memberCommissionList .commission-record-item{min-height:76px;padding:12px 13px;border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:0 2px 8px rgba(37,58,72,.035)}
+#followRecordList .detail-record-card{box-sizing:border-box;height:auto;min-height:0;align-self:start;overflow:visible}
+#memberCommissionList .commission-record-item{grid-template-columns:36px minmax(0,1fr) minmax(58px,auto);gap:10px;overflow:hidden}
+#memberCommissionList .commission-record-item>div:nth-child(2),#memberCommissionList .commission-record-item .bill-record-side{min-width:0}
+#memberCommissionList .commission-record-item .bill-record-side{max-width:100%;overflow-wrap:anywhere}
+#followRecordList .detail-record-list{gap:8px}
+#followRecordList .detail-record-top{gap:10px}
+#followRecordList .detail-record-kind{height:21px;padding:0 8px;border-radius:7px;font-size:10px;line-height:16px;font-weight:600}
+#followRecordList .detail-record-time,#memberCommissionList .bill-record-time{color:var(--muted);font-size:11px;line-height:16px;font-weight:400}
+#followRecordList .detail-record-title,#memberCommissionList .bill-record-title{margin-top:7px;color:var(--ink);font-size:13px;line-height:19px;font-weight:650}
+#followRecordList .detail-record-title,#followRecordList .detail-record-content,#followRecordList .detail-record-meta>span,#memberCommissionList .bill-record-title,#memberCommissionList .bill-record-time{min-width:0;overflow-wrap:anywhere;word-break:break-word}
+#followRecordList .detail-record-content{margin:4px 0 0;color:#586b89;font-size:12px;line-height:18px;font-weight:400}
+#followRecordList .detail-record-meta{min-width:0;margin-top:8px;padding-top:8px;color:var(--muted);font-size:11px;line-height:16px}
+#followRecordList .detail-record-amount{font-size:13px;line-height:18px;font-weight:700}
+#memberCommissionList .commission-record-icon{width:36px;height:36px;border-radius:10px}
+#memberCommissionList .bill-record-money{font-size:14px;line-height:19px;font-weight:700}
+#memberCommissionList .bill-record-status{height:20px;margin-top:4px;padding:0 8px;border-radius:10px;font-size:10px;line-height:14px;font-weight:500}
+@media(max-width:380px){#memberCommissionList .commission-record-item{grid-template-columns:32px minmax(0,1fr) minmax(52px,auto);gap:7px;padding-inline:10px}
+#memberCommissionList .commission-record-icon{width:32px;height:32px}
+#memberCommissionList .bill-record-money{font-size:12px}
+#memberCommissionList .bill-record-status{padding-inline:6px}}
+#followRecordScreen .follow-record-profile .member-detail-summary{grid-column:1/-1;width:100%;margin:0;padding:12px 0 0;border:0;border-top:1px solid var(--line);border-radius:0;background:transparent;box-shadow:none}
+#followRecordScreen .follow-record-profile{grid-template-columns:40px minmax(0,1fr) auto;grid-template-rows:auto;padding:14px 14px 12px;gap:0 10px}
+#followRecordScreen .follow-record-profile .follow-record-avatar{grid-column:1;grid-row:1;align-self:start}
+#followRecordScreen .follow-record-profile .follow-record-user{grid-column:2;grid-row:1;align-self:start}
+#followRecordScreen .follow-record-profile .member-detail-summary{grid-column:3;grid-row:1;align-self:center;min-width:112px;padding:0 0 0 10px;border-top:0;border-left:1px solid var(--line);text-align:left}
+#followRecordScreen .follow-record-profile .member-detail-stat span{font-size:10px;line-height:15px}
+#followRecordScreen .follow-record-profile .member-detail-stat strong{margin-top:1px;font-size:20px;line-height:24px;letter-spacing:.1px}
+#followRecordScreen .follow-record-profile{padding:12px; border-radius:12px}
+#followRecordScreen .follow-record-profile .follow-record-name{font-size:14px;line-height:19px}
+#followRecordScreen .follow-record-profile .follow-record-meta{flex-direction:row;align-items:center;margin-top:4px;gap:7px;font-size:10px;line-height:16px}
+#followRecordScreen .follow-record-profile .member-detail-summary{min-width:0;padding:0 0 0 10px;border-left:0;text-align:right}
+#followRecordScreen .follow-record-profile .member-detail-stat span{font-size:10px;line-height:13px}
+#followRecordScreen .follow-record-profile .member-detail-stat strong{margin-top:3px;font-size:13px;line-height:17px;font-weight:750}
+#followRecordScreen .member-detail-tab{font-size:12px}
+#followRecordScreen .member-detail-revisit-below{display:block;width:100%;height:38px;margin:9px 0 0}
+/* Team drawer: reference layout, current platform tokens. */
+.team-sheet{height:88%;max-height:88%;overflow:hidden}.team-sheet-header{padding:12px 14px 8px;gap:10px;border:0;background:#fff;flex-shrink:0}.team-sheet-header>.avatar{border-radius:14px;background:var(--accent);color:white;width:44px;height:44px}.team-owner-copy{flex:1;min-width:0}.team-owner-copy .phone-link{display:flex;width:max-content;margin-top:5px;font-size:12px}.team-sheet-summary{display:flex;align-items:center;gap:7px;padding:0 14px 12px;background:#fff;flex-shrink:0;font-size:11px}.team-total,.team-today{padding:6px 8px;border-radius:8px;background:var(--soft);white-space:nowrap}.team-today{color:var(--accent);font-weight:700}.team-profit{margin-left:auto;text-align:right;font-size:10px}.team-profit strong{color:var(--ink);font-size:12px;display:block;margin-top:3px}.team-member-list{padding-top:12px;min-height:0;display:flex;flex-direction:column;gap:10px;overscroll-behavior:contain}.team-detail-card{flex-shrink:0;cursor:default}.team-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;color:var(--muted);font-size:11px}.team-card-top button{border:0;background:transparent;color:var(--accent);font:inherit;font-weight:700;cursor:pointer}.team-detail-card .member-head{grid-template-columns:40px minmax(0,1fr) auto;gap:8px}.team-detail-card .member-meta{font-size:11px}.team-phone{margin-top:3px;color:var(--accent);font-size:11px;font-weight:650}.team-register{margin-top:5px;font-size:10px;color:var(--muted)}.team-detail-card .trace{margin-top:12px}.team-detail-card .trace-row{font-size:11px;min-height:34px}
+.team-contact{flex-wrap:wrap;gap:4px!important}.team-contact .team-phone{margin:0}.team-sheet-header,.team-detail-card{font-family:inherit}
+.phone-display{display:inline-flex;align-items:center;gap:3px;white-space:nowrap;vertical-align:middle}.team-contact .phone-link{padding:0;margin:0}.phone-display .phone-icon{width:12px;height:12px}
+.team-level-tag{display:inline-flex;align-items:center;justify-content:center;padding:3px 9px;border-radius:8px;background:var(--soft);color:var(--accent);font-size:11px;font-weight:600;line-height:18px;white-space:nowrap}
+.member-level-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}.member-level-row>.team-level-tag{flex-shrink:0}.member-owner{min-width:0;color:#9aa7b5;font-size:10px;line-height:16px;font-weight:400;opacity:.8;overflow-wrap:anywhere}
+#followRecordScreen .follow-record-profile .detail-level-row{grid-column:1/-1;grid-row:1;display:flex;align-items:center;gap:8px;margin-bottom:10px}#followRecordScreen .follow-record-profile .follow-record-avatar,#followRecordScreen .follow-record-profile .follow-record-user,#followRecordScreen .follow-record-profile .member-detail-summary{grid-row:2}
+.team-level-tag.level-one{background:#fff1df;color:#9b5b13}.team-level-tag.level-two{background:var(--soft);color:var(--accent)}
+.member-filter-card{padding:0 14px 12px;border:1px solid var(--line);border-radius:14px;background:var(--surface);margin-bottom:12px}.team-entry-grid{display:flex;gap:26px;border-bottom:1px solid #edf0f6}.team-entry{position:relative;display:block;padding:15px 0 12px;border:0;background:none;color:var(--muted);font:inherit;font-size:15px;cursor:pointer}.team-entry.active{color:var(--ink);font-weight:650}.team-entry.active:after{content:"";position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:24px;height:3px;border-radius:3px;background:var(--accent)}.team-entry:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.member-overview{display:flex;justify-content:space-between;gap:12px;padding:13px 0 10px;font-size:12px;line-height:20px;color:var(--muted)}.member-overview strong{color:var(--ink);font-size:14px;font-weight:600}.member-overview>span:last-child strong{color:var(--accent)}.member-filter-card .member-tools{padding:0;margin:0;border:0;background:none;box-shadow:none}.member-filter-card .identity-flat-options{gap:8px}.member-filter-card .identity-flat-option{height:30px;border:0;background:#f5f7fa;border-radius:6px;font-size:12px}.member-filter-card .identity-flat-option.active{background:var(--soft);color:var(--accent);font-weight:600}
+
+
+
+.detail-team-stats{display:flex;align-items:center;gap:12px;width:100%;margin-top:7px;padding:6px 12px;border:1px solid var(--line);border-radius:12px;background:var(--soft);color:var(--muted);font:inherit;font-size:12px;cursor:pointer}.detail-team-stats>span:not(:last-child){display:flex;align-items:center;justify-content:space-between;gap:8px;flex:1}.detail-team-stats>span:nth-child(2){border-left:1px solid var(--line);padding-left:12px}.detail-team-stats strong{color:var(--ink);font-size:15px;line-height:20px;white-space:nowrap}
+.member-filter-card{position:sticky;top:-14px;z-index:20;margin-inline:-14px;padding:6px 14px 8px;border:0;border-radius:0;background:var(--page);box-shadow:0 6px 10px rgba(37,58,72,.05)}@media(max-width:360px){.member-filter-card{margin-inline:-10px;padding-inline:10px}}.team-entry-grid{display:flex;gap:4px;padding:4px;border:0;border-radius:12px;background:#edf1f7}.team-entry{flex:1;min-width:0;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:1px 5px;padding:5px 6px;border:0;border-radius:10px;background:transparent;text-align:center;font-size:14px;font-weight:600;color:var(--muted)}.team-entry strong{font-size:13px;font-weight:600;color:inherit;white-space:nowrap}.team-entry-today{width:100%;font-size:12px;line-height:18px;color:var(--muted);font-weight:400}.team-entry.active{background:#fff;color:var(--accent);box-shadow:0 2px 8px rgba(37,58,72,.06)}.team-entry.active:after{display:none}.member-filter-card .member-tools{padding-top:12px}
+.member-list .member-card{padding:9px 12px 8px}.member-list .member-level-row{margin-bottom:6px}.member-list .member-card .trace{margin-top:6px}.member-list .member-card .trace-row{min-height:26px;padding-block:2px}.member-list .member-card .team-summary{min-height:28px;margin-top:2px}.member-list .member-card .card-actions{margin-top:5px}
+.member-name .member-inline-level{font-size:10px;line-height:16px;padding:1px 5px;flex-shrink:0}.member-list .member-level-row{position:static;margin-bottom:6px}.member-list .member-card .member-head{padding-top:0}
+
+#personalScreen{background:#f5f6f8;color:#454950;font-family:"PingFang SC","Microsoft YaHei",sans-serif}#personalScreen .statusbar{background:#daf4fc;color:#080f12}#personalScreen .navbar{background:#e1f4fb}#personalScreen .navbar-title{color:#0b0f12;font-size:18px}#personalScreen button{font-family:inherit;cursor:pointer}#personalScreen .personal-scroll{padding:18px 16px 24px;background:linear-gradient(#e6f5fb 0,#f5f6f8 135px);display:flex;flex-direction:column;gap:12px}.personal-user{display:flex;align-items:center;gap:8px;margin:3px 0 4px}.personal-user>img{width:56px;height:56px;border-radius:50%;flex-shrink:0}.personal-user>div{flex:1;min-width:0}.personal-name{font-size:18px;font-weight:600;white-space:nowrap}.personal-name span{display:inline-block;background:#dceffd;color:#2878ff;border-radius:4px;font-size:12px;font-weight:400;padding:3px 11px;margin-left:3px}.personal-switch{border:0;border-radius:20px;padding:6px 9px;background:#4c82f5;color:#fff;font-size:11px;white-space:nowrap}.personal-panel{background:#fff;border-radius:13px;flex-shrink:0;overflow:hidden}.personal-quick{display:grid;grid-template-columns:repeat(4,1fr);padding:12px 3px}.personal-quick button,.personal-services button,.personal-bottom button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:7px;padding:0;color:inherit;font-size:12px;white-space:nowrap}.personal-quick img{width:38px;height:34px;object-fit:contain}.personal-panel h2{font-size:16px;color:#303436;margin:0;font-weight:600}.personal-services h2{padding:9px 16px;border-bottom:1px solid #f0f1f4}.personal-services>div{display:grid;grid-template-columns:repeat(3,1fr);padding:10px 4px}.personal-services img{width:33px;height:27px;object-fit:contain}.personal-creator{background:linear-gradient(#e3f3ff,#fff);border:1px solid #fff;padding:12px}.personal-creator header{display:flex;align-items:center;justify-content:space-between}.personal-creator header>span{background:#ffffffb0;color:#999;font-size:12px;padding:2px 5px;border-radius:5px}.personal-creator-body{display:flex;align-items:center;gap:12px;margin-top:7px}.personal-creator-body>img{width:45%;height:auto;mix-blend-mode:multiply}.personal-creator-body>div{flex:1;min-width:0}.personal-creator h3{font-size:16px;color:#303436;margin:0 0 8px;font-weight:600;white-space:nowrap}.personal-creator p{font-size:12px;color:#999;margin:0 0 17px;white-space:nowrap}.personal-creator button{border:0;border-radius:24px;padding:6px 25px;background:#3782fa;color:white;font-size:15px;white-space:nowrap}.personal-settings button{width:100%;height:56px;padding:0 16px;border:0;border-bottom:1px solid #f0f1f4;background:#fff;display:flex;align-items:center;gap:9px;text-align:left;font-size:15px;color:inherit}.personal-settings button:last-child{border:0}.personal-settings img{width:16px;height:17px;object-fit:contain}.personal-chevron{margin-left:auto;font-size:26px;font-weight:300}.personal-logout{margin-top:4px;flex-shrink:0;height:48px;background:#fff;border:1px solid #ececec;border-radius:8px;color:red;font-size:18px}.personal-bottom{display:flex;justify-content:space-around;background:#fff;padding:8px 4px 6px;flex-shrink:0}.personal-bottom button{font-size:12px;gap:3px;min-width:50px}.personal-bottom img{width:25px;height:24px;object-fit:contain}.personal-bottom .selected{color:#2878ff}.personal-home-indicator{height:22px;background:#fff;position:relative;flex-shrink:0}.personal-home-indicator:after{content:"";position:absolute;width:145px;height:5px;bottom:6px;left:50%;transform:translateX(-50%);background:#000;border-radius:4px}
+.personal-nav-left,.personal-nav-right{display:flex;align-items:center;gap:4px}.personal-nav-left{border-radius:20px;background:#ffffff99;padding:0 4px}.personal-navbar .personal-nav-left .back{position:relative;left:auto;width:28px;height:30px}.personal-navbar .personal-nav-left .back:before{width:8px;height:8px}.personal-navbar button:not(.back){border:0;background:#ffffff99;border-radius:50%;width:30px;height:30px;padding:6px}.personal-navbar svg{width:18px;height:18px;fill:none;stroke:#111;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.personal-nav-right .capsule{position:static}.personal-navbar .navbar-title{position:absolute;left:50%;transform:translateX(-50%)}.personal-navbar{justify-content:space-between!important;padding-inline:8px}.personal-services>div{padding-block:8px}.personal-switch span{font-size:15px;line-height:10px}
+.creator-demo-control{position:absolute;left:calc(50% + 215px);top:24px;display:flex;align-items:center;gap:10px;padding:12px 16px;border:1px solid #dce5f0;border-radius:12px;background:#fff;color:#61738a;font-size:13px;white-space:nowrap;box-shadow:0 4px 16px #203b6010}.creator-demo-control button{cursor:pointer}.creator-demo-control button{width:34px;height:20px;border:0;border-radius:12px;background:#c7d0dc;padding:2px;display:flex;align-items:center}.creator-demo-control button span{width:16px;height:16px;border-radius:50%;background:white;box-shadow:0 1px 3px #0002;transition:transform .15s}.creator-demo-control button[aria-checked="true"]{background:#3782fa}.creator-demo-control button[aria-checked="true"] span{transform:translateX(14px)}.personal-creator-open{padding:0 12px;background:linear-gradient(180deg,#f2f8ff,#fff 65%);border:1px solid #fff}.personal-creator-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:11px 0 10px}.personal-creator-stats>div{display:flex;flex-direction:column;align-items:center;gap:4px;position:relative}.personal-creator-stats>div+div:before{content:"";position:absolute;left:0;top:4px;height:28px;width:1px;background:#e0e9f3}.personal-creator-stats strong{color:#3782fa;font-size:25px;font-weight:600;line-height:1.2;white-space:nowrap}.personal-creator-stats small{font-size:13px;font-weight:400;margin-left:2px}.personal-creator-stats>div>span{font-size:14px;color:#454950}.personal-creator-open>button{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;border:0;border-top:1px solid #e6edf5;background:transparent;padding:8px 0;color:#454950;font-size:15px}.personal-creator-open>button span{font-size:23px;line-height:18px;color:#98a6b8}
+@media(max-width:760px){.stage{padding-top:68px}.creator-demo-control{top:16px;left:50%;transform:translateX(-50%);padding:8px 14px}.phone{height:min(844px,calc(100vh - 92px))}}@media(max-width:480px){.stage{padding:60px 0 0}.creator-demo-control{top:10px}.phone{height:calc(100vh - 60px);min-height:0}}
+.personal-creator-stats>div:nth-child(2) strong{color:#279c89}.personal-creator-stats>div:nth-child(3) strong{color:#d88936}
+/* Compact overview spacing; keep sticky coverage and type sizes intact. */
+#overviewScreen .income-card{padding-top:10px}
+#overviewScreen .income-main{padding-bottom:9px}
+#overviewScreen .income-list>div{min-height:42px;padding-top:7px;padding-bottom:7px}
+#overviewScreen .member-section{margin-top:6px}
+#overviewScreen .member-filter-card{padding-top:2px;padding-bottom:5px;margin-bottom:6px}
+#overviewScreen .member-filter-card .member-tools{padding-top:6px}
+#overviewScreen .member-list{margin-top:6px}
+/* Compact member lists without shrinking text or removing information. */
+.member-list,.team-member-list{gap:6px}
+.member-list .member-card,.team-member-list .member-card{padding:7px 10px 6px}
+.member-list .member-level-row,.team-member-list .member-level-row{margin-bottom:3px}
+.member-list .member-card .member-head,.team-member-list .member-card .member-head{grid-template-columns:34px minmax(0,1fr) auto;gap:8px}
+.member-list .member-card .avatar,.team-member-list .member-card .avatar{width:34px;height:34px}
+.member-list .member-card .member-meta,.team-member-list .member-card .member-meta{margin-top:2px}
+.member-list .member-card .trace,.team-member-list .member-card .trace{margin-top:4px}
+.member-list .member-card .trace-row,.team-member-list .member-card .trace-row{min-height:24px;padding-block:2px}
+.member-list .member-card .team-summary{min-height:24px;margin-top:1px}
+.member-list .member-card .card-actions{margin-top:3px}
+.team-member-list .team-card-top{margin-bottom:4px}
+.role-tag.role-teacher{background:#eaf2ff;color:#326cc5}.role-tag.role-parent,.personal-name span{background:#fff1e3;color:#a86529}
+
+/* Compact shared withdrawal card */
+.withdraw-summary{padding:12px 16px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 10px}
+.withdraw-summary-value{margin:0;font-size:26px;line-height:32px}
+.withdraw-summary-note{grid-column:1/-1;margin:0;font-size:11px;line-height:17px}
+.withdraw-body{padding:10px 14px 12px}
+.withdraw-amount-row{padding-bottom:8px;gap:8px}
+.withdraw-input{width:100%;font-size:23px;line-height:30px}
+.withdraw-all{flex-shrink:0}
+.withdraw-body .payout-methods{margin-top:9px;gap:8px}
+.withdraw-body .payout-method{padding:7px 10px;min-height:34px}
+.withdraw-net-summary{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;font-size:12px;line-height:22px;color:var(--ink)}
+.withdraw-net-summary output{font-size:17px;font-weight:700;color:var(--accent);margin-left:4px}
+#withdrawTaxSummary{font-size:11px;color:#7c8795}
+.withdraw-details{margin-top:5px;border-top:1px solid var(--line)}
+.withdraw-details summary{display:flex;align-items:center;justify-content:space-between;min-height:32px;font-size:12px;color:#71808e;cursor:pointer;list-style:none}
+.withdraw-details summary::-webkit-details-marker{display:none}
+.withdraw-expand{font-size:0}
+.withdraw-expand:after{content:'展开 ⌄';font-size:12px}
+.withdraw-details[open] .withdraw-expand:after{content:'收起 ⌃'}
+.withdraw-details .withdraw-limits{margin-top:0;padding:9px 10px}
+.withdraw-limit-item,.withdraw-limit-item strong,.withdraw-today{font-size:12px;line-height:18px}
+.withdraw-details .withdraw-tax-notice{margin-top:8px;padding:9px 10px;background:#f7f9fc;border-color:var(--line);color:var(--ink)}
+.withdraw-tax-head{flex-wrap:wrap;gap:2px 8px}
+.withdraw-tax-head span,.withdraw-tax-row{font-size:12px;line-height:18px}
+.withdraw-submit{height:40px;margin-top:5px}
+.withdraw-hint{margin-top:6px}
+
+/* 收紧提现方式卡片高度 */
+.withdraw-body .payout-methods{margin-top:7px;gap:7px}
+.withdraw-body .payout-method{height:34px;min-height:0;padding:0 8px;border-radius:9px}
+
+/* 进一步压缩可提现金额摘要区 */
+.withdraw-summary{padding:8px 14px;gap:1px 8px}
+.withdraw-summary-label{font-size:11px;line-height:16px}
+.withdraw-summary-value{font-size:24px;line-height:28px}
+.withdraw-summary-note{font-size:10px;line-height:15px}
+
+/* 金额字号恢复强调并保持摘要区垂直居中 */
+.withdraw-summary{align-items:center}
+.withdraw-summary-value{font-size:29px;line-height:34px}
+
+.withdraw-summary-label{font-size:13px;line-height:18px;opacity:.9}
+
+
+/* 账单区域紧凑排版 */
+.bill-sticky-tools{margin-top:7px;padding:7px 1px 4px}
+.bill-tabs{padding:2px}
+.bill-tab{height:29px}
+.bill-sticky-tools #commissionFilterWrap{margin-top:4px}
+.bill-filter-wrap .bill-filters{gap:4px}
+.bill-filter-wrap .bill-filter{height:28px;padding:0 9px;font-size:10px}
+.commission-list-head{margin:6px 3px 5px}
+.bill-record-list{gap:5px}
+.commission-record-item{min-height:58px;gap:7px;padding:8px 10px;border-radius:11px}
+.commission-record-icon{width:30px;height:30px;border-radius:8px}
+.commission-record-icon svg{width:16px;height:16px}
+#commissionList .bill-record-time{margin-top:2px;font-size:10px;line-height:14px}
+#commissionList .bill-record-money{font-size:13px}
+#commissionList .bill-record-status{height:18px;margin-top:2px;padding:0 6px;font-size:9px}
+
+/* 提高二星所属成员信息对比度 */
+.member-owner{color:#6c7c97;opacity:1;font-size:11px;font-weight:500}
+
+/* 截图还原的独立收益卡片 */
+.creator-reward{position:relative;isolation:isolate;overflow:hidden;padding:12px 14px 10px;border:1px solid #f9dfbb;border-radius:15px;background:#fffbf5;box-shadow:0 2px 6px #daa8500a}
+.creator-reward-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.creator-reward-title{font-size:12px;font-weight:500;color:#414950;white-space:nowrap}.creator-reward-summary{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0}
+.creator-reward-enter{display:flex;align-items:center;gap:4px;border:0;border-radius:20px;padding:5px 8px;background:#fff0d9;color:#795125;font-size:12px;line-height:18px;white-space:nowrap;cursor:pointer}
+.creator-reward-enter span{font-size:20px;line-height:16px}
+.creator-reward-amount{display:flex;align-items:baseline;gap:2px;margin:0;color:#f28a08;font-family:Arial,sans-serif;font-size:20.125px;font-weight:750;line-height:27px;letter-spacing:-.25px;white-space:nowrap}
+.creator-reward-amount small{font-size:12px;letter-spacing:0}
+.creator-reward-teams{display:grid;grid-template-columns:1fr 1fr;align-items:center;margin-top:9px;padding-top:8px;border-top:1px solid #f6dbb8;gap:0}
+.creator-reward-team{display:flex;align-items:center;gap:4px;white-space:nowrap;font-size:11px;color:#424950;line-height:23px}
+.creator-reward-team+div{margin-left:0;padding-left:16px;border-left:1px solid #f6dbb8}
+.creator-reward-team img{width:19px;height:18px;object-fit:contain;mix-blend-mode:multiply}
+.creator-reward-team strong{color:#3284f5;font:600 18px/23px Arial,sans-serif}
+.creator-reward-team:nth-child(2) strong{color:#17ac90}
+.creator-reward-team small{font-size:11px;font-weight:400;margin-left:2px}
+@media(max-width:370px){.creator-reward{padding-left:12px;padding-right:12px}.creator-reward-amount{font-size:18.4px}.creator-reward-summary{gap:4px}.creator-reward-enter{font-size:11px;padding:5px 6px}.creator-reward-team+div{margin-left:6px;padding-left:6px}.creator-reward-team{gap:3px}}
+/* 收益卡片：累计收益、可提现、结算状态三层结构 */
+#overviewScreen .income-card{padding:0;overflow:hidden}
+.income-total{padding:15px 14px 13px}
+.income-total-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.income-total-head .label{font-size:12px}
+#openIncomeDetails{padding:0;border:0;background:transparent;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer}
+.income-total-value{display:block;margin-top:8px;font-size:30px;line-height:36px;font-weight:750;letter-spacing:-.4px}
+#overviewScreen .income-main{padding:13px 14px;background:#fff}
+#overviewScreen .income-main .available{font-size:23px;line-height:29px}
+#overviewScreen .income-list{margin:0;padding:0 14px 10px;background:#fff;border-top:0}
+#overviewScreen .income-list>div{border-top:1px solid var(--line);padding-top:10px}
+#overviewScreen .income-list .label{font-size:11px}
+#overviewScreen .income-list .income-value{font-size:14px;color:var(--muted)}
+.bill-income-summary{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 14px;margin-bottom:8px;border-radius:14px;background:linear-gradient(125deg,#edf3ff,#fff);border:1px solid var(--line)}
+.bill-income-summary .label{font-size:11px}.bill-income-summary strong{display:block;margin-top:4px;font-size:25px;line-height:31px}
+#billWithdrawToggle{flex-shrink:0;border:0;background:transparent;color:var(--accent);font-size:12px;padding:8px 0;cursor:pointer}
+#billWithdrawCard[hidden]{display:none}
+.withdraw-balance-details{display:grid;grid-template-columns:1fr 1fr;padding:10px 14px;border-bottom:1px solid var(--line);gap:12px}.withdraw-balance-details>div+div{border-left:1px solid var(--line);padding-left:12px}.withdraw-balance-details span{display:block;color:var(--muted);font-size:11px;line-height:16px}.withdraw-balance-details strong{display:block;margin-top:3px;font-size:16px;line-height:21px;font-weight:650}
+</style>
+</head>
+<body>
+  <main class="stage">
+    <div class="creator-demo-control"><span>演示开通</span><button type="button" id="creatorDemoToggle" role="switch" aria-checked="true" aria-label="演示创客中心开通"><span></span></button></div>
+    <section class="phone" aria-label="创客中心">
+      <section class="screen active" id="personalScreen" aria-label="个人中心">
+<div class="statusbar"><span>23:58 ◢</span><span class="status-icons"><span class="signal">▮▮▮</span><span>⌁</span><span class="battery"></span></span></div>
+<header class="navbar personal-navbar"><div class="personal-nav-left"><button class="back" id="personalBack" aria-label="返回创客中心" type="button"></button><button type="button" aria-label="首页" data-toast="首页"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8M5 10v10h14V10M9 20v-7h6v7"/></svg></button></div><strong class="navbar-title">个人中心</strong><div class="personal-nav-right"><button type="button" aria-label="分享" data-toast="分享"><svg viewBox="0 0 24 24"><path d="M13 4h7v7M20 4l-9 9M10 4H7a4 4 0 0 0-4 4v9a4 4 0 0 0 4 4h9a4 4 0 0 0 4-4v-3"/></svg></button><span class="capsule" aria-hidden="true"><span class="dots">•••</span><span class="mini-circle"></span></span></div></header>
+<div class="scroll personal-scroll">
+<div class="personal-user"><img src="assets/personal/avatar.png" alt=""><div><div class="personal-name">张凤娇 <span>家长</span></div></div><button type="button" class="personal-switch" data-toast="角色切换"><span aria-hidden="true">⇆</span> 角色切换</button></div>
+<section class="personal-panel creator-reward" id="personalCreatorOpened" aria-label="已开通的创客中心"><div class="creator-reward-head"><div class="creator-reward-summary"><div class="creator-reward-title">累计收益</div><div class="creator-reward-amount"><small>¥</small>812,386.50</div></div><button class="creator-reward-enter" id="personalEnterCreator" type="button">进入创客中心<span aria-hidden="true">›</span></button></div><div class="creator-reward-teams"><div class="creator-reward-team"><img src="assets/personal/card-team-blue.png" alt=""><span>一星团队</span><strong>20<small>人</small></strong></div><div class="creator-reward-team"><img src="assets/personal/card-team-green.png" alt=""><span>二星团队</span><strong>10<small>人</small></strong></div></div></section>
+<div class="personal-panel personal-quick"><button type="button" data-toast="申请加盟"><img src="assets/personal/join.png" alt=""><span>申请加盟</span></button><button type="button" data-toast="邀请家长报名"><img src="assets/personal/invite-parent.png" alt=""><span>邀请家长报名</span></button><button type="button" data-toast="邀请老师入驻"><img src="assets/personal/invite-teacher.png" alt=""><span>邀请老师入驻</span></button><button type="button" data-toast="招募合伙人"><img src="assets/personal/partner.png" alt=""><span>招募合伙人</span></button></div>
+<section class="personal-panel personal-services"><h2>我的服务</h2><div><button type="button" data-toast="我的课程"><img src="assets/personal/course.png" alt=""><span>我的课程</span></button><button type="button" data-toast="我的订单"><img src="assets/personal/order.png" alt=""><span>我的订单</span></button><button type="button" data-toast="我的收藏"><img src="assets/personal/favorite.png" alt=""><span>我的收藏</span></button></div></section>
+<section class="personal-panel personal-creator" id="personalCreatorLocked" hidden><header><h2>创客中心</h2><span>⊗ 未开通</span></header><div class="personal-creator-body"><img src="assets/personal/creator-transparent.png" alt=""><div><h3>创客中心未开通</h3><p>加入团队，解锁更多收益</p><button type="button" id="personalOpenCreator">申请开通</button></div></div></section>
+<div class="personal-panel personal-settings"><button type="button" data-toast="修改资料"><img src="assets/personal/edit.png" alt=""><span>修改资料</span><span class="personal-chevron" aria-hidden="true">›</span></button><button type="button" data-toast="帮助中心"><img src="assets/personal/help.png" alt=""><span>帮助中心</span><span class="personal-chevron" aria-hidden="true">›</span></button><button type="button" data-toast="联系客服"><img src="assets/personal/support.png" alt=""><span>联系客服</span><span class="personal-chevron" aria-hidden="true">›</span></button><button type="button" data-toast="清除缓存"><img src="assets/personal/cache.png" alt=""><span>清除缓存</span><span class="personal-chevron" aria-hidden="true">›</span></button><button type="button" data-toast="关于领榜"><img src="assets/personal/about.png" alt=""><span>关于领榜</span><span class="personal-chevron" aria-hidden="true">›</span></button></div>
+<button type="button" class="personal-logout" data-toast="退出登录">退出登录</button>
+</div><nav class="personal-bottom" aria-label="底部导航"><button type="button" class="" data-toast="首页"><img src="assets/personal/nav-home.png" alt=""><span>首页</span></button><button type="button" class="" data-toast="AI背单词"><img src="assets/personal/nav-ai.png" alt=""><span>AI背单词</span></button><button type="button" class="" data-toast="消息"><img src="assets/personal/nav-message.png" alt=""><span>消息</span></button><button type="button" class="" data-toast="订单"><img src="assets/personal/nav-order.png" alt=""><span>订单</span></button><button type="button" class="selected" data-toast="我的"><img src="assets/personal/nav-my.png" alt=""><span>我的</span></button></nav><div class="personal-home-indicator" aria-hidden="true"></div>
+</section>
+      <section class="screen" id="overviewScreen" aria-label="创客中心概览">
+        <div class="statusbar"><span>23:58 ◢</span><span class="status-icons"><span class="signal">▮▮▮</span><span>⌁</span><span class="battery"></span></span></div>
+        <header class="navbar"><button class="back" type="button" id="backToPersonal" aria-label="返回个人中心"></button><strong class="navbar-title">创客中心</strong><span class="capsule" aria-hidden="true"><span class="dots">•••</span><span class="mini-circle"></span></span></header>
+        <div class="scroll overview-scroll" id="overviewScroll">
+          <section class="tab-view" data-view="overview">
+            <div class="stack overview-stack">
+              <article class="wire-card income-card">
+                <div class="income-total"><div class="income-total-head"><span class="label">累计收益（元）</span><button id="openIncomeDetails" type="button">查看收益明细 ›</button></div><strong class="income-total-value number"><small class="currency">¥</small>812,386.50</strong></div>
+                <div class="income-main"><div><span class="label">可提现（元）</span><strong class="available number"><small class="currency">¥</small>255,386.50</strong></div><button class="white-button" id="openBill" type="button">立即提现</button></div>
+
+              </article>
+
+              </div>
+          </section>
+          <section class="member-section">
+              <div class="member-filter-card">
+<div class="team-entry-grid" role="tablist" aria-label="成员星级"><button id="openoneTeam" class="team-entry active" type="button" role="tab" aria-selected="true" aria-controls="memberList"><span>一星成员</span><strong id="oneTeamTotal"></strong><span class="team-entry-today" id="oneTeamToday"></span></button><button id="opentwoTeam" class="team-entry" type="button" role="tab" aria-selected="false" aria-controls="memberList"><span>二星成员</span><strong id="twoTeamTotal"></strong><span class="team-entry-today" id="twoTeamToday"></span></button></div>
+              
+              <div class="member-tools" aria-label="成员筛选条件">
+                <div class="filter-field identity-flat-field" id="identityField"><span id="identityLabel">身份</span><div class="identity-flat-options" role="group" aria-label="身份筛选"><button class="identity-flat-option active" type="button" data-identity-value="all" aria-pressed="true">全部</button><button class="identity-flat-option" type="button" data-identity-value="teacher" aria-pressed="false">老师</button><button class="identity-flat-option" type="button" data-identity-value="parent" aria-pressed="false">家长</button></div></div>
+              </div>
+              </div>
+              <div class="member-list" id="memberList"></div>
+            </section>
+          </div>
+      </section>
+
+<section class="screen team-directory-screen" id="oneTeamScreen" aria-label="一星团队">        <div class="statusbar"><span>23:58 ◢</span><span class="status-icons"><span class="signal">▮▮▮</span><span>⌁</span><span class="battery"></span></span></div><header class="navbar"><button class="back" id="closeoneTeam" type="button" aria-label="返回创客中心"></button><strong class="manage-title">一星团队</strong></header><div class="scroll"><div class="identity-flat-options" id="oneTeamFilters" role="group" aria-label="身份筛选"><button class="identity-flat-option active" type="button" data-directory-identity="all" aria-pressed="true">全部</button><button class="identity-flat-option" type="button" data-directory-identity="teacher" aria-pressed="false">老师</button><button class="identity-flat-option" type="button" data-directory-identity="parent" aria-pressed="false">家长</button></div><div class="member-list" id="oneTeamList"></div></div></section>
+<section class="screen team-directory-screen" id="twoTeamScreen" aria-label="二星团队">        <div class="statusbar"><span>23:58 ◢</span><span class="status-icons"><span class="signal">▮▮▮</span><span>⌁</span><span class="battery"></span></span></div><header class="navbar"><button class="back" id="closetwoTeam" type="button" aria-label="返回创客中心"></button><strong class="manage-title">二星团队</strong></header><div class="scroll"><div class="identity-flat-options" id="twoTeamFilters" role="group" aria-label="身份筛选"><button class="identity-flat-option active" type="button" data-directory-identity="all" aria-pressed="true">全部</button><button class="identity-flat-option" type="button" data-directory-identity="teacher" aria-pressed="false">老师</button><button class="identity-flat-option" type="button" data-directory-identity="parent" aria-pressed="false">家长</button></div><div class="member-list" id="twoTeamList"></div></div></section>
+      <section class="screen" id="billScreen" aria-label="我的账单">
+        <div class="statusbar"><span>23:58 ◢</span><span class="status-icons"><span class="signal">▮▮▮</span><span>⌁</span><span class="battery"></span></span></div>
+        <header class="navbar"><button class="back" id="closeBill" type="button" aria-label="返回创客中心"></button><strong class="manage-title">我的账单</strong><span class="capsule" aria-hidden="true"><span class="dots">•••</span><span class="mini-circle"></span></span></header>
+        <div class="scroll bill-scroll">
+          <section class="bill-income-summary" aria-label="累计收益"><div><span class="label">累计收益（元）</span><strong class="number" id="billIncomeTotal">¥812,386.50</strong></div><button id="billWithdrawToggle" type="button" aria-expanded="false" aria-controls="billWithdrawCard">展开提现 ⌄</button></section>
+          <section class="withdraw-card" id="billWithdrawCard" aria-label="提现操作" hidden>
+            <div class="withdraw-summary"><span class="withdraw-summary-label">可提现佣金（元）</span><strong class="withdraw-summary-value number" id="withdrawAvailable">255,386.50</strong></div>
+            <div class="withdraw-balance-details" aria-label="收益状态"><div><span>待结算（元）</span><strong class="number">112,386.50</strong></div><div><span>已提现（元）</span><strong class="number">444,613.50</strong></div></div>
+            <form class="withdraw-body" id="withdrawForm" novalidate>
+              <label class="withdraw-amount-row" for="withdrawAmount"><span class="withdraw-amount-wrap"><span class="withdraw-currency">¥</span><input class="withdraw-input" id="withdrawAmount" type="text" inputmode="decimal" value="2000.00" aria-label="提现金额" aria-describedby="withdrawMessage withdrawTaxSummary"></span><button class="withdraw-all" id="withdrawAll" type="button">全部提现</button></label>
+              <div class="form-error" id="withdrawMessage" role="alert" hidden></div>
+              <div class="payout-methods" role="group" aria-label="提现方式"><button class="payout-method" type="button" data-payout="wechat">微信零钱</button><button class="payout-method active" type="button" data-payout="bank">银行卡</button></div>
+              <div class="withdraw-net-summary" aria-live="polite"><span>预计到账 <output id="withdrawNetAmount">¥0.00</output></span><span id="withdrawTaxSummary">无代扣税费</span></div>
+              <details class="withdraw-details" id="withdrawDetails">
+                <summary>提现规则与税费明细<span class="withdraw-expand" aria-hidden="true"></span></summary>
+              <section class="withdraw-limits" aria-label="提现限制"><div class="withdraw-limit-grid"><div class="withdraw-limit-item"><span>单笔最低</span><strong>¥10</strong></div><div class="withdraw-limit-item"><span>单笔最高</span><strong>¥2,000</strong></div><div class="withdraw-limit-item"><span>每日次数</span><strong>最多 3 次</strong></div><div class="withdraw-limit-item"><span>每日金额</span><strong>最多 ¥3,000</strong></div></div><div class="withdraw-today"><span>今日已提现</span><strong id="withdrawTodayUsage">0 次 · ¥0.00</strong></div></section>
+                <div class="withdraw-tax-notice" id="withdrawTaxNotice">
+                  <div class="withdraw-tax-head"><strong>税费明细</strong><span>单次超过 800 元，按 8% 代扣</span></div>
+                  <div class="withdraw-tax-rows">
+                    <div class="withdraw-tax-row"><span>提现金额</span><output id="withdrawGrossAmount">¥0.00</output></div>
+                    <div class="withdraw-tax-row tax"><span>代扣税费</span><output id="withdrawTaxAmount">-¥0.00</output></div>
+                  </div>
+                </div>
+              </details>
+              <button class="withdraw-submit" type="submit">确认提现</button>
+            </form>
+          </section>
+          <div class="bill-sticky-tools">
+            <div class="bill-tabs" role="tablist" aria-label="账单类型"><button class="bill-tab active" id="commissionTab" type="button" role="tab" aria-selected="true" aria-controls="commissionPanel" data-bill-tab="commission">分润明细</button><button class="bill-tab" id="withdrawTab" type="button" role="tab" aria-selected="false" aria-controls="withdrawPanel" data-bill-tab="withdraw">提现记录</button></div>
+            <div class="bill-filter-wrap" id="commissionFilterWrap">
+              <nav class="bill-filters" aria-label="分润业务类型">
+                <button class="bill-filter active" type="button" data-commission-filter="all" data-commission-label="全部" aria-pressed="true">全部</button><button class="bill-filter" type="button" data-commission-filter="parent" data-commission-label="邀请家长" aria-pressed="false">邀请家长</button><button class="bill-filter" type="button" data-commission-filter="teacher" data-commission-label="邀请老师" aria-pressed="false">邀请老师</button><button class="bill-filter" type="button" data-commission-filter="cooperation" data-commission-label="促成合作" aria-pressed="false">促成合作</button>
+              </nav>
+            </div>
+          </div>
+          <section class="bill-panel" id="commissionPanel" role="tabpanel" aria-labelledby="commissionTab">
+            <div class="bill-record-list" id="commissionList"></div>
+          </section>
+          <section class="bill-panel" id="withdrawPanel" role="tabpanel" aria-labelledby="withdrawTab" hidden>
+            <div class="bill-record-list" id="withdrawRecordList"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="screen" id="followRecordScreen" aria-label="成员详情">
+        <div class="statusbar"><span>23:58 ◢</span><span class="status-icons"><span class="signal">▮▮▮</span><span>⌁</span><span class="battery"></span></span></div>
+        <header class="navbar"><button class="back" id="closeFollowRecord" type="button" aria-label="返回成员列表"></button><strong class="manage-title">成员详情</strong><span class="capsule" aria-hidden="true"><span class="dots">•••</span><span class="mini-circle"></span></span></header>
+        <div class="scroll follow-record-scroll">
+          <div class="member-detail-sticky" id="memberDetailSticky">
+          <article class="follow-record-profile">
+            <div class="detail-level-row"><span class="team-level-tag" id="memberDetailLevel"></span><span class="member-owner" id="memberDetailOwner" hidden></span></div>
+            <span class="follow-record-avatar" id="followRecordAvatar" aria-hidden="true"></span>
+            <div class="follow-record-user"><div class="follow-record-name"><span id="followRecordName"></span><span class="follow-record-roles" id="followRecordRole"></span></div><div class="follow-record-meta"><span id="followRecordCity"></span><a class="follow-record-phone" id="followRecordPhone"><span id="followRecordPhoneText"></span><svg class="phone-icon" viewbox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.8 9 3.2l2 5-1.7 1.4a14 14 0 0 0 5.1 5.1L15.8 13l5 2-.6 2.4c-.3 1.3-1.5 2.2-2.8 2.1A15.8 15.8 0 0 1 4.5 6.6c-.1-1.3.8-2.5 2.1-2.8Z"></path></svg></a></div></div>
+            <section class="member-detail-summary" id="memberDetailSummary" aria-label="成员业务概况"><div class="member-detail-stat"><span>累计分润</span><strong id="memberDetailProfit"></strong></div></section>
+          </article>
+          <button class="detail-team-stats" id="memberDetailTeam" type="button" hidden><span>二星团队人数<strong id="memberDetailTeamTotal"></strong></span><span>今日新增<strong id="memberDetailTeamToday"></strong></span><span aria-hidden="true">›</span></button>
+          <button class="member-detail-action primary member-detail-revisit-below" id="memberDetailRevisit" type="button">添加回访</button>
+          <nav class="member-detail-tabs" id="memberDetailTablist" role="tablist" aria-label="成员明细类型"><button class="member-detail-tab active" type="button" role="tab" aria-selected="true" data-member-detail-tab="follow">跟进记录</button><button class="member-detail-tab" type="button" role="tab" aria-selected="false" data-member-detail-tab="browse">浏览记录</button><button class="member-detail-tab" type="button" role="tab" aria-selected="false" data-member-detail-tab="purchase">订单记录</button><button class="member-detail-tab" type="button" role="tab" aria-selected="false" data-member-detail-tab="commission">分润明细</button></nav>
+          <div class="follow-record-heading"><strong id="memberDetailListTitle">跟进动态</strong><span id="followRecordCount">0 条记录</span></div>
+          <div class="member-commission-toolbar" id="memberCommissionToolbar" hidden><nav class="bill-filters member-commission-filters" aria-label="分润业务类型"><button class="bill-filter active" type="button" data-commission-filter="all" aria-pressed="true">全部</button><button class="bill-filter" type="button" data-commission-filter="parent" aria-pressed="false">邀请家长</button><button class="bill-filter" type="button" data-commission-filter="teacher" aria-pressed="false">邀请老师</button><button class="bill-filter" type="button" data-commission-filter="cooperation" aria-pressed="false">促成合作</button></nav><div class="commission-list-head"><span class="commission-list-count" id="memberCommissionSummary">24 笔记录</span></div></div>
+          </div>
+          <div class="detail-record-list" id="followRecordList" aria-live="polite"></div>
+          <section class="member-commission-panel" id="memberCommissionPanel" aria-label="分润明细" hidden><div class="bill-record-list" id="memberCommissionList" aria-live="polite"></div></section>
+        </div>
+      </section>
+      <div class="team-mask" id="teamMask" hidden></div>
+      <section class="team-sheet" id="teamSheet" role="dialog" aria-modal="true" aria-labelledby="teamSheetTitle" hidden>
+        <div class="revisit-handle" aria-hidden="true"></div>
+        <header class="team-sheet-header"><span class="avatar" id="teamOwnerAvatar"></span><div class="team-owner-copy"><strong class="team-sheet-title" id="teamSheetTitle">团队</strong><a id="teamOwnerPhone" class="phone-link"></a></div><button class="team-sheet-close" id="teamSheetClose" type="button" aria-label="关闭团队成员明细">×</button></header>
+        <div class="team-sheet-summary" id="teamSheetSummary"></div>
+        <div class="team-member-list" id="teamMemberList"></div>
+      </section>
+      <div class="revisit-mask" id="revisitMask" hidden></div>
+      <section class="revisit-sheet" id="revisitSheet" role="dialog" aria-modal="true" aria-labelledby="revisitTitle" hidden>
+        <div class="revisit-handle" aria-hidden="true"></div>
+        <header class="revisit-header"><strong class="revisit-title" id="revisitTitle">添加回访</strong><button class="revisit-close" id="revisitClose" type="button" aria-label="关闭添加回访">×</button></header>
+        <div class="revisit-body">
+          <div class="member-card" id="revisitMemberCard" style="cursor:default"></div>
+          <section class="revisit-latest"><strong class="revisit-section-title">最近跟进</strong><p id="revisitLatestText">暂无跟进记录</p></section>
+          <div class="revisit-field"><label class="revisit-section-title" for="revisitContent">跟进内容</label><div class="revisit-textarea-wrap"><textarea class="revisit-textarea" id="revisitContent" maxlength="200" inputmode="none" placeholder="请输入详细的沟通内容"></textarea><div class="revisit-field-meta"><button class="revisit-phrase-trigger" id="openRevisitPhrases" type="button">常用语</button><span class="revisit-count" id="revisitCount">0/200</span></div></div><div class="form-error" id="revisitMessage" role="alert" hidden></div></div>
+        </div>
+        <div class="revisit-actions"><button class="revisit-cancel" id="cancelRevisit" type="button">取消</button><button class="revisit-submit" id="submitRevisit" type="button" disabled>提交记录</button></div>
+        <section class="revisit-phrases" id="revisitPhrases" aria-label="常用语" hidden>
+          <header class="revisit-phrases-header"><button class="revisit-phrases-back" id="closeRevisitPhrases" type="button">返回</button><strong>常用语</strong><span></span></header>
+          <div class="revisit-phrase-list">
+            <button class="revisit-phrase-option" type="button">已电话回访家长，详细介绍课程内容，家长有上课意向，后续邀约到校试听</button>
+            <button class="revisit-phrase-option" type="button">已通过微信沟通，课程资料和上课安排已发送，家长看完后反馈报名意向</button>
+            <button class="revisit-phrase-option" type="button">试听效果满意，后续跟进报名和缴费</button>
+            <button class="revisit-phrase-option" type="button">已电话沟通，家长有意向，后续邀约试听</button>
+            <button class="revisit-phrase-option" type="button">家长比较关注师资和教学效果，相关问题已解答，约定本周内再次沟通</button>
+          </div>
+        </section>
+      </section>
+      <section class="iphone-keyboard" id="iphoneKeyboard" aria-label="iPhone 模拟键盘" hidden>
+        <div class="iphone-suggestions" aria-label="输入建议"><button class="iphone-suggestion" type="button" data-key="好的">好的</button><button class="iphone-suggestion" type="button" data-key="可以">可以</button><button class="iphone-suggestion" type="button" data-key="已联系">已联系</button></div>
+        <div class="iphone-keyboard-rows">
+          <div class="iphone-keyboard-row"><button class="iphone-key" type="button" data-letter="q">Q</button><button class="iphone-key" type="button" data-letter="w">W</button><button class="iphone-key" type="button" data-letter="e">E</button><button class="iphone-key" type="button" data-letter="r">R</button><button class="iphone-key" type="button" data-letter="t">T</button><button class="iphone-key" type="button" data-letter="y">Y</button><button class="iphone-key" type="button" data-letter="u">U</button><button class="iphone-key" type="button" data-letter="i">I</button><button class="iphone-key" type="button" data-letter="o">O</button><button class="iphone-key" type="button" data-letter="p">P</button></div>
+          <div class="iphone-keyboard-row middle"><button class="iphone-key" type="button" data-letter="a">A</button><button class="iphone-key" type="button" data-letter="s">S</button><button class="iphone-key" type="button" data-letter="d">D</button><button class="iphone-key" type="button" data-letter="f">F</button><button class="iphone-key" type="button" data-letter="g">G</button><button class="iphone-key" type="button" data-letter="h">H</button><button class="iphone-key" type="button" data-letter="j">J</button><button class="iphone-key" type="button" data-letter="k">K</button><button class="iphone-key" type="button" data-letter="l">L</button></div>
+          <div class="iphone-keyboard-row control"><button class="iphone-key control-key" type="button" data-keyboard-action="shift" aria-label="切换大小写">⇧</button><span class="iphone-keyboard-row"><button class="iphone-key" type="button" data-letter="z">Z</button><button class="iphone-key" type="button" data-letter="x">X</button><button class="iphone-key" type="button" data-letter="c">C</button><button class="iphone-key" type="button" data-letter="v">V</button><button class="iphone-key" type="button" data-letter="b">B</button><button class="iphone-key" type="button" data-letter="n">N</button><button class="iphone-key" type="button" data-letter="m">M</button></span><button class="iphone-key control-key delete-key" type="button" data-keyboard-action="delete" aria-label="删除">⌫</button></div>
+          <div class="iphone-keyboard-row"><button class="iphone-key control-key bottom-key" id="iphoneKeyboardMode" type="button" data-keyboard-action="mode">123</button><button class="iphone-key control-key globe-key bottom-key" type="button" aria-label="切换键盘">◎</button><button class="iphone-key space-key bottom-key" type="button" data-keyboard-action="space">空格</button><button class="iphone-key done-key bottom-key" type="button" data-keyboard-action="done">完成</button></div>
+        </div>
+        <div class="iphone-home-indicator" aria-hidden="true"></div>
+      </section>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+  <script src="creator-center.js?v=20261008-bill-fix"></script></body>
+</html>
