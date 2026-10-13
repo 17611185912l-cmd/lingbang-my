@@ -144,6 +144,8 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .form-error{min-height:14px;margin-top:7px;color:#c05a2c;font-size:11px;line-height:14px}
 .bill-scroll{padding:12px 13px 28px}
 .withdraw-card{overflow:hidden;border-radius:16px;background:var(--surface)}
+#billWithdrawToggle{min-height:34px;padding:0 9px;border-radius:8px;background:var(--accent);color:#fff;font-weight:700}
+.withdraw-balance-details{display:none}
 .withdraw-summary{padding:16px 17px;background:var(--accent);color:#fff}
 .withdraw-summary-label{font-size:12px;line-height:18px;opacity:.8}
 .withdraw-summary-value{display:block;margin-top:3px;font-size:31px;line-height:37px;font-weight:800;letter-spacing:.2px}
@@ -563,6 +565,24 @@ button,input,textarea,select{font-family:inherit}
 #billWithdrawCard[hidden]{display:none}
 .withdraw-balance-details{display:grid;grid-template-columns:1fr 1fr;padding:10px 14px;border-bottom:1px solid var(--line);gap:12px}.withdraw-balance-details>div+div{border-left:1px solid var(--line);padding-left:12px}.withdraw-balance-details span{display:block;color:var(--muted);font-size:11px;line-height:16px}.withdraw-balance-details strong{display:block;margin-top:3px;font-size:16px;line-height:21px;font-weight:650}
 .my-team-heading{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}.my-team-heading>span{font-size:12px;color:var(--muted)}.my-team-heading strong span{margin-left:6px;font-size:13px;color:var(--accent)}
+
+.bank-account{margin:10px 0;padding:10px 12px;background:#f6f8fb;border-radius:10px}.bank-heading,.bank-actions{display:flex;align-items:center;justify-content:space-between;gap:10px}.bank-heading{font-size:14px;margin-bottom:6px}.bank-account button,.withdraw-record-link{border:0;background:none;color:#347ac0;font-size:13px;padding:5px 0}.bank-account label{display:flex;align-items:center;font-size:12px;gap:10px;border-bottom:1px solid #e4e9ef;min-height:38px}.bank-account input{width:0;flex:1;border:0;background:transparent;outline:none;font:inherit;padding:9px 0}.bank-actions{justify-content:flex-end;margin-top:5px}#savedBankSummary{font-size:13px;color:#566578;line-height:1.8}.withdraw-record-link{margin-left:auto}.withdraw-history{display:block!important;padding:12px!important}.withdraw-history-head{display:flex;justify-content:space-between;gap:12px;font-size:13px}.withdraw-history-time{font-size:11px;color:#8792a1;margin:5px 0 9px}.withdraw-history-values{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:11px;color:#738091}.withdraw-history-values strong{display:block;font-size:15px;color:#28384c;margin-top:3px}.withdraw-history details{font-size:12px;color:#bb6148;margin-top:9px}.withdraw-history details p{margin:7px 0 0}.withdraw-history .reviewing{color:#ba842c}.withdraw-history .done{color:#259078}.withdraw-history .rejected{color:#c25c50}
+#withdrawScreen>.navbar{justify-content:center;padding:0 54px}
+#withdrawScreen .manage-title{min-width:0;flex:1;text-align:center;font-size:17px;white-space:nowrap}
+.withdraw-record-section{margin-top:14px}
+.withdraw-record-heading{display:flex;align-items:center;justify-content:space-between;margin:0 2px 8px;font-size:14px;font-weight:700;color:var(--ink)}
+.withdraw-record-count{color:var(--muted);font-size:11px;font-weight:500}
+.withdraw-history{min-height:76px;display:grid!important;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px;padding:11px 12px!important}
+.withdraw-history-main{min-width:0}
+.withdraw-history-bank{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:700;color:#344454}
+.withdraw-history-meta{margin-top:4px;color:#8792a1;font-size:10px;line-height:15px}
+.withdraw-history-amounts{margin-top:5px;color:#738091;font-size:10px;line-height:15px}
+.withdraw-history-side{text-align:right;white-space:nowrap}
+.withdraw-history-side-label{color:#8792a1;font-size:10px}
+.withdraw-history-side strong{display:block;margin-top:2px;font-size:15px;line-height:20px;color:#28384c;font-variant-numeric:tabular-nums}
+.withdraw-history-side .withdraw-history-status{display:inline-flex;margin-top:4px;padding:2px 7px;border-radius:10px;background:#fff2df;color:#ba842c;font-size:10px;line-height:15px}
+.withdraw-history-status.done{background:#e9f6ef;color:#259078}.withdraw-history-status.rejected{background:#fff0ed;color:#c25c50}
+.withdraw-history details{grid-column:1/-1;margin:0;font-size:11px;color:#bb6148}.withdraw-history details summary{cursor:pointer}.withdraw-history details p{margin:5px 0 0}
 </style>
 </head>
 <body>
@@ -615,14 +635,37 @@ button,input,textarea,select{font-family:inherit}
         <div class="statusbar"><span>23:58 ◢</span><span class="status-icons"><span class="signal">▮▮▮</span><span>⌁</span><span class="battery"></span></span></div>
         <header class="navbar"><button class="back" id="closeBill" type="button" aria-label="返回创客中心"></button><strong class="manage-title">我的账单</strong><span class="capsule" aria-hidden="true"><span class="dots">•••</span><span class="mini-circle"></span></span></header>
         <div class="scroll bill-scroll">
-          <section class="bill-income-summary" aria-label="累计收益"><div><span class="label">累计收益（元）</span><strong class="number" id="billIncomeTotal">¥812,386.50</strong></div><button id="billWithdrawToggle" type="button" aria-expanded="false" aria-controls="billWithdrawCard">展开提现 ⌄</button></section>
-          <section class="withdraw-card" id="billWithdrawCard" aria-label="提现操作" hidden>
+          <section class="bill-income-summary" aria-label="累计收益"><div><span class="label">累计收益（元）</span><strong class="number" id="billIncomeTotal">¥812,386.50</strong></div><button id="billWithdrawToggle" type="button">立即提现</button></section>
+          <div class="bill-sticky-tools">
+            <div class="bill-filter-wrap" id="commissionFilterWrap">
+              <nav class="bill-filters" aria-label="分润业务类型">
+                <button class="bill-filter active" type="button" data-commission-filter="all" data-commission-label="全部" aria-pressed="true">全部</button><button class="bill-filter" type="button" data-commission-filter="parent" data-commission-label="邀请家长" aria-pressed="false">邀请家长</button><button class="bill-filter" type="button" data-commission-filter="teacher" data-commission-label="邀请老师" aria-pressed="false">邀请老师</button><button class="bill-filter" type="button" data-commission-filter="cooperation" data-commission-label="促成合作" aria-pressed="false">促成合作</button>
+              </nav>
+            </div>
+          </div>
+          <section class="bill-panel" id="commissionPanel" role="tabpanel" aria-labelledby="commissionTab">
+            <div class="bill-record-list" id="commissionList"></div>
+          </section>
+        </div>
+      </section>
+
+<section class="screen" id="withdrawScreen" aria-label="收益提现"><div class="statusbar"><span>23:58 ◢</span><span>▮▮▮　⌁</span></div><header class="navbar"><button class="back" id="closeWithdraw" type="button" aria-label="返回"></button><strong class="manage-title">收益提现</strong></header><div class="scroll bill-scroll"><div class="withdraw-form-section">          <section class="withdraw-card" id="billWithdrawCard" aria-label="提现操作">
             <div class="withdraw-summary"><span class="withdraw-summary-label">可提现佣金（元）</span><strong class="withdraw-summary-value number" id="withdrawAvailable">255,386.50</strong></div>
             <div class="withdraw-balance-details" aria-label="收益状态"><div><span>待结算（元）</span><strong class="number">112,386.50</strong></div><div><span>已提现（元）</span><strong class="number">444,613.50</strong></div></div>
             <form class="withdraw-body" id="withdrawForm" novalidate>
               <label class="withdraw-amount-row" for="withdrawAmount"><span class="withdraw-amount-wrap"><span class="withdraw-currency">¥</span><input class="withdraw-input" id="withdrawAmount" type="text" inputmode="decimal" value="2000.00" aria-label="提现金额" aria-describedby="withdrawMessage withdrawTaxSummary"></span><button class="withdraw-all" id="withdrawAll" type="button">全部提现</button></label>
               <div class="form-error" id="withdrawMessage" role="alert" hidden></div>
-              <div class="payout-methods" role="group" aria-label="提现方式"><button class="payout-method" type="button" data-payout="wechat">微信零钱</button><button class="payout-method active" type="button" data-payout="bank">银行卡</button></div>
+              <section class="bank-account" aria-label="收款银行卡">
+                <div class="bank-heading"><strong>收款银行卡</strong><button type="button" id="editSavedBank" hidden>修改</button></div>
+                <div id="savedBankSummary" hidden></div>
+                <div id="bankEditor">
+                  <label>开户银行<input id="withdrawBank" placeholder="请输入开户银行" autocomplete="off"></label>
+                  <label>开户人姓名<input id="withdrawHolder" placeholder="请输入开户人姓名" autocomplete="off"></label>
+                  <label>银行卡号<input id="withdrawCard" placeholder="请输入16–19位银行卡号" inputmode="numeric" autocomplete="off" maxlength="23"></label>
+                  <div class="form-error" id="bankMessage" role="alert" hidden></div>
+                  <div class="bank-actions"><button type="button" id="cancelBankEdit" hidden>取消</button><button type="button" id="saveBank">保存银行卡</button></div>
+                </div>
+              </section>
               <div class="withdraw-net-summary" aria-live="polite"><span>预计到账 <output id="withdrawNetAmount">¥0.00</output></span><span id="withdrawTaxSummary">无代扣税费</span></div>
               <details class="withdraw-details" id="withdrawDetails">
                 <summary>提现规则与税费明细<span class="withdraw-expand" aria-hidden="true"></span></summary>
@@ -638,23 +681,7 @@ button,input,textarea,select{font-family:inherit}
               <button class="withdraw-submit" type="submit">确认提现</button>
             </form>
           </section>
-          <div class="bill-sticky-tools">
-            <div class="bill-tabs" role="tablist" aria-label="账单类型"><button class="bill-tab active" id="commissionTab" type="button" role="tab" aria-selected="true" aria-controls="commissionPanel" data-bill-tab="commission">分润明细</button><button class="bill-tab" id="withdrawTab" type="button" role="tab" aria-selected="false" aria-controls="withdrawPanel" data-bill-tab="withdraw">提现记录</button></div>
-            <div class="bill-filter-wrap" id="commissionFilterWrap">
-              <nav class="bill-filters" aria-label="分润业务类型">
-                <button class="bill-filter active" type="button" data-commission-filter="all" data-commission-label="全部" aria-pressed="true">全部</button><button class="bill-filter" type="button" data-commission-filter="parent" data-commission-label="邀请家长" aria-pressed="false">邀请家长</button><button class="bill-filter" type="button" data-commission-filter="teacher" data-commission-label="邀请老师" aria-pressed="false">邀请老师</button><button class="bill-filter" type="button" data-commission-filter="cooperation" data-commission-label="促成合作" aria-pressed="false">促成合作</button>
-              </nav>
-            </div>
-          </div>
-          <section class="bill-panel" id="commissionPanel" role="tabpanel" aria-labelledby="commissionTab">
-            <div class="bill-record-list" id="commissionList"></div>
-          </section>
-          <section class="bill-panel" id="withdrawPanel" role="tabpanel" aria-labelledby="withdrawTab" hidden>
-            <div class="bill-record-list" id="withdrawRecordList"></div>
-          </section>
-        </div>
-      </section>
-
+</div><section class="withdraw-record-section" id="withdrawRecordsSection" aria-labelledby="withdrawRecordsTitle"><h2 class="withdraw-record-heading" id="withdrawRecordsTitle">提现记录<span class="withdraw-record-count" id="withdrawRecordCount"></span></h2><div class="bill-record-list" id="withdrawRecordList"></div></section></div></section>
       <section class="screen" id="followRecordScreen" aria-label="成员详情">
         <div class="statusbar"><span>23:58 ◢</span><span class="status-icons"><span class="signal">▮▮▮</span><span>⌁</span><span class="battery"></span></span></div>
         <header class="navbar"><button class="back" id="closeFollowRecord" type="button" aria-label="返回成员列表"></button><strong class="manage-title">成员详情</strong><span class="capsule" aria-hidden="true"><span class="dots">•••</span><span class="mini-circle"></span></span></header>
@@ -717,5 +744,5 @@ button,input,textarea,select{font-family:inherit}
       <div class="toast" id="toast" role="status" aria-live="polite"></div>
     </section>
   </main>
-  <script src="creator-center.js?v=20261008-team-contact"></script><script src="prototype-notes.js?v=20261008-team-contact"></script></body>
+  <script src="creator-center.js?v=20261013-bank-withdraw"></script><script src="prototype-notes.js?v=20261013-bank-withdraw"></script></body>
 </html>

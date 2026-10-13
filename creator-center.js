@@ -36,24 +36,22 @@ const commissionRecords = [
 ].map(([type,user,phone,date,amount,status]) => ({type,user,phone,date,amount,status}));
 commissionRecords.push(...commissionRecords.map((item,index) => ({...item,date:item.date.replace('08.','07.'),amount:String(Number(item.amount)+index+6),status:index%3===0?'pending':item.status})));
 const withdrawRecords = [
-  ['银行卡','5月11日 18:11','906.71','已到账','done'],
-  ['微信零钱','7月24日 17:44','1018.54','审核中','reviewing'],
-  ['银行卡','6月13日 19:15','1085.22','已到账','done'],
-  ['银行卡','4月4日 17:08','231.77','已到账','done'],
-  ['银行卡','4月13日 22:58','583.18','已到账','done'],
-  ['微信零钱','3月28日 16:32','728.60','已到账','done'],
-  ['银行卡','3月16日 11:18','1260.00','已到账','done'],
-  ['微信零钱','2月26日 09:42','468.35','已到账','done'],
-  ['银行卡','2月12日 18:26','1588.20','已到账','done'],
-  ['银行卡','1月25日 14:08','836.50','已到账','done']
-].map(([method,date,amount,status,tone]) => ({method:`提现至${method}`,date,amount,status,tone}));
+ {bank:'中国建设银行',tail:'3188',date:'2026-10-12 17:44',amount:'1018.54',status:'审核中',tone:'reviewing'},
+ {bank:'招商银行',tail:'6821',date:'2026-10-11 18:11',amount:'906.71',status:'已打款',tone:'done'},
+ {bank:'中国工商银行',tail:'3906',date:'2026-10-10 09:32',amount:'500.00',status:'驳回',tone:'rejected',reason:'开户人姓名与银行卡账户信息不一致，请核对后重新申请。'},
+ {bank:'中国工商银行',tail:'3906',date:'2026-10-09 19:15',amount:'1085.22',status:'已打款',tone:'done'}
+];
+let savedBank=null;
+try{const bank=JSON.parse(localStorage.getItem('lingbang-withdraw-bank'));if(bank&&bank.bank&&bank.holder&&/^\d{16,19}$/.test(bank.card))savedBank=bank}catch{}
+function renderSavedBank(edit=false){$('#bankEditor').hidden=Boolean(savedBank)&&!edit;$('#savedBankSummary').hidden=!savedBank||edit;$('#editSavedBank').hidden=!savedBank||edit;$('#cancelBankEdit').hidden=!savedBank;$('#bankMessage').hidden=true;if(savedBank){$('#savedBankSummary').textContent=`${savedBank.bank} · 尾号 ${savedBank.card.slice(-4)} · ${maskName(savedBank.holder)}`;$('#withdrawBank').value=savedBank.bank;$('#withdrawHolder').value=savedBank.holder;$('#withdrawCard').value=savedBank.card}}
+function saveBank(){const bank=$('#withdrawBank').value.trim(),holder=$('#withdrawHolder').value.trim(),card=$('#withdrawCard').value.replace(/\s/g,'');const message=!bank?'请输入开户银行':!holder?'请输入开户人姓名':!/^\d{16,19}$/.test(card)?'请输入16–19位有效银行卡号':'';if(message){$('#bankMessage').textContent=message;$('#bankMessage').hidden=false;return}savedBank={bank,holder,card};try{localStorage.setItem('lingbang-withdraw-bank',JSON.stringify(savedBank))}catch{}renderSavedBank();showToast('银行卡已保存')}
 
 let currentMember = null;
 let commissionFilter = 'all';
 let withdrawAvailable = 255386.50;
 let withdrawCount = 0;
 let withdrawTotal = 0;
-let payoutMethod = 'bank';
+let withdrawReturnScreen=overviewScreen;
 let toastTimer;
 const withdrawLimits = {min:10,max:2000,count:3,daily:3000};
 
@@ -63,7 +61,7 @@ function maskPhone(phone){return `${phone.slice(0,3)}****${phone.slice(-4)}`}
 function escapeHtml(text){const el=document.createElement('span');el.textContent=String(text??'');return el.innerHTML}
 function roles(item){return item.roles.map(role=>`<span class="role-tag role-${role}">${role==='teacher'?'老师':'家长'}</span>`).join('')}
 function showToast(message){toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),1500)}
-function showScreen(screen){$('#personalScreen').classList.toggle('active',screen===$('#personalScreen'));$('.phone').scrollLeft=0;overviewScreen.classList.toggle('active',screen===overviewScreen);overviewScreen.classList.toggle('leaving',screen!==overviewScreen);$$('.team-directory-screen').forEach(el=>el.classList.toggle('active',el===screen));billScreen.classList.toggle('active',screen===billScreen);detailScreen.classList.toggle('active',screen===detailScreen);if(screen!==overviewScreen)screen.querySelector('.scroll')?.scrollTo(0,0)}
+function showScreen(screen){$('#personalScreen').classList.toggle('active',screen===$('#personalScreen'));$('.phone').scrollLeft=0;overviewScreen.classList.toggle('active',screen===overviewScreen);overviewScreen.classList.toggle('leaving',screen!==overviewScreen);$$('.team-directory-screen').forEach(el=>el.classList.toggle('active',el===screen));billScreen.classList.toggle('active',screen===billScreen);$('#withdrawScreen').classList.toggle('active',screen===$('#withdrawScreen'));detailScreen.classList.toggle('active',screen===detailScreen);if(screen!==overviewScreen)screen.querySelector('.scroll')?.scrollTo(0,0)}
 
 function memberPhone(item){return `<a class="phone-link" href="tel:${item.phone}" aria-label="拨打${maskName(item.name)}的电话 ${item.phone}"><span>${item.phone}</span>${phoneIcon}</a>`}
 function memberIdentity(item){const name=maskName(item.name);return `<div class="member-head"><span class="avatar">${item.name[0]}</span><div class="member-info"><div class="member-name">${name}${roles(item)}</div><div class="member-meta"><span>${item.city}</span>${memberPhone(item)}</div></div><div class="member-profit">累计分润<strong>${item.profit}</strong></div></div>`;}
@@ -102,21 +100,33 @@ function commissionIcon(type){const paths={parent:'<path d="M12 12a4 4 0 1 0 0-8
 function commissionMarkup(item){const title=item.type==='parent'?'需求单成交-邀请家长':item.type==='teacher'?'需求单成交-邀请老师':'需求单成交';return `<article class="bill-record-item commission-record-item">${commissionIcon(item.type)}<div><div class="bill-record-title">${title}</div><div class="bill-record-time commission-record-detail">${item.date} - 来自${maskName(item.user)} - <span class="phone-display">${maskPhone(item.phone)}</span></div></div><div class="bill-record-side"><strong class="bill-record-money">+¥${item.amount}</strong><span class="bill-record-status ${item.status}">${item.status==='settled'?'已结算':'待结算'}</span></div></article>`}
 function renderCommissions(filter='all'){commissionFilter=filter;const visible=filter==='all'?commissionRecords:commissionRecords.filter(item=>item.type===filter);const counts={all:commissionRecords.length,parent:commissionRecords.filter(item=>item.type==='parent').length,teacher:commissionRecords.filter(item=>item.type==='teacher').length,cooperation:commissionRecords.filter(item=>item.type==='cooperation').length};$$('[data-commission-label]').forEach(button=>{button.textContent=`${button.dataset.commissionLabel} ${counts[button.dataset.commissionFilter]}`});$('#memberCommissionSummary').textContent=`${visible.length} 笔记录`;const content=visible.length?visible.map(commissionMarkup).join(''):'<div class="empty-result">暂无该业务类型的分润明细</div>';$('#commissionList').innerHTML=content;$('#memberCommissionList').innerHTML=content}
 function setCommissionFilter(filter){$$('[data-commission-filter]').forEach(button=>{const active=button.dataset.commissionFilter===filter;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active))});renderCommissions(filter)}
-function renderWithdrawRecords(){$('#withdrawRecordList').innerHTML=withdrawRecords.map(item=>`<article class="bill-record-item"><div><div class="bill-record-title">${item.method}</div><div class="bill-record-time">${item.date}</div></div><div class="bill-record-side"><strong class="bill-record-money">¥${item.amount}</strong><span class="bill-record-status ${item.tone}">${item.status}</span></div></article>`).join('')}
-function setBillTab(tab){$$('[data-bill-tab]').forEach(button=>{const active=button.dataset.billTab===tab;button.classList.toggle('active',active);button.setAttribute('aria-selected',String(active))});$('#commissionPanel').hidden=tab!=='commission';$('#withdrawPanel').hidden=tab!=='withdraw';$('#commissionFilterWrap').hidden=tab!=='commission'}
+function renderWithdrawRecords(){
+ const list=$('#withdrawRecordList');
+ $('#withdrawRecordCount').textContent=`${withdrawRecords.length} 笔`;
+ list.innerHTML=withdrawRecords.length?withdrawRecords.map(item=>{
+  const amounts=calculateWithdrawal(Number(item.amount));
+  const arrivalLabel=item.tone==='done'?'实际到账':item.tone==='rejected'?'未到账':'预计到账';
+  const arrivalValue=item.tone==='rejected'?'—':`¥${amounts.net.toFixed(2)}`;
+  return `<article class="bill-record-item withdraw-history"><div class="withdraw-history-main"><div class="withdraw-history-bank">${escapeHtml(item.bank)}（尾号${escapeHtml(item.tail)}）</div><div class="withdraw-history-meta">申请时间 ${escapeHtml(item.date)}</div><div class="withdraw-history-amounts">提现 ¥${amounts.gross.toFixed(2)}　·　税费 ¥${amounts.tax.toFixed(2)}</div>${item.reason?`<details><summary>查看驳回原因</summary><p>${escapeHtml(item.reason)}</p></details>`:''}</div><div class="withdraw-history-side"><span class="withdraw-history-side-label">${arrivalLabel}</span><strong>${arrivalValue}</strong><span class="withdraw-history-status ${item.tone}">${escapeHtml(item.status)}</span></div></article>`
+ }).join(''):'<div class="empty-result">暂无提现记录</div>';
+}
 function clearWithdrawError(){$('#withdrawAmount').removeAttribute('aria-invalid');$('#withdrawMessage').hidden=true;$('#withdrawMessage').textContent=''}
 function calculateWithdrawal(amount){const gross=Math.round(amount*100);const tax=amount>800?Math.round(gross*.08):0;return {gross:gross/100,tax:tax/100,net:(gross-tax)/100}}
 function updateTax(){const input=Number($('#withdrawAmount').value);const amount=Number.isFinite(input)&&input>0?input:0;const result=calculateWithdrawal(amount);$('#withdrawGrossAmount').textContent=`¥${result.gross.toFixed(2)}`;$('#withdrawTaxAmount').textContent=`-¥${result.tax.toFixed(2)}`;$('#withdrawNetAmount').textContent=`¥${result.net.toFixed(2)}`;$('#withdrawTaxSummary').textContent=result.tax>0?`含代扣税费 ¥${result.tax.toFixed(2)}`:'无代扣税费'}
 function maxWithdrawable(){return Math.max(0,Math.min(withdrawAvailable,withdrawLimits.max,withdrawLimits.daily-withdrawTotal))}
 function updateWithdraw(){const availableText=withdrawAvailable.toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});$('#withdrawAvailable').textContent=availableText;$('#overviewScreen .available').innerHTML='<small class="currency">¥</small>'+availableText;$('#withdrawTodayUsage').textContent=`${withdrawCount} 次 · ¥${withdrawTotal.toFixed(2)}`;$('#withdrawAll').disabled=withdrawCount>=withdrawLimits.count||maxWithdrawable()<withdrawLimits.min}
-function resetBill(){$('#withdrawDetails').open=false;$('#withdrawAmount').value=maxWithdrawable().toFixed(2);clearWithdrawError();updateTax();updateWithdraw();payoutMethod='bank';$$('[data-payout]').forEach(button=>button.classList.toggle('active',button.dataset.payout==='bank'));setCommissionFilter('all');setBillTab('commission')}
-function submitWithdraw(event){event.preventDefault();const input=$('#withdrawAmount');const value=Number(input.value);let message='';if(!input.value||!Number.isFinite(value))message='请输入提现金额';else if(withdrawCount>=withdrawLimits.count)message='今日提现次数已达3次，请明日再试';else if(value<withdrawLimits.min)message='单笔提现金额不能低于10元';else if(value>withdrawLimits.max)message='单笔提现金额不能超过2000元';else if(value>withdrawAvailable)message='提现金额不能超过可提现佣金';else if(withdrawTotal+value>withdrawLimits.daily)message=`今日剩余可提现额度为¥${Math.max(0,withdrawLimits.daily-withdrawTotal).toFixed(2)}`;if(message){input.setAttribute('aria-invalid','true');$('#withdrawMessage').textContent=message;$('#withdrawMessage').hidden=false;input.focus();return}const amounts=calculateWithdrawal(value);const destination=payoutMethod==='bank'?'银行卡':'微信零钱';withdrawAvailable=Math.round((withdrawAvailable-value)*100)/100;withdrawCount++;withdrawTotal=Math.round((withdrawTotal+value)*100)/100;withdrawRecords.unshift({method:`提现至${destination}`,date:'刚刚',amount:amounts.gross.toFixed(2),status:'审核中',tone:'reviewing'});renderWithdrawRecords();updateWithdraw();input.value=maxWithdrawable()>=withdrawLimits.min?maxWithdrawable().toFixed(2):'';updateTax();showToast(`已提交¥${amounts.gross.toFixed(2)}至${destination}`)}
+function resetBill(){$('#withdrawDetails').open=false;$('#withdrawAmount').value=maxWithdrawable().toFixed(2);clearWithdrawError();updateTax();updateWithdraw();setCommissionFilter('all')}
+function submitWithdraw(event){event.preventDefault();const input=$('#withdrawAmount');const value=Number(input.value);let message='';if(!savedBank)message='请先填写并保存收款银行卡';else if(!$('#bankEditor').hidden)message='请先保存银行卡修改，或取消修改';else if(!input.value||!Number.isFinite(value))message='请输入提现金额';else if(withdrawCount>=withdrawLimits.count)message='今日提现次数已达3次，请明日再试';else if(value<withdrawLimits.min)message='单笔提现金额不能低于10元';else if(value>withdrawLimits.max)message='单笔提现金额不能超过2000元';else if(value>withdrawAvailable)message='提现金额不能超过可提现佣金';else if(withdrawTotal+value>withdrawLimits.daily)message=`今日剩余可提现额度为¥${Math.max(0,withdrawLimits.daily-withdrawTotal).toFixed(2)}`;if(message){input.setAttribute('aria-invalid','true');$('#withdrawMessage').textContent=message;$('#withdrawMessage').hidden=false;input.focus();return}const amounts=calculateWithdrawal(value);const destination=savedBank.bank;withdrawAvailable=Math.round((withdrawAvailable-value)*100)/100;withdrawCount++;withdrawTotal=Math.round((withdrawTotal+value)*100)/100;withdrawRecords.unshift({bank:savedBank.bank,tail:savedBank.card.slice(-4),date:new Date().toLocaleString('zh-CN',{hour12:false}),amount:amounts.gross.toFixed(2),status:'审核中',tone:'reviewing'});renderWithdrawRecords();updateWithdraw();input.value=maxWithdrawable()>=withdrawLimits.min?maxWithdrawable().toFixed(2):'';updateTax();showToast(`已提交¥${amounts.gross.toFixed(2)}至${destination}`)}
 
-function setBillWithdrawExpanded(expanded){$('#billWithdrawCard').hidden=!expanded;$('#billWithdrawToggle').setAttribute('aria-expanded',String(expanded));$('#billWithdrawToggle').textContent=expanded?'收起提现 ⌃':'展开提现 ⌄'}
-function openBill(mode){resetBill();$('#billIncomeTotal').textContent=$('.income-total-value').textContent;setBillWithdrawExpanded(mode==='withdraw');showScreen(billScreen);billScreen.querySelector('.scroll').scrollTop=0}
-$('#openBill').addEventListener('click',()=>openBill('withdraw'));
+function openWithdraw(){withdrawReturnScreen=$('.screen.active')||overviewScreen;resetBill();renderSavedBank();renderWithdrawRecords();showScreen($('#withdrawScreen'))}
+function openBill(mode){if(mode==='withdraw'){openWithdraw();return}resetBill();$('#billIncomeTotal').textContent=$('.income-total-value').textContent;showScreen(billScreen)}
+$('#openBill').addEventListener('click',openWithdraw);
 $('#openIncomeDetails').addEventListener('click',()=>openBill('income'));
-$('#billWithdrawToggle').addEventListener('click',()=>setBillWithdrawExpanded($('#billWithdrawCard').hidden));
+$('#billWithdrawToggle').addEventListener('click',openWithdraw);
+$('#closeWithdraw').addEventListener('click',()=>showScreen(withdrawReturnScreen));
+$('#saveBank').addEventListener('click',saveBank);
+$('#editSavedBank').addEventListener('click',()=>renderSavedBank(true));
+$('#cancelBankEdit').addEventListener('click',()=>renderSavedBank());
 $('#closeBill').addEventListener('click',()=>showScreen(overviewScreen));
 $('#closeFollowRecord').addEventListener('click',()=>{showScreen(memberReturnScreen);if(detailScreen.dataset.fromTeam){delete detailScreen.dataset.fromTeam;if(teamFromDetail)openMember(teamOwner);openTeam(teamOwner)}});
 $('#memberDetailTeam').addEventListener('click',()=>openTeam(currentMember));
@@ -158,13 +168,11 @@ $('#openRevisitPhrases').addEventListener('click',()=>{hideKeyboard();$('#revisi
 $('#closeRevisitPhrases').addEventListener('click',()=>$('#revisitPhrases').hidden=true);
 $$('.revisit-phrase-option').forEach(button=>button.addEventListener('click',()=>{revisitContent.value=button.textContent.trim().slice(0,200);updateRevisit();$('#revisitPhrases').hidden=true}));
 $('#submitRevisit').addEventListener('click',saveRevisit);
-$$('[data-bill-tab]').forEach(button=>button.addEventListener('click',()=>setBillTab(button.dataset.billTab)));
 $$('[data-commission-filter]').forEach(button=>button.addEventListener('click',()=>setCommissionFilter(button.dataset.commissionFilter)));
-$$('[data-payout]').forEach(button=>button.addEventListener('click',()=>{payoutMethod=button.dataset.payout;$$('[data-payout]').forEach(option=>option.classList.toggle('active',option===button))}));
 $('#withdrawAll').addEventListener('click',()=>{$('#withdrawAmount').value=maxWithdrawable().toFixed(2);clearWithdrawError();updateTax()});
 $('#withdrawAmount').addEventListener('input',event=>{const parts=event.target.value.replace(/[^\d.]/g,'').split('.');event.target.value=parts.length>1?`${parts.shift()}.${parts.join('').slice(0,2)}`:parts[0];clearWithdrawError();updateTax()});
 $('#withdrawForm').addEventListener('submit',submitWithdraw);
-document.addEventListener('keydown',event=>{if(event.key!=='Escape')return;if(!keyboard.hidden)hideKeyboard();else if(!revisitSheet.hidden)closeRevisit();else if(!teamSheet.hidden)closeTeam();else if(detailScreen.classList.contains('active'))$('#closeFollowRecord').click();else if(billScreen.classList.contains('active')||$('.team-directory-screen.active'))showScreen(overviewScreen)});
+document.addEventListener('keydown',event=>{if(event.key!=='Escape')return;if(!keyboard.hidden)hideKeyboard();else if(!revisitSheet.hidden)closeRevisit();else if(!teamSheet.hidden)closeTeam();else if(detailScreen.classList.contains('active'))$('#closeFollowRecord').click();else if($('#withdrawScreen').classList.contains('active'))$('#closeWithdraw').click();else if(billScreen.classList.contains('active')||$('.team-directory-screen.active'))showScreen(overviewScreen)});
 renderMembers();renderCommissions();renderWithdrawRecords();updateWithdraw();
 
 function directoryMembers(level){return level==='all'?[...members,...members.flatMap(ensureTeamMembers)]:level==='one'?members:members.flatMap(ensureTeamMembers)}
