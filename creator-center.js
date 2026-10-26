@@ -7,18 +7,18 @@ const toast = $('#toast');
 const members = [
   ['张三','12000000003','parent',true,'¥ 12,112.50'],
   ['李明','12000000007','parent',true,'¥ 8,920.00'],
-  ['王老师','12000000005','teacher,parent',false,'¥ 6,580.00'],
+  ['王教员','12000000005','teacher,parent',false,'¥ 6,580.00'],
   ['赵敏','12000000006','parent',false,'¥ 3,260.50'],
   ['刘洋','12000000004','parent',false,'¥ 15,680.00'],
-  ['陈老师','12000000008','teacher',false,'¥ 10,240.00'],
-  ['严宁','12000000110','teacher',false,'¥ 2,480.00'],
+  ['陈教员','12000000008','teacher',false,'¥ 10,240.00'],
+  ['严教员','12000000110','teacher',false,'¥ 2,480.00'],
   ['韩雪','12000000101','parent',true,'¥ 1,680.00'],
   ['曹宇','12000000102','parent',true,'¥ 2,415.50'],
-  ['宋妍','12000000103','teacher,parent',false,'¥ 3,151.00'],
+  ['宋教员','12000000103','teacher,parent',false,'¥ 3,151.00'],
   ['杜晨','12000000104','parent',false,'¥ 3,886.50'],
   ['马欣','12000000105','parent',false,'¥ 4,622.00'],
-  ['谢老师','12000000106','teacher',false,'¥ 5,357.50'],
-  ['安琪','12000000108','teacher',false,'¥ 6,828.50']
+  ['谢教员','12000000106','teacher',false,'¥ 5,357.50'],
+  ['安教员','12000000108','teacher',false,'¥ 6,828.50']
 ].map(([name,phone,roles,hasOrders,profit],index) => ({name,phone,roles:roles.split(','),hasOrders,profit,city:'陕西.西安',followText:'',followTime:'今天 13:43',revisitRecords:[],level:'一星',registerDate:teamDate(index<2?0:index),teamCount:index===0?8:5,teamToday:index===0?2:1}));
 const commissionRecords = [
   ['parent','陈小满','13800138001','08.22 10:32','18','settled'],
@@ -26,15 +26,51 @@ const commissionRecords = [
   ['parent','赵一诺','13700137003','08.20 14:06','68','settled'],
   ['parent','孙可欣','13600136004','08.19 11:24','88','pending'],
   ['parent','郑雨桐','13500135005','08.18 09:42','198','settled'],
-  ['teacher','黄老师','13400134006','08.17 15:16','30','pending'],
+  ['teacher','黄教员','13400134006','08.17 15:16','30','pending'],
   ['cooperation','刘子涵','13300133007','08.16 18:36','26','settled'],
   ['parent','吴思远','13200132008','08.15 13:08','96','pending'],
   ['cooperation','宋佳宁','13100131009','08.14 10:52','188','settled'],
   ['parent','方晨曦','13000130010','08.13 16:44','18','settled'],
-  ['teacher','何老师','13900139011','08.12 09:20','30','settled'],
+  ['teacher','何教员','13900139011','08.12 09:20','30','settled'],
   ['cooperation','唐可','13800138012','08.11 17:02','36','pending']
 ].map(([type,user,phone,date,amount,status]) => ({type,user,phone,date,amount,status}));
 commissionRecords.push(...commissionRecords.map((item,index) => ({...item,date:item.date.replace('08.','07.'),amount:String(Number(item.amount)+index+6),status:index%3===0?'pending':item.status})));
+const parentCommissionDetails = [
+  ['XQ202608220032','王教员','13900139001'],
+  ['XQ202608210041','李教员','13800138002'],
+  ['XQ202608200018','张教员','13700137003'],
+  ['XQ202608190027','赵教员','13600136004'],
+  ['XQ202608180056','刘教员','13500135005'],
+  ['XQ202608150063','周教员','13400134006'],
+  ['XQ202608130074','吴教员','13300133007'],
+  ['XQ202607220032','王教员','13900139001'],
+  ['XQ202607210041','李教员','13800138002'],
+  ['XQ202607200018','张教员','13700137003'],
+  ['XQ202607190027','赵教员','13600136004'],
+  ['XQ202607180056','刘教员','13500135005'],
+  ['XQ202607150063','周教员','13400134006'],
+  ['XQ202607130074','吴教员','13300133007']
+];
+let parentCommissionIndex = 0;
+commissionRecords.forEach(item => {
+  if(item.type !== 'parent') return;
+  const [orderId,teacherName,teacherPhone] = parentCommissionDetails[parentCommissionIndex++] || parentCommissionDetails[0];
+  Object.assign(item,{orderId,teacherName,teacherPhone});
+});
+const teacherCommissionOrders={
+ '黄教员':'XQ202608170006',
+ '何教员':'XQ202608120011'
+};
+const cooperationCommissionDetails={
+ '刘子涵':{orderId:'XQ202608160007',parentName:'陈小满',parentPhone:'13800138001',teacherName:'王教员',teacherPhone:'13900139001'},
+ '宋佳宁':{orderId:'XQ202608140009',parentName:'孙可欣',parentPhone:'13600136004',teacherName:'赵教员',teacherPhone:'13700137003'},
+ '唐可':{orderId:'XQ202608110012',parentName:'郑雨桐',parentPhone:'13500135005',teacherName:'刘教员',teacherPhone:'13400134006'}
+};
+commissionRecords.forEach(item=>{
+ const monthOrderId=id=>item.date.startsWith('07')?id.replace('202608','202607'):id;
+ if(item.type==='teacher')item.orderId=monthOrderId(teacherCommissionOrders[item.user]||'XQ202608170006');
+ if(item.type==='cooperation')Object.assign(item,cooperationCommissionDetails[item.user]||cooperationCommissionDetails['刘子涵'],{orderId:monthOrderId((cooperationCommissionDetails[item.user]||cooperationCommissionDetails['刘子涵']).orderId)});
+});
 const withdrawRecords = [
  {bank:'中国建设银行',tail:'3188',date:'2026-10-12 17:44',amount:'1018.54',status:'审核中',tone:'reviewing'},
  {bank:'招商银行',tail:'6821',date:'2026-10-11 18:11',amount:'906.71',status:'已打款',tone:'done'},
@@ -96,7 +132,16 @@ function closeRevisit(){if(revisitSheet.hidden)return;$('#revisitMask').classLis
 function saveRevisit(){if(!canAddRevisit(currentMember)){showToast('暂无该成员的回访权限');return}const content=revisitContent.value.trim().replace(/[<>]/g,'');if(!content){$('#revisitMessage').textContent='请输入跟进内容';$('#revisitMessage').hidden=false;return}currentMember.followText=content;currentMember.followTime='刚刚';currentMember.revisitRecords.unshift({time:'刚刚',content,meta:'跟进人：我'});const inDetail=detailScreen.classList.contains('active');closeRevisit();setTimeout(()=>{renderMembers();['one','two'].forEach(renderDirectory);if(inDetail)renderDetailTab('follow');showToast(`已添加${maskName(currentMember.name)}的回访记录`)},250)}
 
 function commissionIcon(type){const paths={parent:'<path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0M18 5.5a3.5 3.5 0 0 1 0 6.8M19.5 15a6 6 0 0 1 2 4.5"/>',teacher:'<path d="m3 9 9-5 9 5-9 5-9-5Z"/><path d="M7 11.2V16c2.8 2.4 7.2 2.4 10 0v-4.8M21 9v6"/>',cooperation:'<path d="M8.5 14.5 6 17a3 3 0 0 1-4-4l4-4a3 3 0 0 1 4.2 0M15.5 9.5 18 7a3 3 0 0 1 4 4l-4 4a3 3 0 0 1-4.2 0M8 16l8-8"/>'};return `<span class="commission-record-icon ${type}" aria-hidden="true"><svg viewBox="0 0 24 24">${paths[type]}</svg></span>`}
-function commissionMarkup(item){const title=item.type==='parent'?'注册':item.type==='teacher'?'招聘老师':'销售';return `<article class="bill-record-item commission-record-item">${commissionIcon(item.type)}<div><div class="bill-record-title">${title}</div><div class="bill-record-time commission-record-detail">${item.date} - 来自${maskName(item.user)} - <span class="phone-display">${maskPhone(item.phone)}</span></div></div><div class="bill-record-side"><strong class="bill-record-money">+¥${item.amount}</strong><span class="bill-record-status ${item.status}">${item.status==='settled'?'已结算':'待结算'}</span></div></article>`}
+function commissionMarkup(item){
+ const isParent=item.type==='parent';
+ const title=isParent?'邀请家长':item.type==='teacher'?'邀请老师':'促成合作';
+ const description=isParent
+  ? `家长${maskName(item.user)}（${maskPhone(item.phone)}）发布需求，需求单由教员抢单并支付。`
+  : item.type==='teacher'
+   ? `教员${maskName(item.user)}（${maskPhone(item.phone)}）抢单并支付需求单。`
+   : `撮合家长${maskName(item.parentName)}（${maskPhone(item.parentPhone)}）与教员${maskName(item.teacherName)}（${maskPhone(item.teacherPhone)}），需求单已支付。`;
+ return `<article class="bill-record-item commission-record-item commission-event-record"><div class="commission-record-result"><strong class="bill-record-money">+¥${escapeHtml(item.amount)}</strong><span class="bill-record-status ${item.status}">${item.status==='settled'?'已结算':'待结算'}</span></div><div class="commission-record-heading"><span class="bill-record-title">${title}</span></div><p class="commission-record-subtitle">${escapeHtml(description)}</p><div class="commission-record-footer"><span class="commission-record-order"><b>需求订单号</b><span>${escapeHtml(item.orderId)}</span></span><span class="commission-record-date"><time>${escapeHtml(item.date)}</time></span></div></article>`;
+}
 function renderCommissions(filter='all'){commissionFilter=filter;const visible=filter==='all'?commissionRecords:commissionRecords.filter(item=>item.type===filter);const counts={all:commissionRecords.length,parent:commissionRecords.filter(item=>item.type==='parent').length,teacher:commissionRecords.filter(item=>item.type==='teacher').length,cooperation:commissionRecords.filter(item=>item.type==='cooperation').length};$$('[data-commission-label]').forEach(button=>{button.textContent=`${button.dataset.commissionLabel} ${counts[button.dataset.commissionFilter]}`});$('#memberCommissionSummary').textContent=`${visible.length} 笔记录`;const content=visible.length?visible.map(commissionMarkup).join(''):'<div class="empty-result">暂无该业务类型的分润明细</div>';$('#commissionList').innerHTML=content;$('#memberCommissionList').innerHTML=content}
 function setCommissionFilter(filter){$$('[data-commission-filter]').forEach(button=>{const active=button.dataset.commissionFilter===filter;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active))});renderCommissions(filter)}
 function renderWithdrawRecords(){
@@ -140,7 +185,7 @@ function renderTeam(){
  $('#teamMemberList').innerHTML=visible.length?visible.map(i=>`<article class="member-card team-detail-card"><div class="team-card-top"><span class="team-level-tag level-two">二星</span><button type="button" data-team-follow="${i.phone}">跟进记录 ›</button></div><div class="member-head"><span class="avatar">${i.name[0]}</span><div class="member-info"><div class="member-name">${maskName(i.name)}${roles(i)}</div><div class="member-meta team-contact"><span>${i.city}</span>${memberPhone(i)}</div><div class="team-register">注册于 ${i.registerDate.replaceAll('-','.')}</div></div><div class="member-profit">累计分润<strong>${i.profit}</strong></div></div><div class="trace"><div class="trace-row"><span>最近跟进</span><span class="trace-copy">${escapeHtml(i.followText)}</span><span class="trace-time">${i.followTime}</span></div></div></article>`).join(''):'<div class="empty-result">暂无团队成员</div>';
 }
 function ensureTeamMembers(item){
- if(!item.teamMembers){const names=['冯雪','潘莉','许宁','周敏','郑雨桐','吴思远','方晨曦','宋佳宁'];const profits=['825.62','617.96','300.70','61.54','198.00','96.00','188.00','174.29'];item.teamMembers=names.slice(0,item.teamCount).map((name,index)=>({name,level:'二星',phone:`12000000${405+members.indexOf(item)*10+index}`,roles:index===2?['teacher','parent']:index%3===1?['teacher']:['parent'],city:index===2?'陕西·咸阳':'陕西·西安',profit:`¥ ${profits[index]}`,hasOrders:index%2===0,registerDate:teamDate(index<item.teamToday?0:(index-item.teamToday+1)*4),followText:['已电话沟通，家长有意向上课','已发送课程资料，等待进一步回复','已完成教师入驻资料确认'][index%3],followTime:index<2?'今天 13:43':'昨天 11:05',revisitRecords:[]}))}
+ if(!item.teamMembers){const names=['冯雪','潘莉','许宁','周敏','郑雨桐','吴思远','方晨曦','宋佳宁'];const profits=['825.62','617.96','300.70','61.54','198.00','96.00','188.00','174.29'];item.teamMembers=names.slice(0,item.teamCount).map((name,index)=>{const roles=index===2?['teacher','parent']:index%3===1?['teacher']:['parent'];return{name:roles.includes('teacher')?`${[...name][0]}教员`:name,level:'二星',phone:`12000000${405+members.indexOf(item)*10+index}`,roles,city:index===2?'陕西·咸阳':'陕西·西安',profit:`¥ ${profits[index]}`,hasOrders:index%2===0,registerDate:teamDate(index<item.teamToday?0:(index-item.teamToday+1)*4),followText:['已电话沟通，家长有意向上课','已发送课程资料，等待进一步回复','已完成教师入驻资料确认'][index%3],followTime:index<2?'今天 13:43':'昨天 11:05',revisitRecords:[]}})}
  item.teamMembers.forEach(child=>{child.ownerName=item.name;child.ownerPhone=item.phone});return item.teamMembers;
 }
 function openTeam(item){

@@ -194,6 +194,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .bill-record-list{display:grid;gap:8px}
 .bill-record-item{min-height:70px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px;padding:12px 13px;border-radius:13px;background:#fff}
 .commission-record-item{grid-template-columns:36px minmax(0,1fr) auto;gap:10px;padding:11px 12px}
+.commission-record-copy{min-width:0}
 .commission-record-icon{width:36px;height:36px;display:grid;place-items:center;border-radius:10px;background:#edf3ff;color:#145cff}
 .commission-record-icon.teacher{background:#eef2fb;color:#5471b8}
 .commission-record-icon.cooperation{background:#fff2df;color:#b97716}
@@ -201,6 +202,12 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .bill-record-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:700}
 .bill-record-time{margin-top:5px;color:#8794a1;font-size:10px}
 .commission-record-detail{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.commission-record-subtitle{margin-top:4px;color:#526474;font-size:10px;font-weight:600;line-height:14px;overflow-wrap:anywhere}
+.commission-record-detail-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4px 9px;margin-top:5px;color:#647585}
+.commission-record-detail-grid span{display:flex;min-width:0;align-items:baseline;gap:4px;font-size:9px;line-height:15px}
+.commission-record-detail-grid b{flex:none;color:#8794a1;font-size:9px;font-weight:600}
+.commission-record-detail-grid strong{min-width:0;color:#526474;font-size:9px;font-weight:650;overflow-wrap:anywhere}
+.commission-event-record .commission-record-icon{align-self:start}
 .commission-list-head{justify-content:flex-end;margin:2px 3px 8px}
 .bill-record-side{text-align:right}
 .bill-record-money{display:block;color:#344454;font-size:15px;font-weight:800}
@@ -546,6 +553,25 @@ button,input,textarea,select{font-family:inherit}
 .creator-reward-enter{display:flex;align-items:center;justify-content:space-between;width:100%;padding:8px 0;border:0;border-top:1px solid #f6dbb8;background:transparent;color:#795125;font-size:12px;line-height:18px;cursor:pointer}
 .creator-reward-enter span{font-size:20px;line-height:18px}
 @media(max-width:370px){.creator-reward{padding-inline:12px}.creator-reward-head{grid-template-columns:88px minmax(0,1fr);gap:10px}.creator-reward-team{padding-right:12px}}
+/* 分润记录：金额和状态靠右，标题与正文连续排版，底栏独占一行 */
+#commissionList,#memberCommissionList{gap:7px}
+#commissionList .commission-event-record,
+#memberCommissionList .commission-event-record{display:flow-root;min-height:0;min-width:0;padding:11px 12px 9px;border:1px solid #e3eaf5;border-radius:12px;background:#fff;box-shadow:none}
+.commission-record-heading{display:flex;align-items:center;gap:7px;min-width:0}
+.commission-record-result{float:right;display:flex;flex-direction:column;align-items:flex-end;gap:3px;margin:0 0 2px 12px}
+#commissionList .commission-event-record .bill-record-title,
+#memberCommissionList .commission-event-record .bill-record-title{margin:0;color:var(--ink);font-size:13px;line-height:20px;font-weight:650;white-space:nowrap}
+#commissionList .commission-event-record .bill-record-money,
+#memberCommissionList .commission-event-record .bill-record-money{flex:none;color:var(--accent);font-size:16px;line-height:20px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;letter-spacing:-.2px}
+#commissionList .commission-event-record .bill-record-status,
+#memberCommissionList .commission-event-record .bill-record-status{flex:none;height:18px;margin:0;padding:0 6px;border-radius:5px;font-size:9px;line-height:14px;font-weight:500;white-space:nowrap}
+#commissionList .commission-event-record .commission-record-subtitle,
+#memberCommissionList .commission-event-record .commission-record-subtitle{margin:6px 0 0;color:#53627a;font-size:12px;line-height:18px;font-weight:400;overflow-wrap:break-word}
+.commission-record-footer{clear:both;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:3px 10px;margin-top:8px;padding-top:7px;border-top:1px solid #edf1f7;color:#6c7c94;font-size:10px;line-height:15px;font-variant-numeric:tabular-nums}
+.commission-record-footer>span{display:flex;align-items:baseline;gap:5px;min-width:0}
+.commission-record-footer b{flex:none;color:#8895a8;font-size:10px;font-weight:400}
+.commission-record-footer time,.commission-record-order>span{white-space:nowrap}
+@media(max-width:360px){#commissionList .commission-event-record,#memberCommissionList .commission-event-record{padding-inline:10px}.commission-record-footer{column-gap:7px;font-size:9px}.commission-record-footer b{font-size:9px}.commission-record-footer>span{gap:4px}}
 /* 收益卡片：累计收益、可提现、结算状态三层结构 */
 #overviewScreen .income-card{padding:0;overflow:hidden}
 .income-total{padding:15px 14px 13px}
@@ -639,7 +665,7 @@ button,input,textarea,select{font-family:inherit}
           <div class="bill-sticky-tools">
             <div class="bill-filter-wrap" id="commissionFilterWrap">
               <nav class="bill-filters" aria-label="分润业务类型">
-                <button class="bill-filter active" type="button" data-commission-filter="all" data-commission-label="全部" aria-pressed="true">全部</button><button class="bill-filter" type="button" data-commission-filter="parent" data-commission-label="注册" aria-pressed="false">注册</button><button class="bill-filter" type="button" data-commission-filter="teacher" data-commission-label="招聘老师" aria-pressed="false">招聘老师</button><button class="bill-filter" type="button" data-commission-filter="cooperation" data-commission-label="销售" aria-pressed="false">销售</button>
+                <button class="bill-filter active" type="button" data-commission-filter="all" data-commission-label="全部" aria-pressed="true">全部</button><button class="bill-filter" type="button" data-commission-filter="parent" data-commission-label="邀请家长" aria-pressed="false">邀请家长</button><button class="bill-filter" type="button" data-commission-filter="teacher" data-commission-label="邀请老师" aria-pressed="false">邀请老师</button><button class="bill-filter" type="button" data-commission-filter="cooperation" data-commission-label="促成合作" aria-pressed="false">促成合作</button>
               </nav>
             </div>
           </div>
@@ -697,7 +723,7 @@ button,input,textarea,select{font-family:inherit}
           <button class="member-detail-action primary member-detail-revisit-below" id="memberDetailRevisit" type="button">添加回访</button>
           <nav class="member-detail-tabs" id="memberDetailTablist" role="tablist" aria-label="成员明细类型"><button class="member-detail-tab active" type="button" role="tab" aria-selected="true" data-member-detail-tab="follow">跟进记录</button><button class="member-detail-tab" type="button" role="tab" aria-selected="false" data-member-detail-tab="purchase">订单记录</button><button class="member-detail-tab" type="button" role="tab" aria-selected="false" data-member-detail-tab="commission">分润明细</button></nav>
           <div class="follow-record-heading"><strong id="memberDetailListTitle">跟进动态</strong><span id="followRecordCount">0 条记录</span></div>
-          <div class="member-commission-toolbar" id="memberCommissionToolbar" hidden><nav class="bill-filters member-commission-filters" aria-label="分润业务类型"><button class="bill-filter active" type="button" data-commission-filter="all" aria-pressed="true">全部</button><button class="bill-filter" type="button" data-commission-filter="parent" aria-pressed="false">注册</button><button class="bill-filter" type="button" data-commission-filter="teacher" aria-pressed="false">招聘老师</button><button class="bill-filter" type="button" data-commission-filter="cooperation" aria-pressed="false">销售</button></nav><div class="commission-list-head"><span class="commission-list-count" id="memberCommissionSummary">24 笔记录</span></div></div>
+          <div class="member-commission-toolbar" id="memberCommissionToolbar" hidden><nav class="bill-filters member-commission-filters" aria-label="分润业务类型"><button class="bill-filter active" type="button" data-commission-filter="all" aria-pressed="true">全部</button><button class="bill-filter" type="button" data-commission-filter="parent" aria-pressed="false">邀请家长</button><button class="bill-filter" type="button" data-commission-filter="teacher" aria-pressed="false">邀请老师</button><button class="bill-filter" type="button" data-commission-filter="cooperation" aria-pressed="false">促成合作</button></nav><div class="commission-list-head"><span class="commission-list-count" id="memberCommissionSummary">24 笔记录</span></div></div>
           </div>
           <div class="detail-record-list" id="followRecordList" aria-live="polite"></div>
           <section class="member-commission-panel" id="memberCommissionPanel" aria-label="分润明细" hidden><div class="bill-record-list" id="memberCommissionList" aria-live="polite"></div></section>
@@ -744,5 +770,5 @@ button,input,textarea,select{font-family:inherit}
       <div class="toast" id="toast" role="status" aria-live="polite"></div>
     </section>
   </main>
-  <script src="creator-center.js?v=d925df501f16"></script><script src="prototype-notes.js?v=266d889f3972"></script></body>
+  <script src="creator-center.js?v=20261026-commission-copy-v15"></script><script src="prototype-notes.js?v=20261026-commission-copy-v15"></script></body>
 </html>
