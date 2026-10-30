@@ -21,56 +21,18 @@ const members = [
   ['安教员','12000000108','teacher',false,'¥ 6,828.50']
 ].map(([name,phone,roles,hasOrders,profit],index) => ({name,phone,roles:roles.split(','),hasOrders,profit,city:'陕西.西安',followText:'',followTime:'今天 13:43',revisitRecords:[],level:'一星',registerDate:teamDate(index<2?0:index),teamCount:index===0?8:5,teamToday:index===0?2:1}));
 const commissionRecords = [
-  ['parent','陈小满','13800138001','08.22 10:32','18','settled'],
-  ['parent','王晓琳','13900139002','08.21 16:18','128','pending'],
-  ['parent','赵一诺','13700137003','08.20 14:06','68','settled'],
-  ['parent','孙可欣','13600136004','08.19 11:24','88','pending'],
-  ['parent','郑雨桐','13500135005','08.18 09:42','198','settled'],
-  ['teacher','黄教员','13400134006','08.17 15:16','30','pending'],
-  ['cooperation','刘子涵','13300133007','08.16 18:36','26','settled'],
-  ['parent','吴思远','13200132008','08.15 13:08','96','pending'],
-  ['cooperation','宋佳宁','13100131009','08.14 10:52','188','settled'],
-  ['parent','方晨曦','13000130010','08.13 16:44','18','settled'],
-  ['teacher','何教员','13900139011','08.12 09:20','30','settled'],
-  ['cooperation','唐可','13800138012','08.11 17:02','36','pending']
-].map(([type,user,phone,date,amount,status]) => ({type,user,phone,date,amount,status}));
-commissionRecords.push(...commissionRecords.map((item,index) => ({...item,date:item.date.replace('08.','07.'),amount:String(Number(item.amount)+index+6),status:index%3===0?'pending':item.status})));
-const parentCommissionDetails = [
-  ['XQ202608220032','王教员','13900139001'],
-  ['XQ202608210041','李教员','13800138002'],
-  ['XQ202608200018','张教员','13700137003'],
-  ['XQ202608190027','赵教员','13600136004'],
-  ['XQ202608180056','刘教员','13500135005'],
-  ['XQ202608150063','周教员','13400134006'],
-  ['XQ202608130074','吴教员','13300133007'],
-  ['XQ202607220032','王教员','13900139001'],
-  ['XQ202607210041','李教员','13800138002'],
-  ['XQ202607200018','张教员','13700137003'],
-  ['XQ202607190027','赵教员','13600136004'],
-  ['XQ202607180056','刘教员','13500135005'],
-  ['XQ202607150063','周教员','13400134006'],
-  ['XQ202607130074','吴教员','13300133007']
+  {type:'parent',user:'陈小满',phone:'13800138001',date:'2026.08.22 10:32',amount:'30',status:'settled',orderId:'XQ202608220032',teacherName:'王教员',teacherPhone:'13900139001',salesOwner:'self'},
+  {type:'parent',user:'赵一诺',phone:'13700137003',date:'2026.08.21 16:18',amount:'45',status:'pending',orderId:'XQ202608210041',teacherName:'张教员',teacherPhone:'13700137003',salesOwner:'992292'},
+  {type:'parent',user:'郑雨桐',phone:'13500135005',date:'2026.08.20 14:06',amount:'30',status:'settled',orderId:'XQ202608200018',teacherName:'刘教员',teacherPhone:'13500135006',salesOwner:'self',teacherInviter:'992293'},
+  {type:'parent',user:'周可欣',phone:'13600136005',date:'2026.08.19 17:20',amount:'35',status:'settled',orderId:'XQ202608190027',teacherName:'吴教员',teacherPhone:'13700137009',salesOwner:'992293',teacherInviter:'992293'},
+  {type:'teacher',user:'王教员',phone:'13900139001',date:'2026.08.19 11:24',amount:'60',status:'settled',orderId:'XQ202608220032',parentName:'王晓琳',parentPhone:'13900139002',salesOwner:'self'},
+  {type:'teacher',user:'黄教员',phone:'13400134006',date:'2026.08.18 09:42',amount:'60',status:'settled',orderId:'XQ202608180056',parentName:'孙可欣',parentPhone:'13600136004',salesOwner:'992292',parentInviter:'991108'},
+  {type:'teacher',user:'何教员',phone:'13900139011',date:'2026.08.17 15:16',amount:'60',status:'pending',orderId:'XQ202608170006',parentName:'王晓琳',parentPhone:'13900139002',salesOwner:'992292',parentInviter:'991108'},
+  {type:'cooperation',user:'陈小满',phone:'13800138001',date:'2026.08.16 18:36',amount:'120',status:'settled',orderId:'XQ202608220032',parentName:'陈小满',parentPhone:'13800138001',teacherName:'王教员',teacherPhone:'13900139001',salesOwner:'self'},
+  {type:'cooperation',user:'郑雨桐',phone:'13500135005',date:'2026.08.15 16:12',amount:'120',status:'settled',orderId:'XQ202608200018',parentName:'郑雨桐',parentPhone:'13500135005',teacherName:'刘教员',teacherPhone:'13500135006',teacherInviter:'992293',salesOwner:'self'},
+  {type:'cooperation',user:'王晓琳',phone:'13900139002',date:'2026.08.14 14:30',amount:'120',status:'settled',orderId:'XQ202608140022',parentName:'王晓琳',parentPhone:'13900139002',teacherName:'王教员',teacherPhone:'13900139001',parentInviter:'991108',salesOwner:'self'},
+  {type:'cooperation',user:'孙可欣',phone:'13600136004',date:'2026.08.13 10:05',amount:'120',status:'settled',orderId:'XQ202608130014',parentName:'孙可欣',parentPhone:'13600136004',teacherName:'黄教员',teacherPhone:'13400134006',parentInviter:'991108',teacherInviter:'992293',salesOwner:'992292'}
 ];
-let parentCommissionIndex = 0;
-commissionRecords.forEach(item => {
-  if(item.type !== 'parent') return;
-  const [orderId,teacherName,teacherPhone] = parentCommissionDetails[parentCommissionIndex++] || parentCommissionDetails[0];
-  Object.assign(item,{orderId,teacherName,teacherPhone});
-});
-const teacherCommissionOrders={
- '黄教员':'XQ202608170006',
- '何教员':'XQ202608120011'
-};
-const cooperationCommissionDetails={
- '刘子涵':{orderId:'XQ202608160007',parentName:'陈小满',parentPhone:'13800138001',teacherName:'王教员',teacherPhone:'13900139001'},
- '宋佳宁':{orderId:'XQ202608140009',parentName:'孙可欣',parentPhone:'13600136004',teacherName:'赵教员',teacherPhone:'13700137003'},
- '唐可':{orderId:'XQ202608110012',parentName:'郑雨桐',parentPhone:'13500135005',teacherName:'刘教员',teacherPhone:'13400134006'}
-};
-commissionRecords.forEach(item=>{
- const monthOrderId=id=>item.date.startsWith('07')?id.replace('202608','202607'):id;
- if(item.type==='teacher')item.orderId=monthOrderId(teacherCommissionOrders[item.user]||'XQ202608170006');
- if(item.type==='cooperation')Object.assign(item,cooperationCommissionDetails[item.user]||cooperationCommissionDetails['刘子涵'],{orderId:monthOrderId((cooperationCommissionDetails[item.user]||cooperationCommissionDetails['刘子涵']).orderId)});
-});
 const withdrawRecords = [
  {bank:'中国建设银行',tail:'3188',date:'2026-10-12 17:44',amount:'1018.54',status:'审核中',tone:'reviewing'},
  {bank:'招商银行',tail:'6821',date:'2026-10-11 18:11',amount:'906.71',status:'已打款',tone:'done'},
@@ -94,6 +56,7 @@ const withdrawLimits = {min:10,max:2000,count:3,daily:3000};
 function maskName(name){const chars=[...name];return chars.length===1?chars[0]:chars.length===2?`${chars[0]}*`:`${chars[0]}*${chars.at(-1)}`}
 const phoneIcon = '<svg class="phone-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.8 9 3.2l2 5-1.7 1.4a14 14 0 0 0 5.1 5.1L15.8 13l5 2-.6 2.4c-.3 1.3-1.5 2.2-2.8 2.1A15.8 15.8 0 0 1 4.5 6.6c-.1-1.3.8-2.5 2.1-2.8Z"/></svg>';
 function maskPhone(phone){return `${phone.slice(0,3)}****${phone.slice(-4)}`}
+function commissionPhone(phone){return maskPhone(phone)}
 function escapeHtml(text){const el=document.createElement('span');el.textContent=String(text??'');return el.innerHTML}
 function roles(item){return item.roles.map(role=>`<span class="role-tag role-${role}">${role==='teacher'?'老师':'家长'}</span>`).join('')}
 function showToast(message){toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),1500)}
@@ -104,19 +67,32 @@ function memberIdentity(item){const name=maskName(item.name);return `<div class=
 function canAddRevisit(item){return Boolean(item)}
 function memberCard(item){
   const name=maskName(item.name);
-  return `<article class="member-card" data-phone="${item.phone}" tabindex="0" role="link" aria-label="查看${name}的成员详情">${memberIdentity(item)}<div class="trace"><div class="trace-row"><span>最近跟进</span><span class="trace-copy">${escapeHtml(item.followText||'已电话沟通，家长有意向上……')}</span><span class="trace-time">${item.followTime}</span></div></div><div class="card-actions ${canAddRevisit(item)?'cols-2':'cols-1'}"><button class="card-action" type="button" data-follow-record>跟进记录</button>${canAddRevisit(item)?'<button class="card-action revisit-action" type="button" data-open-revisit>添加回访</button>':''}</div></article>`;
+  return `<article class="member-card" data-phone="${item.phone}" tabindex="0" role="link" aria-label="查看${name}的成员详情">${memberIdentity(item)}<div class="trace"><div class="trace-row"><span>最近跟进</span><span class="trace-copy">${escapeHtml(item.followText||'已电话沟通，家长有意向上……')}</span><span class="trace-time">${item.followTime}</span></div></div><div class="card-actions ${canAddRevisit(item)?'cols-2':'cols-1'}"><button class="card-action" type="button" data-follow-record>回访记录</button>${canAddRevisit(item)?'<button class="card-action revisit-action" type="button" data-open-revisit>添加回访</button>':''}</div></article>`;
 }
 let activeMemberLevel="all";
-function renderMembers(){const items=directoryMembers(activeMemberLevel);$('#myTeamTotal').textContent=`${items.length}人`;$('#myTeamToday').textContent=`今日新增 ${items.filter(item=>item.registerDate===teamDate(0)).length}人`;$('#personalCreatorOpened .creator-reward-team strong').innerHTML=`${items.length}<small>人</small>`;const filter=$('#identityField .identity-flat-option.active')?.dataset.identityValue||'all';const visible=items.filter(item=>filter==='all'||item.roles.includes(filter));$$('#identityField .identity-flat-option').forEach(button=>{const value=button.dataset.identityValue;const label={all:'全部',teacher:'老师',parent:'家长'}[value];const count=items.filter(item=>value==='all'||item.roles.includes(value)).length;button.textContent=`${label} ${count}`});$('#memberList').innerHTML=visible.length?visible.map(memberCard).join(''):'<div class="empty-result">暂无符合当前筛选条件的成员<br>请调整筛选项后查看</div>'}
+function renderMembers(){const items=directoryMembers(activeMemberLevel);$('#myTeamTotal').textContent=`${items.length}人`;$('#myTeamToday').textContent=`今日新增 ${items.filter(item=>item.registerDate===teamDate(0)).length}人`;const rewardCount=$('#personalCreatorOpened .creator-reward-team strong');if(rewardCount)rewardCount.innerHTML=`${items.length}<small>人</small>`;const filter=$('#identityField .identity-flat-option.active')?.dataset.identityValue||'all';const visible=items.filter(item=>filter==='all'||item.roles.includes(filter));$$('#identityField .identity-flat-option').forEach(button=>{const value=button.dataset.identityValue;const label={all:'全部',teacher:'老师',parent:'家长'}[value];const count=items.filter(item=>value==='all'||item.roles.includes(value)).length;button.textContent=`${label} ${count}`});$('#memberList').innerHTML=visible.length?visible.map(memberCard).join(''):'<div class="empty-result">暂无符合当前筛选条件的成员<br>请调整筛选项后查看</div>'}
 function followRecords(item){const initial={time:item.followTime,content:'已电话沟通，进一步了解用户需求',meta:'跟进人：我'};initial.content=item.followText||initial.content;const history=[['08.18 16:20','已了解用户当前需求，约定后续再次联系。'],['08.12 10:35','已添加联系方式并发送相关介绍资料。'],['08.08 15:42','已补充了解课程时间与学习基础。'],['08.03 11:18','已发送课程介绍和师资资料。'],['07.29 09:26','已确认用户重点关注的课程方向。']].map(([time,content])=>({time,content,meta:'跟进人：我'}));return item.revisitRecords.length?[...item.revisitRecords,...history]:[initial,...history]}
-function orderRecords(item){if(!item.hasOrders)return[];return [{time:'08.20 14:32',kind:'课程订单',title:'购买《优AI英语阅读提升》',meta:'订单号 YZB202608203286',amount:'¥ 1,280.00'},{time:'07.16 16:08',kind:'体验课订单',title:'购买《数学思维体验课》',meta:'订单号 YZB202607163508',amount:'¥ 99.00'},{time:'06.30 11:36',kind:'服务订单',title:'购买学习规划服务',meta:'订单号 YZB202606301126',amount:'¥ 299.00'}]}
-const detailTabs={follow:['跟进动态','暂无跟进记录',followRecords],purchase:['订单动态','暂无订单记录',orderRecords]};
+function orderRecords(item){if(!item.hasOrders)return[];return [
+ {status:'待确认',time:'08.20 14:32',title:'高中·英语',schedule:'周六10:00-12:00',location:'西安市雁塔区盛岸广场3楼',orderId:'202608203286'},
+ {status:'待支付',time:'07.16 16:08',title:'初中·数学',schedule:'周日14:00-16:00',location:'西安市碑林区长安路教学中心2楼',orderId:'202607163508'},
+ {status:'进行中',time:'06.30 11:36',title:'小学·语文',schedule:'周三18:00-20:00',location:'西安市莲湖区丰庆路学习中心1楼',orderId:'202606301126'},
+ {status:'已完成',time:'06.24 09:18',title:'高中·数学',schedule:'周六14:00-16:00',location:'西安市高新区科技路学习中心2楼',orderId:'202606241207'},
+ {status:'已取消',time:'06.18 17:42',title:'初中·物理',schedule:'周日09:00-11:00',location:'西安市雁塔区小寨教学中心3楼',orderId:'202606181358'},
+ {status:'已完成',time:'06.12 10:26',title:'小学·英语',schedule:'周五18:30-20:00',location:'西安市未央区凤城五路学习中心1楼',orderId:'202606121469'},
+ {status:'已完成',time:'06.05 15:08',title:'初中·语文',schedule:'周六16:00-18:00',location:'西安市碑林区友谊路教学中心2楼',orderId:'202606051572'},
+ {status:'已取消',time:'05.28 11:54',title:'高中·化学',schedule:'周日15:00-17:00',location:'西安市莲湖区大庆路学习中心3楼',orderId:'202605281683'},
+ {status:'已完成',time:'05.21 16:36',title:'小学·数学',schedule:'周二18:00-19:30',location:'西安市灞桥区长乐东路教学中心2楼',orderId:'202605211794'},
+ {status:'已完成',time:'05.14 13:20',title:'初中·英语',schedule:'周四19:00-21:00',location:'西安市雁塔区电子城学习中心1楼',orderId:'202605141805'},
+ {status:'已取消',time:'05.07 09:46',title:'高中·生物',schedule:'周六09:00-11:00',location:'西安市未央区文景路教学中心2楼',orderId:'202605071916'},
+ {status:'已完成',time:'04.29 18:12',title:'初中·化学',schedule:'周日16:30-18:30',location:'西安市长安区韦曲学习中心3楼',orderId:'202604292027'}
+]}
+function orderStatusClass(status){return({'待确认':'is-pending-confirmation','待支付':'is-pending-payment','进行中':'is-in-progress','已完成':'is-completed','已取消':'is-cancelled'})[status]||'is-unknown'}
+function orderRecordMarkup(record){return `<article class="detail-record-card demand-order-record"><div class="demand-order-heading"><div class="demand-order-info"><strong>${escapeHtml(record.title)}</strong></div><span class="demand-order-status ${orderStatusClass(record.status)}">${escapeHtml(record.status)}</span></div><p class="demand-order-location">上课地点：${escapeHtml(record.location)}</p><div class="demand-order-footer"><span>订单号 ${escapeHtml(record.orderId)}</span><time>${escapeHtml(record.time)}</time></div></article>`}
+const detailTabs={follow:['回访动态','暂无回访记录',followRecords],purchase:['订单记录','暂无订单记录',orderRecords]};
 function renderDetailTab(tab){
   $$('#memberDetailTablist [data-member-detail-tab]').forEach(button=>{const active=button.dataset.memberDetailTab===tab;button.classList.toggle('active',active);button.setAttribute('aria-selected',String(active))});
-  const commission=tab==='commission';$('.follow-record-heading').hidden=commission;$('#memberCommissionToolbar').hidden=!commission;$('#followRecordList').hidden=commission;$('#memberCommissionPanel').hidden=!commission;
-  if(commission){renderCommissions(commissionFilter);return}
-  const [title,empty,source]=detailTabs[tab]||detailTabs.follow;const records=source(currentMember);$('#memberDetailListTitle').textContent=title;$('#followRecordCount').textContent=`${records.length} 条记录`;
-  $('#followRecordList').innerHTML=records.length?records.map(record=>`<article class="detail-record-card"><div class="detail-record-top">${record.kind?`<span class="detail-record-kind">${escapeHtml(record.kind)}</span>`:''}<time class="detail-record-time">${record.time}</time></div>${record.title?`<div class="detail-record-title">${escapeHtml(record.title)}</div>`:''}<p class="detail-record-content">${escapeHtml(record.content||'')}</p><div class="detail-record-meta"><span>${escapeHtml(record.meta||'')}</span>${record.amount?`<strong class="detail-record-amount">${record.amount}</strong>`:''}</div></article>`).join(''):`<div class="empty-result">${empty}<br>暂无可展示内容</div>`;
+  const [title,empty,source]=detailTabs[tab]||detailTabs.follow;const records=source(currentMember);$('#memberDetailListTitle').textContent=tab==='purchase'?`${records.length} 条订单记录`:title;$('#followRecordCount').textContent=`${records.length} 条记录`;$('#followRecordCount').hidden=tab==='purchase';
+  $('#followRecordList').innerHTML=records.length?records.map(record=>tab==='purchase'?orderRecordMarkup(record):`<article class="detail-record-card"><div class="detail-record-top">${record.kind?`<span class="detail-record-kind">${escapeHtml(record.kind)}</span>`:''}<time class="detail-record-time">${record.time}</time></div>${record.title?`<div class="detail-record-title">${escapeHtml(record.title)}</div>`:''}<p class="detail-record-content">${escapeHtml(record.content||'')}</p><div class="detail-record-meta"><span>${escapeHtml(record.meta||'')}</span>${record.amount?`<strong class="detail-record-amount">${record.amount}</strong>`:''}</div></article>`).join(''):`<div class="empty-result">${empty}<br>暂无可展示内容</div>`;
 }
 let memberReturnScreen=overviewScreen;
 function openMember(item){$('#memberDetailTeam').hidden=true;if(item.level==='一星'){const team=ensureTeamMembers(item);$('#memberDetailTeamTotal').textContent=`${team.length}人`;$('#memberDetailTeamToday').textContent=`${team.filter(child=>child.registerDate===teamDate(0)).length}人`;}$('#memberDetailRevisit').hidden=!canAddRevisit(item);if(!detailScreen.classList.contains('active'))memberReturnScreen=$('.screen.active')||overviewScreen;currentMember=item;const owner=$('#memberDetailOwner');owner.hidden=true;owner.textContent=item.level==='二星'?`所属一星成员：${maskName(item.ownerName)} · ${maskPhone(item.ownerPhone)}`:'';$('#memberDetailLevel').parentElement.hidden=true;$('#memberDetailLevel').textContent=item.level;$('#memberDetailLevel').className=`team-level-tag ${item.level==='二星'?'level-two':'level-one'}`;$('#followRecordAvatar').textContent=item.name[0];$('#followRecordName').textContent=maskName(item.name);$('#followRecordRole').innerHTML=roles(item);$('#followRecordCity').textContent=item.city.replace('.', '·');const masked=false;const contact=$('#followRecordPhone');contact.classList.toggle('masked',masked);if(masked){contact.removeAttribute('href');contact.innerHTML=`<span>${maskPhone(item.phone)}</span>`}else{contact.href=`tel:${item.phone}`;contact.innerHTML=`<span>${item.phone}</span>${phoneIcon}`}$('#memberDetailProfit').textContent=item.profit;renderDetailTab('follow');showScreen(detailScreen)}
@@ -127,22 +103,44 @@ function renderKeyboard(){const symbols=['1','2','3','4','5','6','7','8','9','0'
 function showKeyboard(){if(revisitSheet.hidden)return;clearTimeout(keyboardTimer);keyboard.hidden=false;revisitSheet.classList.add('keyboard-open');requestAnimationFrame(()=>keyboard.classList.add('open'))}
 function hideKeyboard(immediate=false){keyboard.classList.remove('open');revisitSheet.classList.remove('keyboard-open');clearTimeout(keyboardTimer);if(immediate)keyboard.hidden=true;else keyboardTimer=setTimeout(()=>keyboard.hidden=true,230)}
 function insertText(text){const start=revisitContent.selectionStart??revisitContent.value.length;const end=revisitContent.selectionEnd??start;const insert=String(text).slice(0,Math.max(0,200-revisitContent.value.length+end-start));revisitContent.value=revisitContent.value.slice(0,start)+insert+revisitContent.value.slice(end);revisitContent.setSelectionRange(start+insert.length,start+insert.length);updateRevisit()}
-function openRevisit(trigger,item){if(!canAddRevisit(item)){showToast('暂无该成员的回访权限');return}currentMember=item;revisitReturnFocus=trigger;$('#revisitMemberCard').innerHTML=memberIdentity(item);$('#revisitLatestText').textContent=item.followText||'暂无跟进记录';revisitContent.value='';$('#revisitPhrases').hidden=true;hideKeyboard(true);keyboardLayout='letters';keyboardShift=false;renderKeyboard();updateRevisit();$('#revisitMask').hidden=false;revisitSheet.hidden=false;requestAnimationFrame(()=>{$('#revisitMask').classList.add('open');revisitSheet.classList.add('open')})}
+function openRevisit(trigger,item){if(!canAddRevisit(item)){showToast('暂无该成员的回访权限');return}currentMember=item;revisitReturnFocus=trigger;$('#revisitMemberCard').innerHTML=memberIdentity(item);$('#revisitLatestText').textContent=item.followText||'暂无回访记录';revisitContent.value='';$('#revisitPhrases').hidden=true;hideKeyboard(true);keyboardLayout='letters';keyboardShift=false;renderKeyboard();updateRevisit();$('#revisitMask').hidden=false;revisitSheet.hidden=false;requestAnimationFrame(()=>{$('#revisitMask').classList.add('open');revisitSheet.classList.add('open')})}
 function closeRevisit(){if(revisitSheet.hidden)return;$('#revisitMask').classList.remove('open');revisitSheet.classList.remove('open');hideKeyboard(true);$('#revisitPhrases').hidden=true;setTimeout(()=>{$('#revisitMask').hidden=true;revisitSheet.hidden=true;revisitReturnFocus?.focus({preventScroll:true});revisitReturnFocus=null},240)}
 function saveRevisit(){if(!canAddRevisit(currentMember)){showToast('暂无该成员的回访权限');return}const content=revisitContent.value.trim().replace(/[<>]/g,'');if(!content){$('#revisitMessage').textContent='请输入跟进内容';$('#revisitMessage').hidden=false;return}currentMember.followText=content;currentMember.followTime='刚刚';currentMember.revisitRecords.unshift({time:'刚刚',content,meta:'跟进人：我'});const inDetail=detailScreen.classList.contains('active');closeRevisit();setTimeout(()=>{renderMembers();['one','two'].forEach(renderDirectory);if(inDetail)renderDetailTab('follow');showToast(`已添加${maskName(currentMember.name)}的回访记录`)},250)}
 
 function commissionIcon(type){const paths={parent:'<path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0M18 5.5a3.5 3.5 0 0 1 0 6.8M19.5 15a6 6 0 0 1 2 4.5"/>',teacher:'<path d="m3 9 9-5 9 5-9 5-9-5Z"/><path d="M7 11.2V16c2.8 2.4 7.2 2.4 10 0v-4.8M21 9v6"/>',cooperation:'<path d="M8.5 14.5 6 17a3 3 0 0 1-4-4l4-4a3 3 0 0 1 4.2 0M15.5 9.5 18 7a3 3 0 0 1 4 4l-4 4a3 3 0 0 1-4.2 0M8 16l8-8"/>'};return `<span class="commission-record-icon ${type}" aria-hidden="true"><svg viewBox="0 0 24 24">${paths[type]}</svg></span>`}
+function commissionName(name){return `<span class="commission-record-name">${escapeHtml(maskName(name))}</span>`}
 function commissionMarkup(item){
  const isParent=item.type==='parent';
- const title=isParent?'邀请家长':item.type==='teacher'?'邀请老师':'促成合作';
+ const title=isParent?'注册家长':item.type==='teacher'?'入驻老师':'签约';
+ const parentName=item.type==='parent'?item.user:item.parentName;
+ const parentPhone=item.type==='parent'?item.phone:item.parentPhone;
+ const teacherName=item.type==='teacher'?item.user:item.teacherName;
+ const teacherPhone=item.type==='teacher'?item.phone:item.teacherPhone;
  const description=isParent
-  ? `家长${maskName(item.user)}（${maskPhone(item.phone)}）发布需求，需求单由教员抢单并支付。`
+  ? `注册家长${commissionName(item.user)}（${escapeHtml(commissionPhone(item.phone))}）发布需求订单，由老师${commissionName(item.teacherName)}（${escapeHtml(commissionPhone(item.teacherPhone))}）支付。`
   : item.type==='teacher'
-   ? `教员${maskName(item.user)}（${maskPhone(item.phone)}）抢单并支付需求单。`
-   : `撮合家长${maskName(item.parentName)}（${maskPhone(item.parentPhone)}）与教员${maskName(item.teacherName)}（${maskPhone(item.teacherPhone)}），需求单已支付。`;
- return `<article class="bill-record-item commission-record-item commission-event-record"><div class="commission-record-result"><strong class="bill-record-money">+¥${escapeHtml(item.amount)}</strong><span class="bill-record-status ${item.status}">${item.status==='settled'?'已结算':'待结算'}</span></div><div class="commission-record-heading"><span class="bill-record-title">${title}</span></div><p class="commission-record-subtitle">${escapeHtml(description)}</p><div class="commission-record-footer"><span class="commission-record-order"><b>需求订单号</b><span>${escapeHtml(item.orderId)}</span></span><span class="commission-record-date"><time>${escapeHtml(item.date)}</time></span></div></article>`;
+   ? `入驻老师${commissionName(item.user)}（${escapeHtml(commissionPhone(item.phone))}），支付家长${commissionName(item.parentName)}（${escapeHtml(commissionPhone(item.parentPhone))}）发布的需求订单。`
+   : `家长${commissionName(item.parentName)}（${escapeHtml(commissionPhone(item.parentPhone))}）与老师${commissionName(item.teacherName)}（${escapeHtml(commissionPhone(item.teacherPhone))}）达成签约，需求单已支付。`;
+ const invitationAttribution='';
+ return `<article class="bill-record-item commission-record-item commission-event-record"><div class="commission-record-result"><strong class="bill-record-money">+¥${escapeHtml(item.amount)}</strong><span class="bill-record-status ${item.status}">${item.status==='settled'?'已结算':'待结算'}</span></div><div class="commission-record-heading"><span class="bill-record-title">${title}</span></div><p class="commission-record-subtitle">${description}${invitationAttribution}</p><div class="commission-record-footer"><span class="commission-record-order"><b>需求订单号</b><span>${escapeHtml(item.orderId)}</span></span><span class="commission-record-date"><time>${escapeHtml(item.date)}</time></span></div></article>`;
 }
-function renderCommissions(filter='all'){commissionFilter=filter;const visible=filter==='all'?commissionRecords:commissionRecords.filter(item=>item.type===filter);const counts={all:commissionRecords.length,parent:commissionRecords.filter(item=>item.type==='parent').length,teacher:commissionRecords.filter(item=>item.type==='teacher').length,cooperation:commissionRecords.filter(item=>item.type==='cooperation').length};$$('[data-commission-label]').forEach(button=>{button.textContent=`${button.dataset.commissionLabel} ${counts[button.dataset.commissionFilter]}`});$('#memberCommissionSummary').textContent=`${visible.length} 笔记录`;const content=visible.length?visible.map(commissionMarkup).join(''):'<div class="empty-result">暂无该业务类型的分润明细</div>';$('#commissionList').innerHTML=content;$('#memberCommissionList').innerHTML=content}
+function renderCommissions(filter=commissionFilter){
+ commissionFilter=filter;
+ const start=$('#commissionDateStart').value;
+ const end=$('#commissionDateEnd').value;
+ const invalidRange=Boolean(start&&end&&start>end);
+ const dateRecords=invalidRange?[]:commissionRecords.filter(item=>{
+  const date=item.date.slice(0,10).replaceAll('.','-');
+  return (!start||date>=start)&&(!end||date<=end);
+ });
+ const visible=filter==='all'?dateRecords:dateRecords.filter(item=>item.type===filter);
+ const counts={all:dateRecords.length,parent:dateRecords.filter(item=>item.type==='parent').length,teacher:dateRecords.filter(item=>item.type==='teacher').length,cooperation:dateRecords.filter(item=>item.type==='cooperation').length};
+ $$('[data-commission-label]').forEach(button=>{button.textContent=`${button.dataset.commissionLabel} ${counts[button.dataset.commissionFilter]}`});
+ ['#commissionDateStart','#commissionDateEnd'].forEach(selector=>$(selector).setAttribute('aria-invalid',String(invalidRange)));
+ const content=visible.length?visible.map(commissionMarkup).join(''):invalidRange?'<div class="empty-result">开始日期不能晚于结束日期</div>':'<div class="empty-result">暂无符合筛选条件的分润明细</div>';
+ $('#commissionList').innerHTML=content;
+ $('#clearCommissionDates').disabled=!start&&!end;
+}
 function setCommissionFilter(filter){$$('[data-commission-filter]').forEach(button=>{const active=button.dataset.commissionFilter===filter;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active))});renderCommissions(filter)}
 function renderWithdrawRecords(){
  const list=$('#withdrawRecordList');
@@ -158,8 +156,8 @@ function clearWithdrawError(){$('#withdrawAmount').removeAttribute('aria-invalid
 function calculateWithdrawal(amount){const gross=Math.round(amount*100);const tax=amount>800?Math.round(gross*.08):0;return {gross:gross/100,tax:tax/100,net:(gross-tax)/100}}
 function updateTax(){const input=Number($('#withdrawAmount').value);const amount=Number.isFinite(input)&&input>0?input:0;const result=calculateWithdrawal(amount);$('#withdrawGrossAmount').textContent=`¥${result.gross.toFixed(2)}`;$('#withdrawTaxAmount').textContent=`-¥${result.tax.toFixed(2)}`;$('#withdrawNetAmount').textContent=`¥${result.net.toFixed(2)}`;$('#withdrawTaxSummary').textContent=result.tax>0?`含代扣税费 ¥${result.tax.toFixed(2)}`:'无代扣税费'}
 function maxWithdrawable(){return Math.max(0,Math.min(withdrawAvailable,withdrawLimits.max,withdrawLimits.daily-withdrawTotal))}
-function updateWithdraw(){const availableText=withdrawAvailable.toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});$('#withdrawAvailable').textContent=availableText;$('#overviewScreen .available').innerHTML='<small class="currency">¥</small>'+availableText;$('#withdrawTodayUsage').textContent=`${withdrawCount} 次 · ¥${withdrawTotal.toFixed(2)}`;$('#withdrawAll').disabled=withdrawCount>=withdrawLimits.count||maxWithdrawable()<withdrawLimits.min}
-function resetBill(){$('#withdrawDetails').open=false;$('#withdrawAmount').value=maxWithdrawable().toFixed(2);clearWithdrawError();updateTax();updateWithdraw();setCommissionFilter('all')}
+function updateWithdraw(){const availableText=withdrawAvailable.toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});$('#withdrawAvailable').textContent=availableText;$('#billAvailableTotal').textContent=`¥${availableText}`;$('#overviewScreen .available').innerHTML='<small class="currency">¥</small>'+availableText;$('#withdrawTodayUsage').textContent=`${withdrawCount} 次 · ¥${withdrawTotal.toFixed(2)}`;$('#withdrawAll').disabled=withdrawCount>=withdrawLimits.count||maxWithdrawable()<withdrawLimits.min}
+function resetBill(){$('#withdrawDetails').open=false;$('#withdrawAmount').value=maxWithdrawable().toFixed(2);clearWithdrawError();updateTax();updateWithdraw();$('#commissionDateStart').value='';$('#commissionDateEnd').value='';setCommissionFilter('all')}
 function submitWithdraw(event){event.preventDefault();const input=$('#withdrawAmount');const value=Number(input.value);let message='';if(!savedBank)message='请先填写并保存收款银行卡';else if(!$('#bankEditor').hidden)message='请先保存银行卡修改，或取消修改';else if(!input.value||!Number.isFinite(value))message='请输入提现金额';else if(withdrawCount>=withdrawLimits.count)message='今日提现次数已达3次，请明日再试';else if(value<withdrawLimits.min)message='单笔提现金额不能低于10元';else if(value>withdrawLimits.max)message='单笔提现金额不能超过2000元';else if(value>withdrawAvailable)message='提现金额不能超过可提现佣金';else if(withdrawTotal+value>withdrawLimits.daily)message=`今日剩余可提现额度为¥${Math.max(0,withdrawLimits.daily-withdrawTotal).toFixed(2)}`;if(message){input.setAttribute('aria-invalid','true');$('#withdrawMessage').textContent=message;$('#withdrawMessage').hidden=false;input.focus();return}const amounts=calculateWithdrawal(value);const destination=savedBank.bank;withdrawAvailable=Math.round((withdrawAvailable-value)*100)/100;withdrawCount++;withdrawTotal=Math.round((withdrawTotal+value)*100)/100;withdrawRecords.unshift({bank:savedBank.bank,tail:savedBank.card.slice(-4),date:new Date().toLocaleString('zh-CN',{hour12:false}),amount:amounts.gross.toFixed(2),status:'审核中',tone:'reviewing'});renderWithdrawRecords();updateWithdraw();input.value=maxWithdrawable()>=withdrawLimits.min?maxWithdrawable().toFixed(2):'';updateTax();showToast(`已提交¥${amounts.gross.toFixed(2)}至${destination}`)}
 
 function openWithdraw(){withdrawReturnScreen=$('.screen.active')||overviewScreen;resetBill();renderSavedBank();renderWithdrawRecords();showScreen($('#withdrawScreen'))}
@@ -182,7 +180,7 @@ let teamOwner=null,teamTrigger=null,teamItems=[],teamFromDetail=false;
 function teamDate(days){const d=new Date();d.setDate(d.getDate()-days);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
 function renderTeam(){
  const visible=teamItems;
- $('#teamMemberList').innerHTML=visible.length?visible.map(i=>`<article class="member-card team-detail-card"><div class="team-card-top"><span class="team-level-tag level-two">二星</span><button type="button" data-team-follow="${i.phone}">跟进记录 ›</button></div><div class="member-head"><span class="avatar">${i.name[0]}</span><div class="member-info"><div class="member-name">${maskName(i.name)}${roles(i)}</div><div class="member-meta team-contact"><span>${i.city}</span>${memberPhone(i)}</div><div class="team-register">注册于 ${i.registerDate.replaceAll('-','.')}</div></div><div class="member-profit">累计分润<strong>${i.profit}</strong></div></div><div class="trace"><div class="trace-row"><span>最近跟进</span><span class="trace-copy">${escapeHtml(i.followText)}</span><span class="trace-time">${i.followTime}</span></div></div></article>`).join(''):'<div class="empty-result">暂无团队成员</div>';
+ $('#teamMemberList').innerHTML=visible.length?visible.map(i=>`<article class="member-card team-detail-card"><div class="team-card-top"><span class="team-level-tag level-two">二星</span><button type="button" data-team-follow="${i.phone}">回访记录 ›</button></div><div class="member-head"><span class="avatar">${i.name[0]}</span><div class="member-info"><div class="member-name">${maskName(i.name)}${roles(i)}</div><div class="member-meta team-contact"><span>${i.city}</span>${memberPhone(i)}</div><div class="team-register">注册于 ${i.registerDate.replaceAll('-','.')}</div></div><div class="member-profit">累计分润<strong>${i.profit}</strong></div></div><div class="trace"><div class="trace-row"><span>最近跟进</span><span class="trace-copy">${escapeHtml(i.followText)}</span><span class="trace-time">${i.followTime}</span></div></div></article>`).join(''):'<div class="empty-result">暂无团队成员</div>';
 }
 function ensureTeamMembers(item){
  if(!item.teamMembers){const names=['冯雪','潘莉','许宁','周敏','郑雨桐','吴思远','方晨曦','宋佳宁'];const profits=['825.62','617.96','300.70','61.54','198.00','96.00','188.00','174.29'];item.teamMembers=names.slice(0,item.teamCount).map((name,index)=>{const roles=index===2?['teacher','parent']:index%3===1?['teacher']:['parent'];return{name:roles.includes('teacher')?`${[...name][0]}教员`:name,level:'二星',phone:`12000000${405+members.indexOf(item)*10+index}`,roles,city:index===2?'陕西·咸阳':'陕西·西安',profit:`¥ ${profits[index]}`,hasOrders:index%2===0,registerDate:teamDate(index<item.teamToday?0:(index-item.teamToday+1)*4),followText:['已电话沟通，家长有意向上课','已发送课程资料，等待进一步回复','已完成教师入驻资料确认'][index%3],followTime:index<2?'今天 13:43':'昨天 11:05',revisitRecords:[]}})}
@@ -213,6 +211,8 @@ $('#closeRevisitPhrases').addEventListener('click',()=>$('#revisitPhrases').hidd
 $$('.revisit-phrase-option').forEach(button=>button.addEventListener('click',()=>{revisitContent.value=button.textContent.trim().slice(0,200);updateRevisit();$('#revisitPhrases').hidden=true}));
 $('#submitRevisit').addEventListener('click',saveRevisit);
 $$('[data-commission-filter]').forEach(button=>button.addEventListener('click',()=>setCommissionFilter(button.dataset.commissionFilter)));
+['#commissionDateStart','#commissionDateEnd'].forEach(selector=>$(selector).addEventListener('change',()=>renderCommissions()));
+$('#clearCommissionDates').addEventListener('click',()=>{$('#commissionDateStart').value='';$('#commissionDateEnd').value='';renderCommissions()});
 $('#withdrawAll').addEventListener('click',()=>{$('#withdrawAmount').value=maxWithdrawable().toFixed(2);clearWithdrawError();updateTax()});
 $('#withdrawAmount').addEventListener('input',event=>{const parts=event.target.value.replace(/[^\d.]/g,'').split('.');event.target.value=parts.length>1?`${parts.shift()}.${parts.join('').slice(0,2)}`:parts[0];clearWithdrawError();updateTax()});
 $('#withdrawForm').addEventListener('submit',submitWithdraw);
@@ -243,9 +243,13 @@ $('#backToPersonal').addEventListener('click',()=>showScreen($('#personalScreen'
 $('#personalBack').addEventListener('click',()=>showScreen(overviewScreen));
 function setCreatorDemoOpened(opened){
  $('#creatorDemoToggle').setAttribute('aria-checked',String(opened));
+ $('#personalScreen').classList.toggle('personal-screen-open',opened);
  $('#personalCreatorLocked').hidden=opened;
  $('#personalCreatorOpened').hidden=!opened;
+ setTimeout(()=>$('#personalScreen .personal-design-scroll')?.scrollTo(0,0),0);
 }
+const initialCreatorState=new URLSearchParams(location.search).get('creator');
+setCreatorDemoOpened(initialCreatorState!=='closed');
 $('#creatorDemoToggle').addEventListener('click',()=>setCreatorDemoOpened($('#creatorDemoToggle').getAttribute('aria-checked')!=='true'));
 $('#personalOpenCreator').addEventListener('click',()=>setCreatorDemoOpened(true));
 $('#personalEnterCreator').addEventListener('click',()=>showScreen(overviewScreen));

@@ -1,0 +1,296 @@
+/* 附件 CK-01 — CK-05 视觉层。保留原型 DOM、内容、状态与事件。 */
+.phone {
+  --page:#f5f7f9; --surface:#fff; --soft:#eaf7f3;
+  --accent:#00b79f; --accent-dark:#007c6b; --ink:#202e36;
+  --muted:#66727b; --line:#edf0ef;
+  width:375px; height:min(812px,calc(100vh - 48px));
+  overflow:clip;
+}
+.phone .screen:not(#personalScreen) {background:var(--page);color:var(--ink)}
+.phone .screen:not(#personalScreen) .statusbar {height:38px;font-weight:600;color:#172b3a}
+.phone .screen:not(#personalScreen) .navbar {height:44px}
+.phone .navbar-title,.phone .manage-title {font-size:16px;font-weight:600;letter-spacing:0}
+.phone .back:before {width:8px;height:8px;border-width:1px;top:17px}
+.phone .capsule {width:65px;height:26px;right:16px;border:0;background:#f0f0f0}
+.phone .capsule .dots {font-size:12px;letter-spacing:0}
+.phone .mini-circle {width:13px;height:13px;border-width:1px}
+.phone .mini-circle:after {inset:3px}
+.phone .label {color:#747b7b;font-size:11px;font-weight:400}
+.phone .white-button,.phone .withdraw-submit,.phone .revisit-submit,
+.phone .member-detail-action.primary {border:0;border-radius:8px;background:var(--accent);font-weight:500;box-shadow:none}
+.phone .white-button:hover,.phone .withdraw-submit:hover,.phone .revisit-submit:hover,
+.phone .member-detail-action.primary:hover {background:#009d8a}
+.phone .white-button:focus-visible,.phone .withdraw-submit:focus-visible,
+.phone .member-detail-action:focus-visible {outline:2px solid #007c6b;outline-offset:2px}
+.phone .avatar,.phone .follow-record-avatar {background:var(--soft);color:#007c6b;font-weight:500}
+.phone .role-tag,.phone .role-tag.role-teacher,.phone .role-tag.role-parent {
+  padding:1px 5px;border-radius:3px;background:var(--soft);color:#007c6b;font-size:11px;font-weight:400;line-height:18px;
+}
+.phone .phone-link,.phone .follow-record-phone {color:#007c6b;font-weight:400}
+.phone .phone-link:hover {background:var(--soft)}
+
+/* 创客中心 / 我的团队 */
+#overviewScreen .overview-scroll {padding:14px 14px 24px}
+#overviewScreen .income-card {padding:0;border:1px solid #e5e9e4;border-radius:18px;background:#fffefb;box-shadow:none}
+#overviewScreen .income-total {padding:16px 14px 12px}
+#overviewScreen .income-total-head .label {font-size:11px}
+#openIncomeDetails {color:#795325;font-size:13px;font-weight:400}
+#overviewScreen .income-total-value {margin-top:16px;font-size:32px;line-height:38px;font-weight:500;letter-spacing:-.6px}
+#overviewScreen .income-total-value .currency {font-size:1em;margin:0}
+#overviewScreen .income-main {margin:0 14px;padding:13px 0 16px;border-top:1px solid var(--line);background:transparent;gap:8px}
+#overviewScreen .income-main .label {font-size:11px}
+#overviewScreen .income-main .available {margin-top:4px;font-size:18px;line-height:23px;font-weight:500;letter-spacing:0}
+#overviewScreen .income-main .available .currency {font-size:1em;margin:0}
+#overviewScreen .income-main .white-button {height:36px;min-width:98px;border-radius:8px;font-size:13px}
+#overviewScreen .member-section {margin-top:4px;min-height:0}
+#overviewScreen .member-filter-card {top:-14px;margin:0 -1px 0;padding:0;border:0;border-radius:0;background:var(--page);box-shadow:none}
+#overviewScreen .my-team-heading {min-height:44px;padding:10px 0;border:0;font-size:14px}
+#overviewScreen .my-team-heading strong {font-weight:500}
+#overviewScreen .my-team-heading strong span {color:var(--ink);font-size:13px;font-weight:400;margin-left:5px}
+#overviewScreen .my-team-heading>span {color:#007c6b;font-size:11px}
+#overviewScreen .member-filter-card .member-tools {margin:0;padding:2px 0 0}
+.phone .identity-flat-options {gap:0;background:#fff}
+.phone .member-filter-card .identity-flat-option,.phone .identity-flat-option {
+  position:relative;height:46px;border:0;border-radius:0;background:#fff;color:#2f4050;font-size:13px;font-weight:400;
+}
+.phone .member-filter-card .identity-flat-option.active,.phone .identity-flat-option.active {background:#fff;color:#007c6b;font-weight:500}
+.phone .identity-flat-option.active:after {content:"";position:absolute;bottom:0;left:calc(50% - 11px);width:22px;height:3px;border-radius:2px;background:var(--accent)}
+#overviewScreen .member-list {gap:12px;margin-top:12px}
+.phone .member-list .member-card {position:relative;padding:14px 12px 12px;border:0;border-radius:17px;background:#fff;box-shadow:none}
+.phone .member-list .member-card .member-head {grid-template-columns:40px minmax(0,1fr);gap:10px;padding:0}
+.phone .member-list .member-card .avatar {width:40px;height:40px;font-size:18px}
+.phone .member-list .member-card .member-name {font-size:16px;line-height:23px;font-weight:500}
+.phone .member-list .member-card .member-meta {gap:5px;margin-top:3px;font-size:11px;line-height:18px;color:#4e5f6f}
+.phone .member-list .member-card .phone-link {font-size:11px;padding:0;margin:0;gap:5px}
+.phone .member-list .member-card .trace {margin-top:8px;border:0;border-radius:8px;background:#f6f7f7}
+.phone .member-list .member-card .trace-row {grid-template-columns:1fr auto;grid-template-rows:auto auto;gap:3px 6px;padding:8px 10px;border:0;font-size:12px;line-height:17px}
+.phone .member-list .member-card .trace-row>span:first-child {font-size:10px;color:#66727b}
+.phone .member-list .member-card .trace-copy {grid-row:2;grid-column:1/-1;color:#2f4050}
+.phone .member-list .member-card .trace-time {grid-column:2;grid-row:1;color:#2f4050}
+.phone .member-list .member-card .member-profit {position:absolute;bottom:12px;left:12px;text-align:left;font-size:9px;color:#747b7b;line-height:13px}
+.phone .member-list .member-card .member-profit strong {margin-top:2px;color:#d43e35;font-size:15px;line-height:20px;font-weight:500}
+.phone .member-list .member-card .card-actions {display:flex;justify-content:flex-end;gap:8px;margin:7px 0 0;padding-top:9px;border-top:1px solid var(--line)}
+.phone .member-list .member-card .card-action {height:30px;min-width:74px;padding:0 8px;border:1px solid #e6ebea;border-radius:8px;background:#fff;color:#2f4050;font-size:13px;font-weight:400}
+.phone .member-list .member-card .card-action.revisit-action {min-width:86px;border-color:var(--accent);background:var(--accent);color:#fff}
+
+/* 成员详情：简介、底部分润、白底标签、跟进时间线。 */
+#followRecordScreen .follow-record-scroll {padding:0 14px 76px;background:var(--page)}
+#followRecordScreen .member-detail-sticky {margin:0 -14px;padding:14px 14px 0;background:var(--page)}
+#followRecordScreen .follow-record-profile {display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;padding:16px 14px 12px;border:0;border-radius:17px;background:#fff;box-shadow:none}
+#followRecordScreen .follow-record-profile .follow-record-avatar {grid-row:1;grid-column:1;width:44px;height:44px;font-size:19px}
+#followRecordScreen .follow-record-profile .follow-record-user {grid-row:1;grid-column:2}
+#followRecordScreen .follow-record-profile .follow-record-name {font-size:16px;line-height:23px;font-weight:500}
+#followRecordScreen .follow-record-meta {flex-direction:row;align-items:center;gap:6px;margin-top:4px}
+#followRecordScreen #followRecordCity {font-size:11px;color:#4e5f6f}
+#followRecordScreen #followRecordPhone {font-size:11px;letter-spacing:0}
+#followRecordScreen .follow-record-profile .member-detail-summary {grid-column:1/-1;grid-row:2;min-width:0;width:100%;margin:2px 0 0;padding:12px 0 0;border:0;border-top:1px solid var(--line);background:transparent;box-shadow:none}
+#followRecordScreen .follow-record-profile .member-detail-stat {display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:26px}
+#followRecordScreen .follow-record-profile .member-detail-stat span {font-size:11px;line-height:18px;color:#66727b}
+#followRecordScreen .follow-record-profile .member-detail-stat strong {margin:0;color:#d43e35;font-size:22px;line-height:29px;font-weight:500}
+#followRecordScreen .member-detail-tabs {display:flex;gap:0;margin:12px 0 0;padding:0;border:0;border-radius:0;background:#fff}
+#followRecordScreen .member-detail-tab {height:46px;padding:0 4px;border-radius:0;background:transparent;color:#2f4050;font-size:13px;font-weight:400;box-shadow:none}
+#followRecordScreen .member-detail-tab.active {color:#007c6b;background:#fff;font-weight:500;box-shadow:none}
+#followRecordScreen .member-detail-tab.active:after {left:calc(50% - 11px);right:auto;bottom:0;width:22px;height:3px;background:var(--accent)}
+#followRecordScreen .member-detail-revisit-below {position:fixed;z-index:31;bottom:14px;left:14px;right:14px;width:calc(100% - 28px);height:44px;margin:0;border-radius:8px;font-size:14px;box-shadow:0 0 0 8px var(--page)}
+#followRecordScreen .follow-record-heading {justify-content:flex-start;gap:7px;margin:27px 0 14px}
+#followRecordScreen .follow-record-heading strong {display:block;font-size:13px;font-weight:500}
+#followRecordScreen .follow-record-heading span {font-size:12px;color:#2f4050}
+#followRecordList {gap:0;padding:0 0 14px;border-radius:17px;background:#fff;scrollbar-width:none}
+#followRecordList .detail-record-card {position:relative;padding:16px 16px 5px 34px;border:0;border-radius:0;background:#fff;box-shadow:none;min-height:0}
+#followRecordList .detail-record-card:not(.demand-order-record):not(:has(.detail-record-kind)):before {content:"";position:absolute;left:16px;top:0;bottom:0;width:1px;background:#ddeae5}
+#followRecordList .detail-record-card:first-child:before {top:23px}
+#followRecordList .detail-record-card:last-child:before {height:23px;bottom:auto}
+#followRecordList .detail-record-card:not(.demand-order-record):not(:has(.detail-record-kind)):after {content:"";position:absolute;left:13px;top:22px;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+#followRecordList .detail-record-top {min-height:20px;gap:8px}
+#followRecordList .detail-record-time {color:#172b3a;font-size:13px;line-height:20px;font-weight:400}
+#followRecordList .detail-record-content {margin:6px 0 0;color:#2f4050;font-size:13px;line-height:21px}
+#followRecordList .detail-record-meta {margin:5px 0 0;padding:0;border:0;color:#4e5f6f;font-size:11px;line-height:17px}
+#followRecordList .detail-record-card:not(.demand-order-record):not(:has(.detail-record-kind)) .detail-record-meta {position:absolute;top:17px;right:16px;margin:0}
+#followRecordList .detail-record-card:has(.detail-record-kind) {display:grid;grid-template-columns:minmax(0,1fr) auto;row-gap:4px;padding:16px 14px;border-bottom:1px solid var(--line)}
+#followRecordList .detail-record-card:has(.detail-record-kind) .detail-record-top,
+#followRecordList .detail-record-card:has(.detail-record-kind) .detail-record-meta {display:contents}
+#followRecordList .detail-record-kind {grid-row:1;grid-column:1;padding:0;background:transparent;color:#007c6b;font-size:11px;font-weight:400}
+#followRecordList .detail-record-card:has(.detail-record-kind) .detail-record-amount {grid-row:1;grid-column:2;text-align:right}
+#followRecordList .detail-record-card:has(.detail-record-kind) .detail-record-title {grid-row:2;grid-column:1/-1;margin:8px 0}
+#followRecordList .detail-record-card:has(.detail-record-kind) .detail-record-meta>span {grid-row:3;grid-column:1/-1;font-size:11px;line-height:17px;color:#4e5f6f}
+#followRecordList .detail-record-card:has(.detail-record-kind) .detail-record-time {grid-row:4;grid-column:1/-1}
+#followRecordList .detail-record-card:has(.detail-record-kind) .detail-record-time {font-size:11px;color:#66727b}
+#followRecordList .detail-record-title {margin-top:8px;color:#2f4050;font-size:14px;line-height:22px;font-weight:400}
+#followRecordList .detail-record-amount {color:#d43e35;font-size:17px;font-weight:500}
+#followRecordList .detail-record-content:empty {display:none}
+
+/* 成员订单记录：需求信息与订单来源。 */
+#followRecordList .demand-order-record {padding:16px 14px;border-bottom:1px solid var(--line)}
+#followRecordList .demand-order-record:last-child {border-bottom:0}
+.demand-order-heading {display:flex;align-items:flex-start;justify-content:space-between;gap:12px;color:#2f4050;line-height:22px}
+.demand-order-info {display:flex;flex:1;min-width:0;flex-wrap:wrap;align-items:baseline;gap:6px 12px}
+.demand-order-status {flex-shrink:0;padding:1px 8px;border-radius:999px;font-size:11px!important;line-height:18px!important;white-space:nowrap}
+.demand-order-status.is-pending-confirmation {background:#fff3e4;color:#b86a13}
+.demand-order-status.is-pending-payment {background:#fff8df;color:#987100}
+.demand-order-status.is-in-progress {background:#eaf3ff;color:#2866b2}
+.demand-order-status.is-completed {background:#e8f6ee;color:#26804a}
+.demand-order-status.is-cancelled {background:#f0f1f2;color:#737b82}
+.demand-order-status.is-unknown {background:#f0f1f2;color:#66727b}
+.demand-order-heading strong {font-size:14px;font-weight:500}
+.demand-order-heading span {font-size:12px}
+.demand-order-location {margin:8px 0 0;color:#4e5f6f;font-size:12px;line-height:20px;overflow-wrap:anywhere}
+.demand-order-footer {display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 10px;margin-top:12px;color:#66727b;font-size:10px;line-height:17px;font-variant-numeric:tabular-nums}
+.demand-order-footer span,.demand-order-footer time {white-space:nowrap}
+
+/* 我的账单与成员分润共用视觉，正文使用现有原型文案。 */
+#billScreen .bill-scroll {padding:14px 14px 24px}
+#billScreen .bill-income-summary {display:block;position:relative;min-height:146px;margin:0;padding:16px 14px 14px;border:1px solid #ddeae5;border-radius:18px;background:linear-gradient(90deg,#fff9ed,#fff 70%)}
+#billScreen .bill-income-summary .label {display:block;line-height:16px}
+#billScreen .bill-income-summary strong {margin-top:16px;font-size:32px;line-height:38px;font-weight:500;letter-spacing:-.5px}
+#billScreen .bill-income-footer {display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px}
+#billScreen .bill-available {color:#2f4050;font-size:13px;line-height:20px}
+#billWithdrawToggle {position:static;min-width:94px;height:34px;border:0;border-radius:8px;background:var(--accent);font-size:13px;font-weight:400;color:#fff}
+#billScreen .bill-sticky-tools {top:-14px;margin:0 -2px;padding:14px 2px 8px;background:var(--page);box-shadow:none}
+#billScreen .bill-sticky-tools #commissionFilterWrap {margin:0}
+.phone .bill-filters {display:flex;flex-wrap:nowrap;gap:4px}
+.phone .bill-filter-wrap .bill-filters {flex-wrap:nowrap;gap:4px}
+.phone .bill-filter,.phone .bill-filter-wrap .bill-filter,.phone .member-commission-filters .bill-filter {
+  flex:1;min-width:0;height:34px;padding:0 5px;border:0;border-radius:6px;background:transparent;color:#2f4050;font-size:11px;font-weight:400;white-space:nowrap;
+}
+.phone .bill-filter.active,.phone .bill-filter-wrap .bill-filter.active,.phone .member-commission-filters .bill-filter.active {border:0;background:var(--soft);color:#007c6b;font-weight:500}
+.phone .bill-filter:hover {color:#007c6b;background:#edf8f4}
+#billScreen .bill-panel {padding-top:8px}
+#memberCommissionToolbar {padding:28px 0 0}
+#memberCommissionToolbar .member-commission-filters {margin:0 0 16px}
+#memberCommissionToolbar .commission-list-head {justify-content:flex-start;margin:0 0 14px}
+#memberCommissionToolbar .commission-list-count {font-size:13px;color:#2f4050}
+#commissionList,#memberCommissionList {gap:12px;border-radius:0;background:transparent;overflow:visible}
+#commissionList .commission-event-record,#memberCommissionList .commission-event-record {padding:16px 14px 12px;border:0;border-radius:17px;background:#fff;box-shadow:none}
+#commissionList .commission-event-record:last-child,#memberCommissionList .commission-event-record:last-child {border-bottom:0}
+#commissionList .commission-event-record .commission-record-heading,#memberCommissionList .commission-event-record .commission-record-heading {display:flex;align-items:center;gap:6px;min-width:0}
+#commissionList .commission-event-record .bill-record-title,#memberCommissionList .commission-event-record .bill-record-title {font-size:14px;line-height:22px;font-weight:500;color:#2f4050}
+.commission-record-result {gap:4px;margin-left:12px;margin-bottom:6px}
+#commissionList .commission-event-record .bill-record-money,#memberCommissionList .commission-event-record .bill-record-money {font-size:18px;line-height:23px;font-weight:500;color:#d43e35}
+#commissionList .commission-event-record .bill-record-status,#memberCommissionList .commission-event-record .bill-record-status {height:18px;padding:0;border:0;border-radius:0;background:transparent;color:#946718;font-size:11px;line-height:18px}
+#commissionList .commission-event-record .bill-record-status.settled,#memberCommissionList .commission-event-record .bill-record-status.settled {color:#007c6b;background:transparent}
+#commissionList .commission-event-record .commission-record-subtitle,#memberCommissionList .commission-event-record .commission-record-subtitle {margin-top:8px;color:#4e5f6f;font-size:12px;line-height:20px;word-break:normal;overflow-wrap:normal;line-break:strict}
+.commission-record-name {white-space:nowrap}
+.commission-record-sales {display:inline-flex;flex:0 0 auto}
+.commission-record-sales-tag {display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:5px;font-size:11px;line-height:20px;font-weight:700;vertical-align:middle}
+.commission-record-sales-tag.is-self {background:#e8f8f2;color:#007c6b}
+.commission-record-sales-tag.is-assist {background:#fff2df;color:#b66a0b}
+.commission-record-footer {margin-top:10px;padding-top:9px;border-color:var(--line);gap:4px 8px;color:#66727b;font-size:10px;line-height:16px}
+.commission-record-footer b {color:#66727b;font-size:10px;font-weight:400}
+.phone #memberCommissionPanel {padding-bottom:14px;border-radius:17px}
+
+/* 添加回访与常用语弹层 */
+.phone .revisit-mask {background:rgba(23,43,58,.3)}
+.phone .revisit-sheet {max-height:calc(100% - 64px);border-radius:20px 20px 0 0;background:#fff;box-shadow:none}
+.phone .revisit-handle {height:0;margin:0;background:transparent}
+.phone .revisit-header {height:55px;padding:14px 20px 10px}
+.phone .revisit-title {font-size:16px;font-weight:500;color:#2f4050}
+.phone .revisit-close {width:25px;height:25px;border:0;background:transparent;font-size:23px;font-weight:300;color:#66727b}
+.phone .revisit-body {padding:0 20px 0}
+.phone #revisitMemberCard {margin:0;padding:6px 0 8px;border:0;border-radius:0;box-shadow:none}
+.phone #revisitMemberCard .member-head {display:flex;gap:6px;padding:0}
+.phone #revisitMemberCard .avatar,.phone #revisitMemberCard .member-profit {display:none}
+.phone #revisitMemberCard .member-info {display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.phone #revisitMemberCard .member-name {font-size:15px;font-weight:500}
+.phone #revisitMemberCard .member-meta {margin:0;gap:0;font-size:11px}
+.phone #revisitMemberCard .member-meta>span {display:none}
+.phone #revisitMemberCard .phone-link {padding:0;margin:0;color:#4e5f6f;font-size:11px}
+.phone .revisit-latest {margin-top:7px;padding:10px 12px;border:0;border-radius:8px;background:var(--page)}
+.phone .revisit-section-title {font-size:12px;font-weight:500;color:#263b4d}
+.phone .revisit-latest .revisit-section-title {font-size:10px;font-weight:400;color:#4e5f6f}
+.phone .revisit-latest p {margin-top:6px;color:#2f4050;font-size:12px;line-height:20px}
+.phone .revisit-field {position:relative;margin-top:18px}
+.phone .revisit-textarea-wrap {margin-top:14px;border:1px solid transparent;border-radius:8px;background:var(--page)}
+.phone .revisit-textarea-wrap:focus-within {border-color:#8ecfc2;box-shadow:none}
+.phone .revisit-textarea {height:106px;padding:12px;color:#2f4050;font-size:13px;line-height:21px}
+.phone .revisit-textarea::placeholder {color:#66727b}
+.phone .revisit-field-meta {justify-content:flex-end;padding:0 12px 11px}
+.phone .revisit-phrase-trigger {position:absolute;right:0;top:-6px;height:26px;padding:0;background:transparent;color:#007c6b;border-radius:0;font-size:11px}
+.phone .revisit-count {color:#66727b;font-size:11px}
+.phone .revisit-actions {grid-template-columns:1fr 1.8fr;gap:10px;padding:14px 20px 20px;border:0;background:#fff}
+.phone .revisit-cancel,.phone .revisit-submit {height:40px;border-radius:8px;font-size:13px;font-weight:400;box-shadow:none}
+.phone .revisit-cancel {border:1px solid #e2e7e6;background:#fff;color:#2f4050}
+.phone .revisit-submit:disabled {background:#d7e7e2;color:#4e5f6f}
+.phone .revisit-phrases {top:34px;border-radius:20px 20px 0 0;background:#fff}
+.phone .revisit-phrases-header {display:flex;justify-content:flex-start;gap:12px;height:52px;padding:0 20px;border:0}
+.phone .revisit-phrases-header strong {font-size:16px;font-weight:500;color:#2f4050}
+.phone .revisit-phrases-back {font-size:12px;color:#4e5f6f}
+.phone .revisit-phrase-list {padding:8px 20px 20px}
+.phone .revisit-phrase-option {min-height:0;margin-bottom:12px;padding:12px;border:0;border-radius:8px;background:var(--page);color:#2f4050;font-size:13px;line-height:21px}
+.phone .revisit-phrase-option:hover {background:var(--soft);color:#007c6b}
+.phone .revisit-sheet.keyboard-open {max-height:calc(100% - 310px)}
+
+/* 收益提现：余额概览、金额、银行卡、规则、记录。 */
+#withdrawScreen .bill-scroll {padding:14px 14px 24px}
+#withdrawScreen .manage-title {font-size:16px;font-weight:600}
+#withdrawScreen .withdraw-card {overflow:visible;border-radius:0;background:transparent}
+#withdrawScreen .withdraw-summary {display:block;padding:16px 14px 12px;border:1px solid #e5e9e4;border-bottom:0;border-radius:18px 18px 0 0;background:#fffefb;color:var(--ink)}
+#withdrawScreen .withdraw-summary-label {color:#747b7b;font-size:11px;line-height:18px;opacity:1}
+#withdrawScreen .withdraw-summary-value {margin-top:15px;color:#202e36;font-size:31px;line-height:38px;font-weight:500;letter-spacing:-.4px}
+#withdrawScreen .withdraw-balance-details {display:grid;padding:0 14px 16px;gap:18px;border:1px solid #e5e9e4;border-top:0;border-radius:0 0 18px 18px;background:#fffefb}
+#withdrawScreen .withdraw-balance-details>div {padding:12px 0 0;border:0;border-top:1px solid var(--line)}
+#withdrawScreen .withdraw-balance-details span {font-size:11px;line-height:18px;color:#747b7b}
+#withdrawScreen .withdraw-balance-details strong {margin-top:4px;color:#2f4050;font-size:14px;line-height:20px;font-weight:400}
+#withdrawScreen .withdraw-body {padding:0;background:transparent}
+#withdrawScreen .withdraw-amount-row {margin-top:12px;padding:18px 14px;border:0;border-radius:16px;background:#fff;gap:10px}
+#withdrawScreen .withdraw-amount-wrap {padding:10px 9px;border-radius:8px;background:var(--page);flex:1}
+#withdrawScreen .withdraw-currency {font-size:14px;font-weight:400}
+#withdrawScreen .withdraw-input {padding-left:5px;font-size:24px;line-height:30px;font-weight:500}
+#withdrawScreen .withdraw-all {font-size:11px;font-weight:400;color:#007c6b}
+#withdrawScreen .bank-account {margin:12px 0 0;padding:16px 14px;border-radius:16px;background:#fff}
+#withdrawScreen .bank-heading {margin-bottom:12px;font-size:14px;color:#2f4050}
+#withdrawScreen .bank-heading strong {font-weight:500}
+#withdrawScreen .bank-account button {font-size:12px;color:#007c6b}
+#withdrawScreen .bank-account label {display:flex;flex-direction:column;align-items:stretch;gap:7px;margin-bottom:13px;min-height:0;border:0;font-size:13px;color:#172b3a}
+#withdrawScreen .bank-account input {flex:none;width:100%;height:38px;padding:9px 11px;border:1px solid transparent;border-radius:8px;background:var(--page);color:#2f4050;font-size:13px}
+#withdrawScreen .bank-account input:focus {border-color:#8ecfc2}
+#withdrawScreen .bank-account input::placeholder {color:#8b949a}
+#withdrawScreen .bank-actions {gap:14px;margin-top:4px}
+#withdrawScreen #saveBank {min-height:36px;padding:0 16px;border-radius:8px;background:var(--accent);color:#fff}
+#withdrawScreen #savedBankSummary {padding:8px 10px;border-radius:8px;background:var(--soft);color:#4e5f6f;font-size:13px;line-height:22px}
+#withdrawScreen .withdraw-net-summary {margin-top:12px;padding:14px;border-radius:16px;background:#fff;color:#2f4050;font-size:12px}
+#withdrawScreen .withdraw-net-summary output {color:#007c6b;font-size:18px;font-weight:500}
+#withdrawScreen #withdrawTaxSummary {color:#66727b;font-size:10px}
+#withdrawScreen .withdraw-details {margin-top:12px;padding:2px 14px;border:0;border-radius:16px;background:#fff}
+#withdrawScreen .withdraw-details summary {min-height:46px;font-size:13px;font-weight:500;color:#263b4d}
+#withdrawScreen .withdraw-expand:after {font-size:11px;color:#747b7b}
+#withdrawScreen .withdraw-limits {padding:12px 0;background:#fff;border-radius:0;border-top:1px solid var(--line)}
+#withdrawScreen .withdraw-limit-item,#withdrawScreen .withdraw-limit-item strong,#withdrawScreen .withdraw-today {font-size:11px;font-weight:400;color:#4e5f6f}
+#withdrawScreen .withdraw-today strong {color:#007c6b}
+#withdrawScreen .withdraw-tax-notice {margin:0 0 12px;padding:12px;border:0;border-radius:8px;background:var(--page);color:#4e5f6f}
+#withdrawScreen .withdraw-tax-head {border-color:var(--line)}
+#withdrawScreen .withdraw-tax-head strong {font-weight:500;color:#2f4050}
+#withdrawScreen .withdraw-tax-head span,#withdrawScreen .withdraw-tax-row {color:#66727b;font-size:11px}
+#withdrawScreen .withdraw-tax-row output {color:#2f4050;font-weight:500}
+#withdrawScreen .withdraw-tax-row.tax output {color:#d43e35}
+#withdrawScreen .withdraw-submit {height:44px;margin-top:14px;font-size:14px;font-weight:500}
+#withdrawScreen .withdraw-hint {margin:8px 0 0;font-size:10px;line-height:17px;color:#747b7b}
+#withdrawScreen .withdraw-record-section {margin-top:18px}
+#withdrawScreen .withdraw-record-heading {margin:0 0 14px;font-size:13px;font-weight:500}
+#withdrawScreen .withdraw-record-count {font-size:11px;color:#66727b}
+#withdrawRecordList {gap:0;border-radius:17px;overflow:hidden;background:#fff}
+#withdrawRecordList .withdraw-history {position:relative;align-items:start;min-height:134px;padding:15px 14px!important;border:0;border-bottom:1px solid var(--line);border-radius:0;gap:10px;background:#fff}
+#withdrawRecordList .withdraw-history:last-child {border:0}
+#withdrawRecordList .withdraw-history-bank {padding-right:38px;font-size:13px;font-weight:400;color:#2f4050}
+#withdrawRecordList .withdraw-history-meta {margin-top:12px;font-size:10px;line-height:18px;color:#66727b}
+#withdrawRecordList .withdraw-history-amounts {margin-top:8px;font-size:12px;line-height:20px;color:#2f4050}
+#withdrawRecordList .withdraw-history-side {padding-top:56px;min-width:88px}
+#withdrawRecordList .withdraw-history-side-label {font-size:10px;color:#66727b}
+#withdrawRecordList .withdraw-history-side strong {margin-top:3px;color:#d43e35;font-size:18px;line-height:24px;font-weight:500}
+#withdrawRecordList .withdraw-history-status {position:absolute;top:15px;right:14px;margin:0;padding:0;background:transparent;font-size:11px;color:#946718}
+#withdrawRecordList .withdraw-history-status.done {color:#007c6b;background:transparent}
+#withdrawRecordList .withdraw-history-status.rejected {color:#d43e35;background:transparent}
+#withdrawRecordList .withdraw-history details {padding:0;font-size:11px;color:#d43e35}
+#withdrawRecordList .withdraw-history details p {padding:10px;border-radius:8px;background:#fff4f1;font-size:12px;line-height:20px}
+.phone .form-error {color:#d43e35;font-size:12px;line-height:19px}
+.phone .empty-result {border:0;border-radius:16px;background:#fff;color:#66727b}
+@media(max-width:760px) {.phone {height:min(812px,calc(100vh - 92px))}}
+@media(max-width:480px) {
+  .phone {width:100%;height:calc(100vh - 60px);min-height:0}
+  #followRecordScreen .member-detail-revisit-below {bottom:max(14px,env(safe-area-inset-bottom))}
+}
+@media(max-width:360px) {
+  .phone .member-list .member-card .card-action {min-width:65px;font-size:12px}
+  .phone .member-list .member-card .card-action.revisit-action {min-width:74px}
+  .phone .bill-filter,.phone .bill-filter-wrap .bill-filter {font-size:10px;padding-inline:3px}
+  .commission-record-footer {font-size:9px;column-gap:5px}
+}

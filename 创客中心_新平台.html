@@ -217,6 +217,12 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .bill-filter-wrap{position:relative}
 .bill-filter-wrap .bill-filters{display:flex;flex-wrap:wrap;gap:5px;overflow:visible}
 .bill-filter-wrap .bill-filter{min-width:0;padding:0 8px;font-size:10px}
+.bill-date-filter{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;align-items:end;gap:7px;margin-top:9px}
+.bill-date-field{display:grid;gap:4px;min-width:0;color:#71808e;font-size:10px;line-height:14px}
+.bill-date-field input{width:100%;min-width:0;height:32px;padding:0 7px;border:1px solid #d9e2e7;border-radius:8px;background:#fff;color:#455667;font:inherit;font-size:11px;font-variant-numeric:tabular-nums}
+.bill-date-field input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.bill-date-clear{height:32px;padding:0 8px;border:1px solid #d9e2e7;border-radius:8px;background:#fff;color:#526474;font-size:10px;white-space:nowrap;cursor:pointer}
+.bill-date-clear:disabled{opacity:.45;cursor:default}
 .withdraw-limits{margin-top:10px;padding:10px 11px;border-radius:10px;background:#f1f5f6}
 .withdraw-limit-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px 12px}
 .withdraw-limit-item{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#71808e;font-size:10px;line-height:16px}
@@ -609,25 +615,62 @@ button,input,textarea,select{font-family:inherit}
 .withdraw-history-side .withdraw-history-status{display:inline-flex;margin-top:4px;padding:2px 7px;border-radius:10px;background:#fff2df;color:#ba842c;font-size:10px;line-height:15px}
 .withdraw-history-status.done{background:#e9f6ef;color:#259078}.withdraw-history-status.rejected{background:#fff0ed;color:#c25c50}
 .withdraw-history details{grid-column:1/-1;margin:0;font-size:11px;color:#bb6148}.withdraw-history details summary{cursor:pointer}.withdraw-history details p{margin:5px 0 0}
+
+/* 个人中心设计稿视觉层：设计稿负责呈现，原有按钮 ID 负责交互 */
+#personalScreen{background:#f6f7f9;color:#17232d}
+#personalScreen>.personal-design-scroll{padding:0!important;background:#f6f7f9;overflow-y:auto;display:block}
+.personal-design-canvas{position:relative;width:100%;min-height:1026px;margin:0 auto;overflow:hidden;background:#f6f7f9}
+.personal-design-base{display:block;width:100%;height:1026px;max-width:none}
+.personal-design-open-layout{display:none}
+.personal-screen-open .personal-design-base,.personal-screen-open .personal-design-locked{display:none}
+.personal-screen-open .personal-design-canvas{min-height:0}
+.personal-screen-open .personal-design-open-layout{display:block;position:relative}
+.personal-open-slice{position:relative;width:100%;overflow:hidden}
+.personal-open-slice img{position:absolute;left:0;width:100%;height:1026px;max-width:none}
+.personal-open-top{height:176px}
+.personal-open-top img{top:0}
+.personal-open-middle{height:265px}
+.personal-open-middle img{top:-176px}
+.personal-open-bottom{height:413px}
+.personal-open-bottom img{top:-613px}
+.personal-design-hit{position:absolute;z-index:4;display:block;border:0;background:transparent;padding:0;cursor:pointer}
+.personal-design-hit:focus-visible{outline:2px solid #08a37e;outline-offset:-2px;border-radius:14px}
+.personal-back-hit{top:10px;left:8px;width:48px;height:48px}
+.personal-design-locked,.personal-design-opened{position:absolute;z-index:2;left:16px;top:453px;width:343px;height:160px}
+.personal-design-locked{background:transparent}
+.personal-creator-open-hit{inset:0;width:100%;height:100%}
+.personal-design-opened{position:relative;z-index:3;left:auto;top:auto;margin:8px 16px 0;width:calc(100% - 32px);height:auto;aspect-ratio:343 / 126}
+.personal-design-opened>img{display:block;width:100%;height:auto;aspect-ratio:343 / 126}
+.personal-enter-hit{inset:0;width:100%;height:100%}
+#personalCreatorOpened[hidden],#personalCreatorLocked[hidden]{display:none!important}
+@media(max-width:390px){.personal-design-canvas{margin-left:0;margin-right:0}}
 </style>
+  <link rel="stylesheet" href="creator-center-design.css?v=1.5">
 </head>
 <body>
   <main class="stage">
     <div class="creator-demo-control"><span>演示开通</span><button type="button" id="creatorDemoToggle" role="switch" aria-checked="true" aria-label="演示创客中心开通"><span></span></button></div>
     <section class="phone" aria-label="创客中心">
       <section class="screen active" id="personalScreen" aria-label="个人中心">
-<div class="statusbar"><span>23:58 ◢</span><span class="status-icons"><span class="signal">▮▮▮</span><span>⌁</span><span class="battery"></span></span></div>
-<header class="navbar personal-navbar"><div class="personal-nav-left"><button class="back" id="personalBack" aria-label="返回创客中心" type="button"></button><button type="button" aria-label="首页" data-toast="首页"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8M5 10v10h14V10M9 20v-7h6v7"/></svg></button></div><strong class="navbar-title">个人中心</strong><div class="personal-nav-right"><button type="button" aria-label="分享" data-toast="分享"><svg viewBox="0 0 24 24"><path d="M13 4h7v7M20 4l-9 9M10 4H7a4 4 0 0 0-4 4v9a4 4 0 0 0 4 4h9a4 4 0 0 0 4-4v-3"/></svg></button><span class="capsule" aria-hidden="true"><span class="dots">•••</span><span class="mini-circle"></span></span></div></header>
-<div class="scroll personal-scroll">
-<div class="personal-user"><img src="assets/personal/avatar.png" alt=""><div><div class="personal-name">张凤娇 <span>家长</span></div></div><button type="button" class="personal-switch" data-toast="角色切换"><span aria-hidden="true">⇆</span> 角色切换</button></div>
-<section class="personal-panel creator-reward" id="personalCreatorOpened" aria-label="已开通的创客中心"><div class="creator-reward-head"><div class="creator-reward-summary"><div class="creator-reward-title">累计收益</div><div class="creator-reward-amount"><small>¥</small>812,386.50</div></div><div class="creator-reward-team"><span>团队成员</span><strong>20<small>人</small></strong></div></div><button class="creator-reward-enter" id="personalEnterCreator" type="button">进入创客中心<span aria-hidden="true">›</span></button></section>
-<div class="personal-panel personal-quick"><button type="button" data-toast="申请加盟"><img src="assets/personal/join.png" alt=""><span>申请加盟</span></button><button type="button" data-toast="邀请家长报名"><img src="assets/personal/invite-parent.png" alt=""><span>邀请家长报名</span></button><button type="button" data-toast="邀请老师入驻"><img src="assets/personal/invite-teacher.png" alt=""><span>邀请老师入驻</span></button><button type="button" data-toast="招募合伙人"><img src="assets/personal/partner.png" alt=""><span>招募合伙人</span></button></div>
-<section class="personal-panel personal-services"><h2>我的服务</h2><div><button type="button" data-toast="我的课程"><img src="assets/personal/course.png" alt=""><span>我的课程</span></button><button type="button" data-toast="我的订单"><img src="assets/personal/order.png" alt=""><span>我的订单</span></button><button type="button" data-toast="我的收藏"><img src="assets/personal/favorite.png" alt=""><span>我的收藏</span></button></div></section>
-<section class="personal-panel personal-creator" id="personalCreatorLocked" hidden><header><h2>创客中心</h2><span>⊗ 未开通</span></header><div class="personal-creator-body"><img src="assets/personal/creator-transparent.png" alt=""><div><h3>创客中心未开通</h3><p>加入团队，解锁更多收益</p><button type="button" id="personalOpenCreator">申请开通</button></div></div></section>
-<div class="personal-panel personal-settings"><button type="button" data-toast="修改资料"><img src="assets/personal/edit.png" alt=""><span>修改资料</span><span class="personal-chevron" aria-hidden="true">›</span></button><button type="button" data-toast="帮助中心"><img src="assets/personal/help.png" alt=""><span>帮助中心</span><span class="personal-chevron" aria-hidden="true">›</span></button><button type="button" data-toast="联系客服"><img src="assets/personal/support.png" alt=""><span>联系客服</span><span class="personal-chevron" aria-hidden="true">›</span></button><button type="button" data-toast="清除缓存"><img src="assets/personal/cache.png" alt=""><span>清除缓存</span><span class="personal-chevron" aria-hidden="true">›</span></button><button type="button" data-toast="关于领榜"><img src="assets/personal/about.png" alt=""><span>关于领榜</span><span class="personal-chevron" aria-hidden="true">›</span></button></div>
-<button type="button" class="personal-logout" data-toast="退出登录">退出登录</button>
-</div><nav class="personal-bottom" aria-label="底部导航"><button type="button" class="" data-toast="首页"><img src="assets/personal/nav-home.png" alt=""><span>首页</span></button><button type="button" class="" data-toast="AI背单词"><img src="assets/personal/nav-ai.png" alt=""><span>AI背单词</span></button><button type="button" class="" data-toast="消息"><img src="assets/personal/nav-message.png" alt=""><span>消息</span></button><button type="button" class="" data-toast="订单"><img src="assets/personal/nav-order.png" alt=""><span>订单</span></button><button type="button" class="selected" data-toast="我的"><img src="assets/personal/nav-my.png" alt=""><span>我的</span></button></nav><div class="personal-home-indicator" aria-hidden="true"></div>
-</section>
+        <div class="personal-design-scroll scroll">
+          <div class="personal-design-canvas">
+            <img class="personal-design-base" src="assets/personal/unopened-creator-page.svg?v=20261027-edge-fix2" alt="个人中心设计稿">
+            <div class="personal-design-open-layout">
+              <div class="personal-open-slice personal-open-top"><img src="assets/personal/unopened-creator-page.svg?v=20261027-edge-fix2" alt=""></div>
+              <section class="personal-design-opened" id="personalCreatorOpened" aria-label="已开通的创客中心">
+                <img src="assets/personal/opened-revenue-overview.svg" alt="创客中心收益概览">
+                <button type="button" class="personal-design-hit personal-enter-hit" id="personalEnterCreator" aria-label="进入创客中心"></button>
+              </section>
+              <div class="personal-open-slice personal-open-middle"><img src="assets/personal/unopened-creator-page.svg?v=20261027-edge-fix2" alt=""></div>
+              <div class="personal-open-slice personal-open-bottom"><img src="assets/personal/unopened-creator-page.svg?v=20261027-edge-fix2" alt=""></div>
+            </div>
+            <button type="button" class="personal-design-hit personal-back-hit" id="personalBack" aria-label="返回创客中心"></button>
+            <section class="personal-design-locked" id="personalCreatorLocked" aria-label="未开通创客中心">
+              <button type="button" class="personal-design-hit personal-creator-open-hit" id="personalOpenCreator" aria-label="申请开通"></button>
+            </section>
+          </div>
+        </div>
+      </section>
       <section class="screen" id="overviewScreen" aria-label="创客中心概览">
         <div class="statusbar"><span>23:58 ◢</span><span class="status-icons"><span class="signal">▮▮▮</span><span>⌁</span><span class="battery"></span></span></div>
         <header class="navbar"><button class="back" type="button" id="backToPersonal" aria-label="返回个人中心"></button><strong class="navbar-title">创客中心</strong><span class="capsule" aria-hidden="true"><span class="dots">•••</span><span class="mini-circle"></span></span></header>
@@ -645,7 +688,7 @@ button,input,textarea,select{font-family:inherit}
           <section class="member-section">
               <div class="member-filter-card">
 <div class="my-team-heading"><strong>我的团队 <span id="myTeamTotal"></span></strong><span id="myTeamToday"></span></div>
-              
+
               <div class="member-tools" aria-label="成员筛选条件">
                 <div class="filter-field identity-flat-field" id="identityField"><span id="identityLabel">身份</span><div class="identity-flat-options" role="group" aria-label="身份筛选"><button class="identity-flat-option active" type="button" data-identity-value="all" aria-pressed="true">全部</button><button class="identity-flat-option" type="button" data-identity-value="teacher" aria-pressed="false">老师</button><button class="identity-flat-option" type="button" data-identity-value="parent" aria-pressed="false">家长</button></div></div>
               </div>
@@ -661,12 +704,17 @@ button,input,textarea,select{font-family:inherit}
         <div class="statusbar"><span>23:58 ◢</span><span class="status-icons"><span class="signal">▮▮▮</span><span>⌁</span><span class="battery"></span></span></div>
         <header class="navbar"><button class="back" id="closeBill" type="button" aria-label="返回创客中心"></button><strong class="manage-title">我的账单</strong><span class="capsule" aria-hidden="true"><span class="dots">•••</span><span class="mini-circle"></span></span></header>
         <div class="scroll bill-scroll">
-          <section class="bill-income-summary" aria-label="累计收益"><div><span class="label">累计收益（元）</span><strong class="number" id="billIncomeTotal">¥812,386.50</strong></div><button id="billWithdrawToggle" type="button">立即提现</button></section>
+          <section class="bill-income-summary" aria-label="累计收益"><div><span class="label">累计收益（元）</span><strong class="number" id="billIncomeTotal">¥812,386.50</strong></div><div class="bill-income-footer"><span class="bill-available">可提现 <span class="number" id="billAvailableTotal">¥255,386.50</span></span><button id="billWithdrawToggle" type="button">立即提现</button></div></section>
           <div class="bill-sticky-tools">
             <div class="bill-filter-wrap" id="commissionFilterWrap">
               <nav class="bill-filters" aria-label="分润业务类型">
-                <button class="bill-filter active" type="button" data-commission-filter="all" data-commission-label="全部" aria-pressed="true">全部</button><button class="bill-filter" type="button" data-commission-filter="parent" data-commission-label="邀请家长" aria-pressed="false">邀请家长</button><button class="bill-filter" type="button" data-commission-filter="teacher" data-commission-label="邀请老师" aria-pressed="false">邀请老师</button><button class="bill-filter" type="button" data-commission-filter="cooperation" data-commission-label="促成合作" aria-pressed="false">促成合作</button>
+                <button class="bill-filter active" type="button" data-commission-filter="all" data-commission-label="全部" aria-pressed="true">全部</button><button class="bill-filter" type="button" data-commission-filter="parent" data-commission-label="注册家长" aria-pressed="false">注册家长</button><button class="bill-filter" type="button" data-commission-filter="teacher" data-commission-label="入驻老师" aria-pressed="false">入驻老师</button><button class="bill-filter" type="button" data-commission-filter="cooperation" data-commission-label="签约" aria-pressed="false">签约</button>
               </nav>
+              <div class="bill-date-filter" role="group" aria-label="按日期筛选分润明细">
+                <label class="bill-date-field">开始日期<input id="commissionDateStart" type="date" aria-label="开始日期"></label>
+                <label class="bill-date-field">结束日期<input id="commissionDateEnd" type="date" aria-label="结束日期"></label>
+                <button class="bill-date-clear" id="clearCommissionDates" type="button" disabled>清空</button>
+              </div>
             </div>
           </div>
           <section class="bill-panel" id="commissionPanel" role="tabpanel" aria-labelledby="commissionTab">
@@ -721,12 +769,10 @@ button,input,textarea,select{font-family:inherit}
           </article>
           <button class="detail-team-stats" id="memberDetailTeam" type="button" hidden><span>二星团队人数<strong id="memberDetailTeamTotal"></strong></span><span>今日新增<strong id="memberDetailTeamToday"></strong></span><span aria-hidden="true">›</span></button>
           <button class="member-detail-action primary member-detail-revisit-below" id="memberDetailRevisit" type="button">添加回访</button>
-          <nav class="member-detail-tabs" id="memberDetailTablist" role="tablist" aria-label="成员明细类型"><button class="member-detail-tab active" type="button" role="tab" aria-selected="true" data-member-detail-tab="follow">跟进记录</button><button class="member-detail-tab" type="button" role="tab" aria-selected="false" data-member-detail-tab="purchase">订单记录</button><button class="member-detail-tab" type="button" role="tab" aria-selected="false" data-member-detail-tab="commission">分润明细</button></nav>
-          <div class="follow-record-heading"><strong id="memberDetailListTitle">跟进动态</strong><span id="followRecordCount">0 条记录</span></div>
-          <div class="member-commission-toolbar" id="memberCommissionToolbar" hidden><nav class="bill-filters member-commission-filters" aria-label="分润业务类型"><button class="bill-filter active" type="button" data-commission-filter="all" aria-pressed="true">全部</button><button class="bill-filter" type="button" data-commission-filter="parent" aria-pressed="false">邀请家长</button><button class="bill-filter" type="button" data-commission-filter="teacher" aria-pressed="false">邀请老师</button><button class="bill-filter" type="button" data-commission-filter="cooperation" aria-pressed="false">促成合作</button></nav><div class="commission-list-head"><span class="commission-list-count" id="memberCommissionSummary">24 笔记录</span></div></div>
+          <nav class="member-detail-tabs" id="memberDetailTablist" role="tablist" aria-label="成员明细类型"><button class="member-detail-tab active" type="button" role="tab" aria-selected="true" data-member-detail-tab="follow">回访记录</button><button class="member-detail-tab" type="button" role="tab" aria-selected="false" data-member-detail-tab="purchase">订单记录</button></nav>
+          <div class="follow-record-heading"><strong id="memberDetailListTitle">回访动态</strong><span id="followRecordCount">0 条记录</span></div>
           </div>
           <div class="detail-record-list" id="followRecordList" aria-live="polite"></div>
-          <section class="member-commission-panel" id="memberCommissionPanel" aria-label="分润明细" hidden><div class="bill-record-list" id="memberCommissionList" aria-live="polite"></div></section>
         </div>
       </section>
       <div class="team-mask" id="teamMask" hidden></div>
@@ -742,7 +788,7 @@ button,input,textarea,select{font-family:inherit}
         <header class="revisit-header"><strong class="revisit-title" id="revisitTitle">添加回访</strong><button class="revisit-close" id="revisitClose" type="button" aria-label="关闭添加回访">×</button></header>
         <div class="revisit-body">
           <div class="member-card" id="revisitMemberCard" style="cursor:default"></div>
-          <section class="revisit-latest"><strong class="revisit-section-title">最近跟进</strong><p id="revisitLatestText">暂无跟进记录</p></section>
+          <section class="revisit-latest"><strong class="revisit-section-title">最近跟进</strong><p id="revisitLatestText">暂无回访记录</p></section>
           <div class="revisit-field"><label class="revisit-section-title" for="revisitContent">跟进内容</label><div class="revisit-textarea-wrap"><textarea class="revisit-textarea" id="revisitContent" maxlength="200" inputmode="none" placeholder="请输入详细的沟通内容"></textarea><div class="revisit-field-meta"><button class="revisit-phrase-trigger" id="openRevisitPhrases" type="button">常用语</button><span class="revisit-count" id="revisitCount">0/200</span></div></div><div class="form-error" id="revisitMessage" role="alert" hidden></div></div>
         </div>
         <div class="revisit-actions"><button class="revisit-cancel" id="cancelRevisit" type="button">取消</button><button class="revisit-submit" id="submitRevisit" type="button" disabled>提交记录</button></div>
@@ -770,5 +816,5 @@ button,input,textarea,select{font-family:inherit}
       <div class="toast" id="toast" role="status" aria-live="polite"></div>
     </section>
   </main>
-  <script src="creator-center.js?v=20261026-commission-copy-v15"></script><script src="prototype-notes.js?v=20261026-commission-copy-v15"></script></body>
+  <script src="creator-center.js?v=1.8"></script><script src="prototype-notes.js?v=1.8"></script></body>
 </html>
