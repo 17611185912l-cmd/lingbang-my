@@ -1,0 +1,12 @@
+/* Standalone H5: full viewport, no annotation panel or demo controls. */
+html,body{width:100%;height:100%;min-height:0;overflow:hidden;background:#f5f7f9}
+.stage{width:100%;height:100vh;height:100dvh;min-height:0;padding:0;display:flex;justify-content:center;align-items:stretch}
+.stage>.phone{width:100%;max-width:480px;height:100%;min-height:0;border-radius:0;box-shadow:none}
+.creator-demo-control,.prototype-notes{display:none!important}
+.personal-design-canvas{width:375px!important;margin:0!important}
+.personal-open-slice img,.personal-design-base{width:375px}
+.phone .navbar{height:48px;flex-shrink:0}
+.phone .screen:not(#personalScreen) .statusbar{height:calc(30px + env(safe-area-inset-top));padding-top:env(safe-area-inset-top)}
+.promotion-home-footer{padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+.phone .scroll{scroll-padding-bottom:env(safe-area-inset-bottom)}
+input,textarea,select{font-size:16px!important}
