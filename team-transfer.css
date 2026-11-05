@@ -1,0 +1,86 @@
+/* 沿用推广中心的浅绿、白卡片和紧凑移动端排版。 */
+.phone [hidden]{display:none!important}
+.team-scope-tabs{display:flex;gap:22px;border-bottom:1px solid var(--line);margin-top:13px}
+.team-scope-tabs button{position:relative;padding:10px 0 11px;border:0;background:none;color:var(--muted);font:inherit;font-size:13px;cursor:pointer}
+.team-scope-tabs button.active{color:var(--accent-dark);font-weight:600}
+.team-scope-tabs button.active:after{content:'';position:absolute;bottom:0;left:calc(50% - 10px);width:20px;height:3px;border-radius:4px;background:var(--accent)}
+.team-scope-hint{margin:10px 0 0;color:#52665f;font-size:13px;line-height:20px}
+.team-list-tools{display:flex;align-items:center;justify-content:space-between;gap:6px;margin:12px 1px 8px}
+#overviewScreen .team-list-tools .member-result-count{margin:0;padding:0;font-size:11px}
+.team-list-actions{display:flex;gap:13px}
+.team-list-actions button,.card-transfer-action button{border:0;background:none;color:var(--accent-dark);font:inherit;font-size:12px;cursor:pointer;padding:4px 0}
+.team-list-actions button:disabled{opacity:.4;cursor:default}
+.card-transfer-action{display:flex;justify-content:flex-end;margin-top:8px}
+.phone .member-list .member-card .card-actions{min-height:40px}
+.phone .member-list .member-card .card-action[data-transfer-member]{border-color:#d5e9e3;background:#f4faf7;color:var(--accent-dark);font-size:12px}
+.phone .member-list .member-card.transfer-selecting .card-actions{min-height:40px}
+.card-transfer-info{display:flex;justify-content:space-between;gap:8px;padding:7px 9px;margin-bottom:10px;border-radius:6px;background:#f1f4f5;color:#67747a;font-size:11px;line-height:16px}
+.card-transfer-info.received{background:#edf8f3;color:var(--accent-dark)}
+.card-transfer-info time{font-size:10px;white-space:nowrap}
+.team-batch-bar{display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:5;margin:8px 0 10px;padding:10px;border:1px solid #cee9df;border-radius:9px;background:#f1faf6;font-size:12px;color:var(--accent-dark)}
+.team-batch-bar label{display:flex;align-items:center;gap:4px;white-space:nowrap}
+.team-batch-bar input,.team-member-select input{accent-color:var(--accent-dark);width:16px;height:16px;margin:0;cursor:pointer}
+#teamBatchCount{flex:1;font-size:11px}
+.team-batch-bar button{border:0;background:none;color:var(--muted);font:inherit;font-size:12px;padding:4px 0;cursor:pointer}
+.team-batch-bar #submitTeamBatch{border-radius:6px;background:var(--accent);color:#fff;padding:7px 11px}
+.team-batch-bar #submitTeamBatch:disabled{opacity:.4;cursor:default}
+.team-member-select{display:flex;align-items:center;gap:7px;margin:0 0 11px;padding-bottom:9px;border-bottom:1px solid var(--line);font-size:11px;color:var(--muted);cursor:pointer}
+.team-member-select.is-disabled{opacity:.5;cursor:default}
+.phone .member-card.transfer-selected{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.transfer-selecting .registered-add-revisit,.transfer-selecting .card-actions{visibility:hidden}
+#followRecordScreen .detail-transfer-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:9px 0 0}
+#followRecordScreen .detail-transfer-actions.single{grid-template-columns:1fr}
+#followRecordScreen .detail-transfer-actions button{position:static;height:38px;margin:0;width:100%;border:1px solid #cee9df;border-radius:8px;background:#edf8f4;color:var(--accent-dark);font:inherit;font-size:13px;box-shadow:none;cursor:pointer}
+#followRecordScreen .detail-transfer-actions #memberDetailRevisit{background:var(--accent);color:#fff;border-color:var(--accent)}
+.team-transfer-notice{padding:8px 10px;background:#edf3f0;border-radius:7px;color:var(--muted);font-size:11px;line-height:17px;margin:8px 0 0}
+.team-transfer-mask{position:absolute;inset:0;z-index:85;background:rgba(16,37,31,.4)}
+.team-transfer-sheet{position:absolute;left:0;right:0;bottom:0;z-index:86;display:flex;flex-direction:column;max-height:90%;border-radius:20px 20px 0 0;background:var(--surface);color:var(--ink);box-shadow:0 -10px 40px #183d2420;overflow:hidden}
+.team-transfer-sheet>header{display:flex;justify-content:space-between;padding:20px 18px 13px;border-bottom:1px solid var(--line);flex-shrink:0}
+.team-transfer-sheet h2{margin:0;font-size:17px;line-height:24px;font-weight:600}
+.team-transfer-sheet header p{margin:4px 0 0;font-size:11px;color:var(--muted)}
+.team-transfer-sheet header button{align-self:flex-start;width:28px;height:28px;border:0;border-radius:50%;background:#f3f5f4;color:var(--muted);font-size:22px;line-height:22px;cursor:pointer}
+.team-transfer-body{padding:14px 18px;overflow:auto;min-height:0}
+.transfer-target-summary{padding:11px 12px;border-radius:9px;background:#f4f8f6;margin-bottom:15px}
+.transfer-target-summary>span{display:block;color:var(--muted);font-size:11px;margin-bottom:5px}
+.transfer-target-summary>strong{font-size:13px;font-weight:500;line-height:20px}
+.transfer-target-summary details{margin-top:7px;font-size:11px;color:var(--accent-dark)}
+.transfer-target-summary summary{cursor:pointer}
+#transferTargetList{max-height:100px;overflow:auto}
+#transferTargetList p{display:flex;justify-content:space-between;gap:12px;margin:7px 0;color:var(--muted)}
+.transfer-search-label{display:block;margin-bottom:8px;font-size:12px;font-weight:500}
+#transferReceiverSearch{display:block;width:100%;height:38px;border:1px solid #e0e7e3;border-radius:8px;background:#f8faf9;padding:0 11px;color:var(--ink);font:inherit;font-size:12px;box-sizing:border-box}
+#transferReceiverSearch:focus{outline:1px solid var(--accent);border-color:var(--accent)}
+.transfer-recipient-list{display:grid;gap:7px;margin-top:10px;max-height:236px;overflow:auto}
+.transfer-recipient{display:flex;align-items:center;gap:9px;width:100%;padding:10px;border:1px solid #e7eeea;border-radius:9px;background:#fff;text-align:left;font:inherit;color:var(--ink);cursor:pointer}
+.transfer-recipient.selected{border-color:var(--accent);background:#f0faf6}
+.transfer-recipient .avatar{width:32px;height:32px;flex:0 0 32px;font-size:14px}
+.transfer-recipient-copy{flex:1;min-width:0}
+.transfer-recipient-copy strong{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:500}
+.transfer-recipient-copy small{font-size:11px;color:var(--muted);font-weight:400}
+.transfer-recipient-copy>span{display:block;font-size:10px;line-height:16px;color:var(--muted);margin-top:3px}
+.transfer-radio{display:flex;align-items:center;justify-content:center;border:1px solid #cfdcd5;border-radius:50%;width:17px;height:17px;font-size:11px;color:#fff}
+.selected .transfer-radio{background:var(--accent);border-color:var(--accent)}
+.transfer-effect{font-size:11px;line-height:18px;color:var(--muted);margin:12px 0 0}
+.transfer-no-result{text-align:center;padding:24px 10px;color:var(--muted);font-size:12px;line-height:22px}
+.transfer-form-error{font-size:12px;color:#b3463c}
+.team-transfer-sheet>footer{display:grid;grid-template-columns:1fr 2fr;gap:10px;padding:12px 18px 20px;border-top:1px solid var(--line);flex-shrink:0}
+.team-transfer-sheet footer button{height:40px;border:1px solid #dfe8e2;border-radius:8px;background:#fff;color:var(--muted);font:inherit;font-size:13px;cursor:pointer}
+.team-transfer-sheet footer #confirmTeamTransfer{border-color:var(--accent);background:var(--accent);color:#fff}
+.team-transfer-sheet footer #confirmTeamTransfer:disabled{opacity:.4;cursor:default}
+.transfer-record-scroll{padding:14px}
+.transfer-record-filters{display:flex;gap:5px;padding:4px;border-radius:9px;background:#eaf0ec}
+.transfer-record-filters button{flex:1;height:32px;border:0;border-radius:7px;background:none;color:var(--muted);font:inherit;font-size:12px;cursor:pointer}
+.transfer-record-filters button.active{background:#fff;color:var(--accent-dark);box-shadow:0 1px 4px #183d2410}
+#transferRecordCount{font-size:11px;color:var(--muted);margin:13px 0 10px}
+#transferRecordList{display:grid;gap:10px;padding-bottom:16px}
+.team-transfer-record{padding:13px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.transfer-record-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10px;color:var(--muted)}
+.transfer-record-heading>span{padding:2px 6px;border-radius:4px;background:var(--soft);color:var(--accent-dark)}
+.transfer-record-member{display:flex;gap:10px;align-items:center;margin:12px 0;font-size:12px}
+.transfer-record-member strong{font-size:14px;font-weight:500}
+.transfer-record-member>span{color:var(--muted)}
+.transfer-record-route{display:grid;grid-template-columns:1fr 24px 1fr;gap:8px;padding:10px;border-radius:7px;background:#f6f8f7}
+.transfer-record-route>div{display:flex;flex-direction:column;gap:4px;font-size:12px;min-width:0}
+.transfer-record-route small{font-size:10px;color:var(--muted)}
+.transfer-route-arrow{align-self:center;color:#93afa1}
+.phone .team-transfer-sheet button:focus-visible,.phone .team-scope-tabs button:focus-visible,.phone .team-member-select:focus-within{outline:2px solid var(--accent-dark);outline-offset:2px}

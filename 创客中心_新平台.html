@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>创客中心｜新平台</title>
+  <title>推广中心｜新平台</title>
   <style>
 :root{--page:#f3f6f8;--surface:#fff;--soft:#edf3ff;--accent:#145cff;--accent-dark:#0749d8;--ink:#102958;--muted:#738294;--line:#e7edf1;--warning:#f59e0b;--radius:14px}
 *{box-sizing:border-box}
@@ -26,10 +26,6 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .navbar-title,.manage-title{font-size:18px;font-weight:700;letter-spacing:.2px}
 .back{position:absolute;left:8px;width:44px;height:44px;border:0;background:transparent;cursor:pointer}
 .back:before{content:"";position:absolute;left:17px;top:13px;width:12px;height:12px;border-left:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg)}
-.capsule{position:absolute;right:12px;width:76px;height:31px;border:1px solid var(--line);border-radius:18px;display:flex;align-items:center;justify-content:space-around;background:#fff}
-.dots{font-size:17px;letter-spacing:2px;transform:translateY(-3px)}
-.mini-circle{width:16px;height:16px;border:1.5px solid var(--ink);border-radius:50%;position:relative}
-.mini-circle:after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--ink)}
 .scroll{min-height:0;flex:1;overflow-y:auto;padding:14px 14px 28px;scrollbar-width:none;overscroll-behavior:contain}
 .scroll::-webkit-scrollbar{display:none}
 .stack{display:grid;gap:12px}
@@ -641,70 +637,108 @@ button,input,textarea,select{font-family:inherit}
 .personal-creator-open-hit{inset:0;width:100%;height:100%}
 .personal-design-opened{position:relative;z-index:3;left:auto;top:auto;margin:8px 16px 0;width:calc(100% - 32px);height:auto;aspect-ratio:343 / 126}
 .personal-design-opened>img{display:block;width:100%;height:auto;aspect-ratio:343 / 126}
-.personal-enter-hit{inset:0;width:100%;height:100%}
+.personal-team-hit{top:0;left:0;width:36.7347%;height:63.4921%}
+.personal-income-hit{top:0;right:0;width:63.2653%;height:63.4921%}
+.personal-enter-hit{left:0;bottom:0;width:100%;height:36.5079%}
 #personalCreatorOpened[hidden],#personalCreatorLocked[hidden]{display:none!important}
 @media(max-width:390px){.personal-design-canvas{margin-left:0;margin-right:0}}
 </style>
-  <link rel="stylesheet" href="creator-center-design.css?v=1.5">
+  <link rel="stylesheet" href="creator-center-design.css?v=20261105-commission-lesson-methods">
+  <link rel="stylesheet" href="promotion-home.css?v=20261103-iphone-statusbar">
+  <link rel="stylesheet" href="team-transfer.css?v=20261103-detail-actions">
 </head>
 <body>
   <main class="stage">
-    <div class="creator-demo-control"><span>演示开通</span><button type="button" id="creatorDemoToggle" role="switch" aria-checked="true" aria-label="演示创客中心开通"><span></span></button></div>
-    <section class="phone" aria-label="创客中心">
+    <div class="creator-demo-control"><span>演示开通</span><button type="button" id="creatorDemoToggle" role="switch" aria-checked="true" aria-label="演示推广中心开通"><span></span></button></div>
+    <section class="phone" aria-label="推广中心">
       <section class="screen active" id="personalScreen" aria-label="个人中心">
+        <div class="statusbar"><time class="status-time" datetime="23:58">23:58</time><img class="status-icons" src="assets/personal/device/iphone-x-status.svg" width="67" height="12" alt="信号满格，Wi-Fi 已连接，电量充足"></div>
+        <img class="capsule" src="assets/personal/device/miniprogram-capsule.svg" width="87" height="32" alt="" aria-hidden="true">
         <div class="personal-design-scroll scroll">
           <div class="personal-design-canvas">
-            <img class="personal-design-base" src="assets/personal/unopened-creator-page.svg?v=20261027-edge-fix2" alt="个人中心设计稿">
+            <img class="personal-design-base" src="assets/personal/unopened-creator-page.svg?v=20261103-unified-capsule" alt="个人中心设计稿">
             <div class="personal-design-open-layout">
-              <div class="personal-open-slice personal-open-top"><img src="assets/personal/unopened-creator-page.svg?v=20261027-edge-fix2" alt=""></div>
-              <section class="personal-design-opened" id="personalCreatorOpened" aria-label="已开通的创客中心">
-                <img src="assets/personal/opened-revenue-overview.svg" alt="创客中心收益概览">
-                <button type="button" class="personal-design-hit personal-enter-hit" id="personalEnterCreator" aria-label="进入创客中心"></button>
+              <div class="personal-open-slice personal-open-top"><img src="assets/personal/unopened-creator-page.svg?v=20261103-unified-capsule" alt=""></div>
+              <section class="personal-design-opened" id="personalCreatorOpened" aria-label="已开通的推广中心">
+                <img src="assets/personal/opened-revenue-overview.svg?v=20261102-promotion-center" alt="推广中心收益概览">
+                <button type="button" class="personal-design-hit personal-team-hit" id="personalOpenTeam" aria-label="团队成员，查看我的团队"></button>
+                <button type="button" class="personal-design-hit personal-income-hit" id="personalOpenIncome" aria-label="累计收益，查看收益明细"></button>
+                <button type="button" class="personal-design-hit personal-enter-hit" id="personalEnterCreator" aria-label="进入推广中心"></button>
               </section>
-              <div class="personal-open-slice personal-open-middle"><img src="assets/personal/unopened-creator-page.svg?v=20261027-edge-fix2" alt=""></div>
-              <div class="personal-open-slice personal-open-bottom"><img src="assets/personal/unopened-creator-page.svg?v=20261027-edge-fix2" alt=""></div>
+              <div class="personal-open-slice personal-open-middle"><img src="assets/personal/unopened-creator-page.svg?v=20261103-unified-capsule" alt=""></div>
+              <div class="personal-open-slice personal-open-bottom"><img src="assets/personal/unopened-creator-page.svg?v=20261103-unified-capsule" alt=""></div>
             </div>
-            <button type="button" class="personal-design-hit personal-back-hit" id="personalBack" aria-label="返回创客中心"></button>
-            <section class="personal-design-locked" id="personalCreatorLocked" aria-label="未开通创客中心">
+            <button type="button" class="personal-design-hit personal-back-hit" id="personalBack" aria-label="返回推广中心"></button>
+            <section class="personal-design-locked" id="personalCreatorLocked" aria-label="未开通推广中心">
               <button type="button" class="personal-design-hit personal-creator-open-hit" id="personalOpenCreator" aria-label="申请开通"></button>
             </section>
           </div>
         </div>
       </section>
-      <section class="screen" id="overviewScreen" aria-label="创客中心概览">
-        <div class="statusbar"><span>23:58 ◢</span><span class="status-icons"><span class="signal">▮▮▮</span><span>⌁</span><span class="battery"></span></span></div>
-        <header class="navbar"><button class="back" type="button" id="backToPersonal" aria-label="返回个人中心"></button><strong class="navbar-title">创客中心</strong><span class="capsule" aria-hidden="true"><span class="dots">•••</span><span class="mini-circle"></span></span></header>
-        <div class="scroll overview-scroll" id="overviewScroll">
-          <section class="tab-view" data-view="overview">
-            <div class="stack overview-stack">
-              <article class="wire-card income-card">
-                <div class="income-total"><div class="income-total-head"><span class="label">累计收益（元）</span><button id="openIncomeDetails" type="button">查看收益明细 ›</button></div><strong class="income-total-value number"><small class="currency">¥</small>812,386.50</strong></div>
-                <div class="income-main"><div><span class="label">可提现（元）</span><strong class="available number"><small class="currency">¥</small>255,386.50</strong></div><button class="white-button" id="openBill" type="button">立即提现</button></div>
-
-              </article>
-
+      <section class="screen" id="promotionHomeScreen" aria-label="推广中心首页" inert>
+        <div class="statusbar"><time class="status-time" datetime="23:58">23:58</time><img class="status-icons" src="assets/personal/device/iphone-x-status.svg" width="67" height="12" alt="信号满格，Wi-Fi 已连接，电量充足"></div>
+        <header class="navbar"><button class="back" type="button" id="promotionHomeBack" aria-label="返回个人中心"></button><strong class="navbar-title">推广中心</strong><img class="capsule" src="assets/personal/device/miniprogram-capsule.svg" width="87" height="32" alt="" aria-hidden="true"></header>
+        <div class="scroll promotion-home-scroll">
+          <div class="promotion-profile">
+            <div class="promotion-user">
+              <img src="assets/personal/profile-avatar.png" alt="唐小小的头像">
+              <div class="promotion-user-copy">
+                <div class="promotion-user-name"><strong>唐小小</strong><span class="promotion-user-role">家长</span></div>
+                <p>会员：未开通</p>
               </div>
+            </div>
+          </div>
+          <section class="promotion-earnings" aria-label="收益概况">
+            <div class="promotion-total">
+              <div class="promotion-total-label">累计收益<small>（元）</small></div>
+              <div class="promotion-total-copy">
+                <strong class="number" id="promotionTotal">812,386.50</strong>
+                <button class="promotion-income-link" id="promotionIncome" type="button">查看明细<span aria-hidden="true">›</span></button>
+              </div>
+            </div>
+            <div class="promotion-metrics">
+              <div class="promotion-metric"><span>本月收益（元）</span><strong class="number" id="promotionMonth">0.00</strong></div>
+              <div class="promotion-metric"><div class="promotion-pending-label"><span>待结算（元）</span></div><strong class="number" id="promotionPendingTotal">2,386.50</strong></div>
+            </div>
+            <button class="promotion-team-entry" id="promotionTeam" type="button" aria-label="查看我的团队"><span>我的团队</span><span class="promotion-team-value"><strong class="number" id="promotionTeamTotal">99</strong>人<span class="promotion-team-arrow" aria-hidden="true">›</span></span></button>
           </section>
+          <section class="promotion-invitation" aria-label="专属邀请二维码">
+            <h1>邀请好友注册领榜家教</h1>
+            <div class="promotion-invite-card"><img id="promotionQr" class="promotion-qr" alt="唐小小的专属邀请二维码"></div>
+          </section>
+        </div>
+        <footer class="promotion-home-footer"><button type="button" id="promotionInvite">邀请好友</button></footer>
+      </section>
+      <section class="screen" id="overviewScreen" aria-label="我的团队">
+        <div class="statusbar"><time class="status-time" datetime="23:58">23:58</time><img class="status-icons" src="assets/personal/device/iphone-x-status.svg" width="67" height="12" alt="信号满格，Wi-Fi 已连接，电量充足"></div>
+        <header class="navbar"><button class="back" type="button" id="backToPersonal" aria-label="返回推广中心"></button><strong class="navbar-title">我的团队</strong><img class="capsule" src="assets/personal/device/miniprogram-capsule.svg" width="87" height="32" alt="" aria-hidden="true"></header>
+        <div class="scroll overview-scroll" id="overviewScroll">
           <section class="member-section">
               <div class="member-filter-card">
-<div class="my-team-heading"><strong>我的团队 <span id="myTeamTotal"></span></strong><span id="myTeamToday"></span></div>
+<div class="my-team-heading" aria-label="团队概览"><div class="team-summary-metric"><span class="team-summary-label">团队成员</span><div class="team-summary-value"><strong id="myTeamTotal"></strong><span>人</span></div></div><div class="team-summary-metric"><span class="team-summary-label">今日新增</span><div class="team-summary-value"><strong id="myTeamToday"></strong><span>人</span></div></div></div>
 
               <div class="member-tools" aria-label="成员筛选条件">
-                <div class="filter-field identity-flat-field" id="identityField"><span id="identityLabel">身份</span><div class="identity-flat-options" role="group" aria-label="身份筛选"><button class="identity-flat-option active" type="button" data-identity-value="all" aria-pressed="true">全部</button><button class="identity-flat-option" type="button" data-identity-value="teacher" aria-pressed="false">老师</button><button class="identity-flat-option" type="button" data-identity-value="parent" aria-pressed="false">家长</button></div></div>
+                <div class="filter-field identity-flat-field" id="identityField"><span id="identityLabel">身份</span><div class="identity-flat-options" role="group" aria-label="身份筛选"><button class="identity-flat-option active" type="button" data-identity-value="all" aria-pressed="true">全部</button><button class="identity-flat-option" type="button" data-identity-value="registered" aria-pressed="false">注册</button><button class="identity-flat-option" type="button" data-identity-value="parent" aria-pressed="false">家长</button><button class="identity-flat-option" type="button" data-identity-value="teacher" aria-pressed="false">老师</button></div></div>
+              </div>
+              <div class="teacher-secondary-filters" id="teacherSecondaryFilters" aria-label="老师二级筛选" hidden>
+                <div class="teacher-filter-select-wrap"><select id="teacherTypeFilter" data-teacher-filter="type" aria-label="老师类型"><option value="all">全部类型</option><option value="professional">专职老师</option><option value="student">大学生</option></select></div>
+                <div class="teacher-filter-select-wrap"><select id="teacherVerificationFilter" data-teacher-filter="verification" aria-label="认证状态"><option value="all">全部状态</option><option value="verified">已认证</option><option value="pending">待审核</option></select></div>
               </div>
               </div>
+              <div class="member-result-count" id="memberResultCount" role="status" aria-live="polite"></div>
               <div class="member-list" id="memberList"></div>
             </section>
           </div>
       </section>
 
-<section class="screen team-directory-screen" id="oneTeamScreen" aria-label="一星团队">        <div class="statusbar"><span>23:58 ◢</span><span class="status-icons"><span class="signal">▮▮▮</span><span>⌁</span><span class="battery"></span></span></div><header class="navbar"><button class="back" id="closeoneTeam" type="button" aria-label="返回创客中心"></button><strong class="manage-title">一星团队</strong></header><div class="scroll"><div class="identity-flat-options" id="oneTeamFilters" role="group" aria-label="身份筛选"><button class="identity-flat-option active" type="button" data-directory-identity="all" aria-pressed="true">全部</button><button class="identity-flat-option" type="button" data-directory-identity="teacher" aria-pressed="false">老师</button><button class="identity-flat-option" type="button" data-directory-identity="parent" aria-pressed="false">家长</button></div><div class="member-list" id="oneTeamList"></div></div></section>
-<section class="screen team-directory-screen" id="twoTeamScreen" aria-label="二星团队">        <div class="statusbar"><span>23:58 ◢</span><span class="status-icons"><span class="signal">▮▮▮</span><span>⌁</span><span class="battery"></span></span></div><header class="navbar"><button class="back" id="closetwoTeam" type="button" aria-label="返回创客中心"></button><strong class="manage-title">二星团队</strong></header><div class="scroll"><div class="identity-flat-options" id="twoTeamFilters" role="group" aria-label="身份筛选"><button class="identity-flat-option active" type="button" data-directory-identity="all" aria-pressed="true">全部</button><button class="identity-flat-option" type="button" data-directory-identity="teacher" aria-pressed="false">老师</button><button class="identity-flat-option" type="button" data-directory-identity="parent" aria-pressed="false">家长</button></div><div class="member-list" id="twoTeamList"></div></div></section>
+<section class="screen team-directory-screen" id="oneTeamScreen" aria-label="一星团队">        <div class="statusbar"><time class="status-time" datetime="23:58">23:58</time><img class="status-icons" src="assets/personal/device/iphone-x-status.svg" width="67" height="12" alt="信号满格，Wi-Fi 已连接，电量充足"></div><header class="navbar"><button class="back" id="closeoneTeam" type="button" aria-label="返回推广中心"></button><strong class="manage-title">一星团队</strong><img class="capsule" src="assets/personal/device/miniprogram-capsule.svg" width="87" height="32" alt="" aria-hidden="true"></header><div class="scroll"><div class="identity-flat-options" id="oneTeamFilters" role="group" aria-label="身份筛选"><button class="identity-flat-option active" type="button" data-directory-identity="all" aria-pressed="true">全部</button><button class="identity-flat-option" type="button" data-directory-identity="teacher" aria-pressed="false">老师</button><button class="identity-flat-option" type="button" data-directory-identity="parent" aria-pressed="false">家长</button></div><div class="member-list" id="oneTeamList"></div></div></section>
+<section class="screen team-directory-screen" id="twoTeamScreen" aria-label="二星团队">        <div class="statusbar"><time class="status-time" datetime="23:58">23:58</time><img class="status-icons" src="assets/personal/device/iphone-x-status.svg" width="67" height="12" alt="信号满格，Wi-Fi 已连接，电量充足"></div><header class="navbar"><button class="back" id="closetwoTeam" type="button" aria-label="返回推广中心"></button><strong class="manage-title">二星团队</strong><img class="capsule" src="assets/personal/device/miniprogram-capsule.svg" width="87" height="32" alt="" aria-hidden="true"></header><div class="scroll"><div class="identity-flat-options" id="twoTeamFilters" role="group" aria-label="身份筛选"><button class="identity-flat-option active" type="button" data-directory-identity="all" aria-pressed="true">全部</button><button class="identity-flat-option" type="button" data-directory-identity="teacher" aria-pressed="false">老师</button><button class="identity-flat-option" type="button" data-directory-identity="parent" aria-pressed="false">家长</button></div><div class="member-list" id="twoTeamList"></div></div></section>
       <section class="screen" id="billScreen" aria-label="我的账单">
-        <div class="statusbar"><span>23:58 ◢</span><span class="status-icons"><span class="signal">▮▮▮</span><span>⌁</span><span class="battery"></span></span></div>
-        <header class="navbar"><button class="back" id="closeBill" type="button" aria-label="返回创客中心"></button><strong class="manage-title">我的账单</strong><span class="capsule" aria-hidden="true"><span class="dots">•••</span><span class="mini-circle"></span></span></header>
+        <div class="statusbar"><time class="status-time" datetime="23:58">23:58</time><img class="status-icons" src="assets/personal/device/iphone-x-status.svg" width="67" height="12" alt="信号满格，Wi-Fi 已连接，电量充足"></div>
+        <header class="navbar"><button class="back" id="closeBill" type="button" aria-label="返回推广中心"></button><strong class="manage-title">我的账单</strong><img class="capsule" src="assets/personal/device/miniprogram-capsule.svg" width="87" height="32" alt="" aria-hidden="true"></header>
         <div class="scroll bill-scroll">
           <section class="bill-income-summary" aria-label="累计收益"><div><span class="label">累计收益（元）</span><strong class="number" id="billIncomeTotal">¥812,386.50</strong></div><div class="bill-income-footer"><span class="bill-available">可提现 <span class="number" id="billAvailableTotal">¥255,386.50</span></span><button id="billWithdrawToggle" type="button">立即提现</button></div></section>
+          <div class="promotion-pending-filter" id="promotionPendingFilter" hidden><span>当前仅显示待结算明细</span><button id="promotionShowAllIncome" type="button">查看全部</button></div>
           <div class="bill-sticky-tools">
             <div class="bill-filter-wrap" id="commissionFilterWrap">
               <nav class="bill-filters" aria-label="分润业务类型">
@@ -718,14 +752,15 @@ button,input,textarea,select{font-family:inherit}
             </div>
           </div>
           <section class="bill-panel" id="commissionPanel" role="tabpanel" aria-labelledby="commissionTab">
+            <div class="commission-result-count" id="commissionResultCount" role="status" aria-live="polite"></div>
             <div class="bill-record-list" id="commissionList"></div>
           </section>
         </div>
       </section>
 
-<section class="screen" id="withdrawScreen" aria-label="收益提现"><div class="statusbar"><span>23:58 ◢</span><span>▮▮▮　⌁</span></div><header class="navbar"><button class="back" id="closeWithdraw" type="button" aria-label="返回"></button><strong class="manage-title">收益提现</strong></header><div class="scroll bill-scroll"><div class="withdraw-form-section">          <section class="withdraw-card" id="billWithdrawCard" aria-label="提现操作">
+<section class="screen" id="withdrawScreen" aria-label="收益提现"><div class="statusbar"><time class="status-time" datetime="23:58">23:58</time><img class="status-icons" src="assets/personal/device/iphone-x-status.svg" width="67" height="12" alt="信号满格，Wi-Fi 已连接，电量充足"></div><header class="navbar"><button class="back" id="closeWithdraw" type="button" aria-label="返回"></button><strong class="manage-title">收益提现</strong><img class="capsule" src="assets/personal/device/miniprogram-capsule.svg" width="87" height="32" alt="" aria-hidden="true"></header><div class="scroll bill-scroll"><div class="withdraw-form-section">          <section class="withdraw-card" id="billWithdrawCard" aria-label="提现操作">
             <div class="withdraw-summary"><span class="withdraw-summary-label">可提现佣金（元）</span><strong class="withdraw-summary-value number" id="withdrawAvailable">255,386.50</strong></div>
-            <div class="withdraw-balance-details" aria-label="收益状态"><div><span>待结算（元）</span><strong class="number">112,386.50</strong></div><div><span>已提现（元）</span><strong class="number">444,613.50</strong></div></div>
+            <div class="withdraw-balance-details" aria-label="收益状态"><div><span>待结算（元）</span><strong class="number">2,386.50</strong></div><div><span>已提现（元）</span><strong class="number">554,613.50</strong></div></div>
             <form class="withdraw-body" id="withdrawForm" novalidate>
               <label class="withdraw-amount-row" for="withdrawAmount"><span class="withdraw-amount-wrap"><span class="withdraw-currency">¥</span><input class="withdraw-input" id="withdrawAmount" type="text" inputmode="decimal" value="2000.00" aria-label="提现金额" aria-describedby="withdrawMessage withdrawTaxSummary"></span><button class="withdraw-all" id="withdrawAll" type="button">全部提现</button></label>
               <div class="form-error" id="withdrawMessage" role="alert" hidden></div>
@@ -757,20 +792,21 @@ button,input,textarea,select{font-family:inherit}
           </section>
 </div><section class="withdraw-record-section" id="withdrawRecordsSection" aria-labelledby="withdrawRecordsTitle"><h2 class="withdraw-record-heading" id="withdrawRecordsTitle">提现记录<span class="withdraw-record-count" id="withdrawRecordCount"></span></h2><div class="bill-record-list" id="withdrawRecordList"></div></section></div></section>
       <section class="screen" id="followRecordScreen" aria-label="成员详情">
-        <div class="statusbar"><span>23:58 ◢</span><span class="status-icons"><span class="signal">▮▮▮</span><span>⌁</span><span class="battery"></span></span></div>
-        <header class="navbar"><button class="back" id="closeFollowRecord" type="button" aria-label="返回成员列表"></button><strong class="manage-title">成员详情</strong><span class="capsule" aria-hidden="true"><span class="dots">•••</span><span class="mini-circle"></span></span></header>
+        <div class="statusbar"><time class="status-time" datetime="23:58">23:58</time><img class="status-icons" src="assets/personal/device/iphone-x-status.svg" width="67" height="12" alt="信号满格，Wi-Fi 已连接，电量充足"></div>
+        <header class="navbar"><button class="back" id="closeFollowRecord" type="button" aria-label="返回成员列表"></button><strong class="manage-title">成员详情</strong><img class="capsule" src="assets/personal/device/miniprogram-capsule.svg" width="87" height="32" alt="" aria-hidden="true"></header>
         <div class="scroll follow-record-scroll">
           <div class="member-detail-sticky" id="memberDetailSticky">
           <article class="follow-record-profile">
             <div class="detail-level-row"><span class="team-level-tag" id="memberDetailLevel"></span><span class="member-owner" id="memberDetailOwner" hidden></span></div>
             <span class="follow-record-avatar" id="followRecordAvatar" aria-hidden="true"></span>
-            <div class="follow-record-user"><div class="follow-record-name"><span id="followRecordName"></span><span class="follow-record-roles" id="followRecordRole"></span></div><div class="follow-record-meta"><span id="followRecordCity"></span><a class="follow-record-phone" id="followRecordPhone"><span id="followRecordPhoneText"></span><svg class="phone-icon" viewbox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.8 9 3.2l2 5-1.7 1.4a14 14 0 0 0 5.1 5.1L15.8 13l5 2-.6 2.4c-.3 1.3-1.5 2.2-2.8 2.1A15.8 15.8 0 0 1 4.5 6.6c-.1-1.3.8-2.5 2.1-2.8Z"></path></svg></a></div></div>
-            <section class="member-detail-summary" id="memberDetailSummary" aria-label="成员业务概况"><div class="member-detail-stat"><span>累计分润</span><strong id="memberDetailProfit"></strong></div></section>
+            <div class="follow-record-user"><div class="follow-record-name"><span id="followRecordName"></span><span class="follow-record-roles" id="followRecordRole"></span><span id="followRecordGrade" aria-label="学生年级" hidden></span></div><div class="follow-record-meta"><span id="followRecordCity"></span><a class="follow-record-phone" id="followRecordPhone"><span id="followRecordPhoneText"></span><svg class="phone-icon" viewbox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.8 9 3.2l2 5-1.7 1.4a14 14 0 0 0 5.1 5.1L15.8 13l5 2-.6 2.4c-.3 1.3-1.5 2.2-2.8 2.1A15.8 15.8 0 0 1 4.5 6.6c-.1-1.3.8-2.5 2.1-2.8Z"></path></svg></a></div></div>
+            <dl class="member-profile-fields" id="memberProfileFields" aria-label="成员资料" hidden></dl>
+            <section class="member-detail-summary" id="memberDetailSummary" aria-label="成员业务概况"><div class="member-detail-stat"><span>报名总金额</span><strong id="memberDetailProfit"></strong></div></section>
           </article>
           <button class="detail-team-stats" id="memberDetailTeam" type="button" hidden><span>二星团队人数<strong id="memberDetailTeamTotal"></strong></span><span>今日新增<strong id="memberDetailTeamToday"></strong></span><span aria-hidden="true">›</span></button>
           <button class="member-detail-action primary member-detail-revisit-below" id="memberDetailRevisit" type="button">添加回访</button>
-          <nav class="member-detail-tabs" id="memberDetailTablist" role="tablist" aria-label="成员明细类型"><button class="member-detail-tab active" type="button" role="tab" aria-selected="true" data-member-detail-tab="follow">回访记录</button><button class="member-detail-tab" type="button" role="tab" aria-selected="false" data-member-detail-tab="purchase">订单记录</button></nav>
-          <div class="follow-record-heading"><strong id="memberDetailListTitle">回访动态</strong><span id="followRecordCount">0 条记录</span></div>
+          <nav class="member-detail-tabs" id="memberDetailTablist" role="tablist" aria-label="成员明细类型"><button class="member-detail-tab active" type="button" role="tab" aria-selected="true" data-member-detail-tab="follow">回访记录</button><button class="member-detail-tab" type="button" role="tab" aria-selected="false" data-member-detail-tab="activity" hidden>行动轨迹</button><button class="member-detail-tab" type="button" role="tab" aria-selected="false" data-member-detail-tab="demand">需求记录</button><button class="member-detail-tab" type="button" role="tab" aria-selected="false" data-member-detail-tab="purchase">订单记录</button></nav>
+          <div class="follow-record-heading"><strong id="memberDetailListTitle">0 条回访记录</strong></div>
           </div>
           <div class="detail-record-list" id="followRecordList" aria-live="polite"></div>
         </div>
@@ -813,8 +849,9 @@ button,input,textarea,select{font-family:inherit}
         </div>
         <div class="iphone-home-indicator" aria-hidden="true"></div>
       </section>
+      <dialog class="promotion-dialog" id="promotionDialog" aria-labelledby="promotionDialogTitle"><div class="promotion-dialog-heading"><h2 id="promotionDialogTitle"></h2><button type="button" id="promotionDialogClose" aria-label="关闭">关闭</button></div><div id="promotionDialogContent"></div></dialog>
       <div class="toast" id="toast" role="status" aria-live="polite"></div>
     </section>
   </main>
-  <script src="creator-center.js?v=1.8"></script><script src="prototype-notes.js?v=1.8"></script></body>
+  <script src="assets/personal/activity/qrcode.js"></script><script src="creator-center.js?v=20261105-commission-lesson-methods"></script><script src="promotion-home.js?v=20261103-invite-close-bottom"></script><script src="team-transfer.js?v=20261105-compact-member-details"></script><script src="prototype-spec.js?v=20261105-dev-spec"></script><script src="prototype-notes.js?v=20261105-dev-spec"></script></body>
 </html>

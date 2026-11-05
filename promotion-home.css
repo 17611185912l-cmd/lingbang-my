@@ -1,0 +1,80 @@
+/* 推广中心首页：沿用现有绿色、圆角与字体，结构参考用户提供的推广页。 */
+#promotionHomeScreen .statusbar,#promotionHomeScreen .navbar{background-image:linear-gradient(#e5fbf4,#f5fcfa);background-size:100% 88px;background-repeat:no-repeat}
+#promotionHomeScreen .statusbar{background-position:0 0}
+#promotionHomeScreen .navbar{background-position:0 -44px}
+#promotionHomeScreen .promotion-home-scroll{padding:0 14px 16px}
+.promotion-profile{display:flex;align-items:center;min-height:88px;margin:0 -14px 10px;padding:13px 17px 21px;background:linear-gradient(#f5fcfa,#fff);font-family:"PingFang SC","Microsoft YaHei",sans-serif}
+.promotion-user{display:flex;align-items:center;gap:14px}
+.promotion-user img{flex:none;width:54px;height:54px;object-fit:cover;border-radius:50%;box-shadow:0 0 0 1px #fff}
+.promotion-user-copy{min-width:0}
+.promotion-user-name{display:flex;align-items:center;gap:8px;min-height:28px}
+.promotion-user-name strong{color:#17232d;font-size:20px;font-weight:600;line-height:28px}
+.promotion-user-role{padding:0 7px;border-radius:6px;background:#eaf7f3;color:#008f7d;font-size:11px;line-height:22px}
+.promotion-user-copy p{margin:6px 0 0;color:#637079;font-size:12px;line-height:18px}
+.promotion-earnings{margin-top:2px;overflow:hidden;border:1px solid #dcebe5;border-radius:16px;background:#fff}
+.promotion-total{padding:16px 16px 14px;background:linear-gradient(115deg,#eaf8f2,#f8fcfa)}
+.promotion-total-copy{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.promotion-total-label{margin-bottom:7px;font-size:14px;font-weight:500;line-height:20px}
+.promotion-total small{font-size:11px;color:var(--muted);font-weight:400}
+.promotion-total-copy>strong{color:var(--accent-dark);font-size:26px;font-weight:600;line-height:32px;letter-spacing:-.5px}
+.promotion-metrics{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:0;padding:14px 16px}
+.promotion-metric{min-width:0;text-align:left}
+.promotion-metric+.promotion-metric{border-left:1px solid #e5eee9;padding-left:20px}
+.promotion-metric>span,.promotion-pending-label{display:flex;align-items:center;gap:2px;font-size:12px;line-height:18px;color:#6a7c74;white-space:nowrap}
+.promotion-metric strong{display:block;margin-top:5px;font-size:20px;line-height:26px;font-weight:600;letter-spacing:-.4px}
+.promotion-team-entry{display:flex;align-items:center;justify-content:space-between;width:calc(100% - 32px);min-height:44px;margin:0 16px;padding:0;border:0;border-top:1px solid #e5eee9;background:transparent;color:#344b42;font-family:inherit;font-size:13px;cursor:pointer}
+.promotion-team-value{display:flex;align-items:center;gap:4px;color:var(--muted);font-size:12px}
+.promotion-team-value strong{color:#233d32;font-size:18px;font-weight:600}
+.promotion-team-arrow{margin-left:5px;color:var(--accent-dark);font-size:22px;line-height:24px}
+.promotion-income-link{display:inline-flex;flex:none;align-items:center;gap:5px;min-height:32px;padding:0 10px;border:1px solid #c9e6dc;border-radius:8px;background:var(--soft);color:var(--accent-dark);font-family:inherit;font-size:13px;font-weight:600;white-space:nowrap;cursor:pointer}
+.promotion-income-link:hover{background:#d9f2e9}
+.promotion-income-link:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.promotion-income-link>span{font-size:21px;line-height:24px}
+.promotion-invitation{margin-top:14px;padding:18px 20px 14px;border-radius:18px;background:var(--soft);text-align:center}
+.promotion-invitation h1{margin:0;color:var(--accent-dark);font-size:22px;line-height:30px;font-weight:650;letter-spacing:1px}
+.promotion-invite-caption{margin:5px 0 14px;font-size:12px;line-height:18px;color:#608278}
+.promotion-invite-card{margin-top:14px;padding:14px 16px;border-radius:12px;background:#fff}
+.promotion-qr{display:block;width:164px;height:164px;max-width:100%;margin:0 auto;object-fit:contain;image-rendering:pixelated}
+.promotion-qr-tip{margin:11px 0 0;font-size:10px;line-height:16px;color:#608278}
+.promotion-home-footer{flex:none;padding:12px 18px 18px;border-top:1px solid var(--line);background:#fff}
+.promotion-home-footer button,.promotion-dialog-primary{display:block;width:100%;height:44px;border:0;border-radius:8px;background:var(--accent);color:#fff;font-size:15px;font-weight:500;cursor:pointer}
+.promotion-home-footer button:hover,.promotion-dialog-primary:hover{background:#009d8a}
+.promotion-pending-filter{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px;padding:10px 12px;border-radius:8px;background:var(--soft);font-size:12px;color:var(--accent-dark)}
+.promotion-pending-filter button{padding:4px 0;border:0;background:transparent;color:var(--accent-dark);font-size:12px;text-decoration:underline;cursor:pointer}
+.promotion-dialog{width:343px;max-width:calc(100vw - 32px);max-height:min(660px,85vh);padding:20px;border:0;border-radius:18px;background:#fff;color:#202e36;box-shadow:0 16px 60px #17392e30}
+.promotion-dialog::backdrop{background:#152b2455}
+.promotion-dialog-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+.promotion-dialog-heading h2{margin:0;font-size:17px;font-weight:600}
+.promotion-dialog-heading button{min-height:36px;padding:0 4px;border:0;background:transparent;color:#66727b;font-size:12px;cursor:pointer}
+.promotion-dialog h3{margin:18px 0 6px;font-size:14px;font-weight:600;color:#007c6b}
+.promotion-dialog p{margin:0;font-size:13px;line-height:1.8;color:#66727b}
+.promotion-dialog-primary{margin-top:18px}
+.promotion-dialog .promotion-qr{width:180px;height:180px;margin:0 auto 14px}
+.promotion-dialog .promotion-share-intro{text-align:center}
+.promotion-share-link-label{display:block;margin:16px 0 6px;font-size:12px;color:#66727b}
+.promotion-share-link{width:100%;height:38px;padding:8px;border:1px solid #d7e9e3;border-radius:6px;background:#f5f9f7;color:#526a62;font:12px inherit}
+.promotion-dialog .promotion-share-status{margin-top:10px;min-height:20px;font-size:12px;color:#007c6b}
+@media(max-width:390px){#promotionHomeScreen .promotion-home-scroll{padding-inline:12px}.promotion-profile{margin-inline:-12px}.promotion-total{padding-inline:12px}.promotion-total-copy>strong{font-size:25px}}
+
+/* 邀请海报：覆盖手机画布，分享区与海报分离。 */
+.promotion-dialog.is-invite{position:fixed;inset:auto;margin:0;max-width:100vw;max-height:100vh;padding:34px 34px 12px;border-radius:0;background:transparent;box-shadow:none;overflow:auto}
+.promotion-dialog.is-invite::backdrop{background:#11231f99}
+.is-invite .promotion-dialog-heading{position:absolute;top:4px;right:14px;margin:0}
+.is-invite .promotion-dialog-heading h2{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.is-invite #promotionDialogClose{flex:none;width:32px;height:32px;margin-top:16px;padding:0;font-size:0;border:1px solid #ffffff99;border-radius:50%;background:url('assets/promotion/close.svg') center/12px no-repeat;filter:brightness(0) invert(1);cursor:pointer}
+.is-invite #promotionDialogClose:focus-visible{outline:2px solid #fff;outline-offset:4px}
+.is-invite #promotionDialogContent{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;min-height:420px}
+.promotion-poster-image{display:block;width:var(--invite-poster-width);height:auto;flex:none;border-radius:15px}
+/* 分享区使用不透明底色，遮住底层二维码并保持文字可读。 */
+.promotion-share-panel{flex:none;width:var(--invite-poster-width);max-width:100%;margin-top:12px;padding:14px 12px 16px;border-radius:15px;background:#fff;box-shadow:0 6px 24px #102c2326}
+.promotion-share-to{display:flex;align-items:center;gap:12px;justify-content:center;margin:0 0 14px;color:#667970;font-size:12px;line-height:18px}
+.promotion-share-to::before,.promotion-share-to::after{content:'';height:1px;width:44px;background:#dfe8e4}
+.promotion-share-actions{display:flex;justify-content:center;gap:36px}
+.promotion-share-actions button,.promotion-share-actions a{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:68px;margin:0;padding:0;border:0;background:transparent;color:#243e34;font-family:inherit;font-size:14px;font-weight:500;line-height:20px;text-decoration:none;cursor:pointer}
+.promotion-share-actions span{display:flex;align-items:center;justify-content:center;width:50px;height:50px;border-radius:50%;background:#e8f6f0}
+.promotion-share-actions img{width:26px;height:26px;filter:invert(34%) sepia(48%) saturate(953%) hue-rotate(116deg) brightness(90%) contrast(99%)}
+.promotion-share-actions button span{background:#eaf8e9}
+.promotion-share-actions button img{filter:invert(48%) sepia(74%) saturate(611%) hue-rotate(78deg) brightness(94%) contrast(94%)}
+.promotion-share-actions button:focus-visible,.promotion-share-actions a:focus-visible{outline:2px solid #007c6b;outline-offset:4px;border-radius:6px}
+.is-invite .promotion-share-status{min-height:0;max-width:100%;margin:12px 0 0;color:#007c6b;text-align:center;font-size:12px;line-height:18px}
+.is-invite .promotion-share-status:empty{display:none}

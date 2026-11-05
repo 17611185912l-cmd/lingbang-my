@@ -3,18 +3,25 @@
   --page:#f5f7f9; --surface:#fff; --soft:#eaf7f3;
   --accent:#00b79f; --accent-dark:#007c6b; --ink:#202e36;
   --muted:#66727b; --line:#edf0ef;
+  --member-avatar-size:40px; --member-avatar-font-size:18px;
+  --member-name-font-size:16px; --member-meta-font-size:11px;
   width:375px; height:min(812px,calc(100vh - 48px));
+  border-radius:0;
   overflow:clip;
 }
 .phone .screen:not(#personalScreen) {background:var(--page);color:var(--ink)}
-.phone .screen:not(#personalScreen) .statusbar {height:38px;font-weight:600;color:#172b3a}
+/* iPhone X / 11 Pro：375 × 812 画布，44pt 状态栏。参考：
+   https://www.figma.com/community/file/831970552583056395/ios-status-bar */
+.phone .screen .statusbar {height:44px;min-height:44px;flex:0 0 44px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:2px 14.667px 0 21px;color:#000;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",sans-serif;background:var(--surface)}
+.phone .status-time {display:block;flex:none;width:54px;text-align:center;font-size:15px;font-weight:600;line-height:21px;letter-spacing:-.3px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.phone .status-icons {display:block;flex:none;width:67px;height:12px;max-width:none;object-fit:contain;letter-spacing:normal}
+#personalScreen>.statusbar {position:absolute;inset:0 0 auto;z-index:5;background:linear-gradient(#e5fbf4 0%,#f6fcfa 55%,#fff 100%) 0 0 / 100% 176px no-repeat}
 .phone .screen:not(#personalScreen) .navbar {height:44px}
 .phone .navbar-title,.phone .manage-title {font-size:16px;font-weight:600;letter-spacing:0}
 .phone .back:before {width:8px;height:8px;border-width:1px;top:17px}
-.phone .capsule {width:65px;height:26px;right:16px;border:0;background:#f0f0f0}
-.phone .capsule .dots {font-size:12px;letter-spacing:0}
-.phone .mini-circle {width:13px;height:13px;border-width:1px}
-.phone .mini-circle:after {inset:3px}
+/* 所有页面共享胶囊资产：44px 导航栏内垂直居中，不随画布宽度拉伸。 */
+.phone .capsule {position:absolute;top:6px;right:7px;display:block;flex:none;width:87px;height:32px;max-width:none;border:0;background:transparent;object-fit:contain;pointer-events:none}
+#personalScreen>.capsule {top:50px;z-index:5}
 .phone .label {color:#747b7b;font-size:11px;font-weight:400}
 .phone .white-button,.phone .withdraw-submit,.phone .revisit-submit,
 .phone .member-detail-action.primary {border:0;border-radius:8px;background:var(--accent);font-weight:500;box-shadow:none}
@@ -27,41 +34,65 @@
   padding:1px 5px;border-radius:3px;background:var(--soft);color:#007c6b;font-size:11px;font-weight:400;line-height:18px;
 }
 .phone .phone-link,.phone .follow-record-phone {color:#007c6b;font-weight:400}
+.phone .role-tag.teacher-status-verified {background:#eaf7f3;color:#007c6b}
+.phone .role-tag.teacher-status-pending {background:#fff4df;color:#a56a13}
 .phone .phone-link:hover {background:var(--soft)}
 
-/* 创客中心 / 我的团队 */
+/* 推广中心 / 我的团队 */
 #overviewScreen .overview-scroll {padding:14px 14px 24px}
 #overviewScreen .income-card {padding:0;border:1px solid #e5e9e4;border-radius:18px;background:#fffefb;box-shadow:none}
-#overviewScreen .income-total {padding:16px 14px 12px}
+#overviewScreen .income-total {display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px;padding:16px 14px 12px}
 #overviewScreen .income-total-head .label {font-size:11px}
-#openIncomeDetails {color:#795325;font-size:13px;font-weight:400}
-#overviewScreen .income-total-value {margin-top:16px;font-size:32px;line-height:38px;font-weight:500;letter-spacing:-.6px}
+#overviewScreen .income-total-value {margin-top:16px;font-size:26px;line-height:32px;font-weight:500;letter-spacing:0}
 #overviewScreen .income-total-value .currency {font-size:1em;margin:0}
 #overviewScreen .income-main {margin:0 14px;padding:13px 0 16px;border-top:1px solid var(--line);background:transparent;gap:8px}
 #overviewScreen .income-main .label {font-size:11px}
-#overviewScreen .income-main .available {margin-top:4px;font-size:18px;line-height:23px;font-weight:500;letter-spacing:0}
+#overviewScreen .income-main .available {margin-top:4px;font-size:22px;line-height:28px;font-weight:500;letter-spacing:0}
 #overviewScreen .income-main .available .currency {font-size:1em;margin:0}
 #overviewScreen .income-main .white-button {height:36px;min-width:98px;border-radius:8px;font-size:13px}
+#overviewScreen .income-total>div,#overviewScreen .income-main>div {display:contents}
+#overviewScreen .income-total-head,#overviewScreen .income-main .label {grid-column:1;grid-row:1}
+#overviewScreen .income-total-value,#overviewScreen .income-main .available {grid-column:1;grid-row:2;margin-top:0}
+#overviewScreen .income-total {row-gap:16px}
+#overviewScreen .income-main {row-gap:4px}
+#overviewScreen .income-card .income-entry {grid-column:2;grid-row:2}
+#overviewScreen .income-card .income-entry {display:flex;align-items:center;justify-content:center;gap:4px;width:112px;height:36px;padding:6px 8px;border:1px solid #c8e8e0;border-radius:8px;background:#edf8f4;color:#007c6b;font:inherit;font-size:13px;font-weight:500;line-height:20px;white-space:nowrap;cursor:pointer}
+#overviewScreen .income-card .income-entry span {font-size:18px;line-height:20px}
+#overviewScreen .income-card .income-entry:hover {border-color:#91cdbf;background:#def2eb}
+#overviewScreen .income-card .income-entry:focus-visible {outline:2px solid #007c6b;outline-offset:2px}
 #overviewScreen .member-section {margin-top:4px;min-height:0}
 #overviewScreen .member-filter-card {top:-14px;margin:0 -1px 0;padding:0;border:0;border-radius:0;background:var(--page);box-shadow:none}
-#overviewScreen .my-team-heading {min-height:44px;padding:10px 0;border:0;font-size:14px}
-#overviewScreen .my-team-heading strong {font-weight:500}
-#overviewScreen .my-team-heading strong span {color:var(--ink);font-size:13px;font-weight:400;margin-left:5px}
-#overviewScreen .my-team-heading>span {color:#007c6b;font-size:11px}
+#overviewScreen .my-team-heading {display:grid;grid-template-columns:1fr 1fr;gap:0;margin:4px 0 8px;padding:8px 0;border:1px solid #dfede8;border-radius:10px;background:linear-gradient(110deg,#edf7f2,#f6faf8);font-size:14px}
+#overviewScreen .team-summary-metric {min-width:0;padding:0 16px}
+#overviewScreen .team-summary-metric+.team-summary-metric {border-left:1px solid #d9e9e2}
+#overviewScreen .team-summary-label {display:block;color:#637b70;font-size:12px;line-height:18px}
+#overviewScreen .team-summary-value {display:flex;align-items:baseline;gap:4px;margin-top:2px;color:#007c6b;line-height:26px}
+#overviewScreen .team-summary-value strong {font-size:22px;font-weight:600;font-variant-numeric:tabular-nums}
+#overviewScreen .team-summary-value>span {color:#637b70;font-size:11px;line-height:16px}
 #overviewScreen .member-filter-card .member-tools {margin:0;padding:2px 0 0}
+.teacher-secondary-filters {display:grid;grid-template-columns:1fr 1fr;padding:5px 8px;background:#fff;border-top:1px solid #f1f4f3;border-radius:0 0 10px 10px}
+.teacher-filter-select-wrap {position:relative;min-width:0}
+.teacher-filter-select-wrap+.teacher-filter-select-wrap:before {content:'';position:absolute;left:0;top:10px;bottom:10px;width:1px;background:#edf0ef}
+.teacher-filter-select-wrap:after {content:'';position:absolute;top:14px;right:18px;width:5px;height:5px;border-right:1px solid #8a9691;border-bottom:1px solid #8a9691;transform:rotate(45deg);pointer-events:none}
+.teacher-filter-select-wrap:has(select.is-filtered):after {border-color:var(--accent-dark)}
+.teacher-filter-select-wrap select {display:block;width:100%;height:36px;padding:0 34px 0 18px;border:0;border-radius:6px;appearance:none;-webkit-appearance:none;background:transparent;color:#63716c;font:inherit;font-size:12px;line-height:20px;text-align:center;cursor:pointer}
+.teacher-filter-select-wrap select.is-filtered {color:var(--accent-dark);font-weight:500}
+.teacher-filter-select-wrap select:hover {background:#f5faf8}
+.teacher-filter-select-wrap select:focus-visible {outline:2px solid var(--accent);outline-offset:-2px}
 .phone .identity-flat-options {gap:0;background:#fff}
 .phone .member-filter-card .identity-flat-option,.phone .identity-flat-option {
   position:relative;height:46px;border:0;border-radius:0;background:#fff;color:#2f4050;font-size:13px;font-weight:400;
 }
 .phone .member-filter-card .identity-flat-option.active,.phone .identity-flat-option.active {background:#fff;color:#007c6b;font-weight:500}
 .phone .identity-flat-option.active:after {content:"";position:absolute;bottom:0;left:calc(50% - 11px);width:22px;height:3px;border-radius:2px;background:var(--accent)}
-#overviewScreen .member-list {gap:12px;margin-top:12px}
-.phone .member-list .member-card {position:relative;padding:14px 12px 12px;border:0;border-radius:17px;background:#fff;box-shadow:none}
-.phone .member-list .member-card .member-head {grid-template-columns:40px minmax(0,1fr);gap:10px;padding:0}
-.phone .member-list .member-card .avatar {width:40px;height:40px;font-size:18px}
-.phone .member-list .member-card .member-name {font-size:16px;line-height:23px;font-weight:500}
-.phone .member-list .member-card .member-meta {gap:5px;margin-top:3px;font-size:11px;line-height:18px;color:#4e5f6f}
-.phone .member-list .member-card .phone-link {font-size:11px;padding:0;margin:0;gap:5px}
+#overviewScreen .member-result-count {padding:10px 4px 0;color:#7a8781;font-size:11px;line-height:18px}
+#overviewScreen .member-list {gap:12px;margin-top:6px;min-width:0;grid-template-columns:minmax(0,1fr)}
+.phone .member-list .member-card {position:relative;width:100%;min-width:0;max-width:100%;padding:14px 12px 12px;border:0;border-radius:17px;background:#fff;box-shadow:none}
+.phone .member-list .member-card .member-head {grid-template-columns:var(--member-avatar-size) minmax(0,1fr);gap:10px;padding:0}
+.phone .member-list .member-card .avatar {width:var(--member-avatar-size);height:var(--member-avatar-size);font-size:var(--member-avatar-font-size);line-height:23px}
+.phone .member-list .member-card :is(.member-name,.registered-member-name) {font-size:var(--member-name-font-size);line-height:23px;font-weight:500}
+.phone .member-list .member-card .member-meta {gap:5px;margin-top:3px;font-size:var(--member-meta-font-size);line-height:18px;color:#4e5f6f}
+.phone .member-list .member-card .phone-link {font-size:var(--member-meta-font-size);line-height:18px;padding:0;margin:0;gap:5px}
 .phone .member-list .member-card .trace {margin-top:8px;border:0;border-radius:8px;background:#f6f7f7}
 .phone .member-list .member-card .trace-row {grid-template-columns:1fr auto;grid-template-rows:auto auto;gap:3px 6px;padding:8px 10px;border:0;font-size:12px;line-height:17px}
 .phone .member-list .member-card .trace-row>span:first-child {font-size:10px;color:#66727b}
@@ -73,16 +104,33 @@
 .phone .member-list .member-card .card-action {height:30px;min-width:74px;padding:0 8px;border:1px solid #e6ebea;border-radius:8px;background:#fff;color:#2f4050;font-size:13px;font-weight:400}
 .phone .member-list .member-card .card-action.revisit-action {min-width:86px;border-color:var(--accent);background:var(--accent);color:#fff}
 
+/* 仅注册成员：基本信息在顶部，记录摘要和底部操作与其他成员保持一致。 */
+.phone .member-list .registered-member-card {padding:12px;border-radius:14px}
+.registered-member-head {display:grid;grid-template-columns:var(--member-avatar-size) minmax(0,1fr);min-width:0;align-items:center;gap:10px}
+.registered-member-card .member-info {min-width:0}
+.registered-member-name {display:flex;align-items:baseline;gap:8px;min-width:0}
+.registered-member-name .registered-member-city {overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#66727b;font-size:var(--member-meta-font-size);font-weight:400;line-height:18px}
+.phone .member-list .registered-member-card .phone-link {display:flex;width:max-content;max-width:100%;margin-top:2px}
+.registered-add-revisit {height:32px;padding:0 10px;border:0;border-radius:7px;background:var(--accent);color:#fff;font:inherit;font-size:12px;white-space:nowrap;cursor:pointer}
+.registered-add-revisit:hover {background:#009d8a}
+.registered-member-follow {display:flex;align-items:center;gap:12px;margin-top:8px;padding:8px 10px;border:0;border-radius:8px;background:#f6f7f7}
+.registered-follow-copy {flex:1;min-width:0}
+.registered-follow-time {display:block;color:#747b7b;font-size:10px;line-height:15px;white-space:nowrap}
+.registered-follow-copy p {overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:3px 0 0;color:#4e5f6f;font-size:12px;line-height:18px}
+.registered-follow-link {display:flex;align-items:center;gap:4px;flex-shrink:0;min-height:32px;padding:0;border:0;background:transparent;color:#007c6b;font:inherit;font-size:12px;cursor:pointer}
+.registered-follow-link span {font-size:17px}
+.registered-add-revisit:focus-visible,.registered-follow-link:focus-visible {outline:2px solid #007c6b;outline-offset:3px}
+
 /* 成员详情：简介、底部分润、白底标签、跟进时间线。 */
-#followRecordScreen .follow-record-scroll {padding:0 14px 76px;background:var(--page)}
+#followRecordScreen .follow-record-scroll {padding:0 14px 20px;background:var(--page)}
 #followRecordScreen .member-detail-sticky {margin:0 -14px;padding:14px 14px 0;background:var(--page)}
-#followRecordScreen .follow-record-profile {display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;padding:16px 14px 12px;border:0;border-radius:17px;background:#fff;box-shadow:none}
-#followRecordScreen .follow-record-profile .follow-record-avatar {grid-row:1;grid-column:1;width:44px;height:44px;font-size:19px}
+#followRecordScreen .follow-record-profile {display:grid;grid-template-columns:var(--member-avatar-size) minmax(0,1fr);gap:10px;padding:16px 14px 12px;border:0;border-radius:17px;background:#fff;box-shadow:none}
+#followRecordScreen .follow-record-profile .follow-record-avatar {grid-row:1;grid-column:1;width:var(--member-avatar-size);height:var(--member-avatar-size);font-size:var(--member-avatar-font-size);line-height:23px}
 #followRecordScreen .follow-record-profile .follow-record-user {grid-row:1;grid-column:2}
-#followRecordScreen .follow-record-profile .follow-record-name {font-size:16px;line-height:23px;font-weight:500}
-#followRecordScreen .follow-record-meta {flex-direction:row;align-items:center;gap:6px;margin-top:4px}
-#followRecordScreen #followRecordCity {font-size:11px;color:#4e5f6f}
-#followRecordScreen #followRecordPhone {font-size:11px;letter-spacing:0}
+#followRecordScreen .follow-record-profile .follow-record-name {font-size:var(--member-name-font-size);line-height:23px;font-weight:500}
+#followRecordScreen .follow-record-meta {flex-wrap:wrap;flex-direction:row;align-items:center;gap:6px;margin-top:4px}
+#followRecordScreen #followRecordCity {font-size:var(--member-meta-font-size);line-height:18px;color:#4e5f6f}
+#followRecordScreen #followRecordPhone {font-size:var(--member-meta-font-size);line-height:18px;letter-spacing:0}
 #followRecordScreen .follow-record-profile .member-detail-summary {grid-column:1/-1;grid-row:2;min-width:0;width:100%;margin:2px 0 0;padding:12px 0 0;border:0;border-top:1px solid var(--line);background:transparent;box-shadow:none}
 #followRecordScreen .follow-record-profile .member-detail-stat {display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:26px}
 #followRecordScreen .follow-record-profile .member-detail-stat span {font-size:11px;line-height:18px;color:#66727b}
@@ -91,7 +139,7 @@
 #followRecordScreen .member-detail-tab {height:46px;padding:0 4px;border-radius:0;background:transparent;color:#2f4050;font-size:13px;font-weight:400;box-shadow:none}
 #followRecordScreen .member-detail-tab.active {color:#007c6b;background:#fff;font-weight:500;box-shadow:none}
 #followRecordScreen .member-detail-tab.active:after {left:calc(50% - 11px);right:auto;bottom:0;width:22px;height:3px;background:var(--accent)}
-#followRecordScreen .member-detail-revisit-below {position:fixed;z-index:31;bottom:14px;left:14px;right:14px;width:calc(100% - 28px);height:44px;margin:0;border-radius:8px;font-size:14px;box-shadow:0 0 0 8px var(--page)}
+#followRecordScreen .member-detail-revisit-below {position:static;width:100%;height:38px;margin:9px 0 0;border-radius:8px;font-size:14px;box-shadow:none}
 #followRecordScreen .follow-record-heading {justify-content:flex-start;gap:7px;margin:27px 0 14px}
 #followRecordScreen .follow-record-heading strong {display:block;font-size:13px;font-weight:500}
 #followRecordScreen .follow-record-heading span {font-size:12px;color:#2f4050}
@@ -137,6 +185,34 @@
 .demand-order-footer {display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 10px;margin-top:12px;color:#66727b;font-size:10px;line-height:17px;font-variant-numeric:tabular-nums}
 .demand-order-footer span,.demand-order-footer time {white-space:nowrap}
 
+/* 服务订单摘要：按成员角色展示交易对方，费用与核心授课条件。 */
+#followRecordList .service-order-record {min-width:0;padding:14px}
+.service-order-summary {display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 8px;margin-top:8px;line-height:20px}
+.service-order-counterparty {min-width:0;color:#4e5f6f;font-size:12px;overflow-wrap:anywhere}
+.service-order-fee {flex-shrink:0;color:#d43e35;font-size:13px;font-weight:500;white-space:nowrap}
+.service-order-fields {display:grid;gap:4px;margin:8px 0 0;font-size:12px;line-height:19px}
+.service-order-fields>div {display:grid;grid-template-columns:28px minmax(0,1fr);gap:7px}
+.service-order-fields dt {color:#747b7b}
+.service-order-fields dd {min-width:0;margin:0;color:#4e5f6f;overflow-wrap:anywhere}
+.service-order-footer {margin-top:10px;padding-top:8px;border-top:1px solid var(--line)}
+.service-order-footer span {min-width:0;white-space:normal;overflow-wrap:anywhere}
+
+/* 家长需求摘要：年级科目、费用优先，授课条件按行对齐。 */
+#followRecordList .parent-demand-record {min-width:0;padding:14px}
+.parent-demand-heading {display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.parent-demand-heading strong {min-width:0;color:#2f4050;font-size:14px;font-weight:500;line-height:21px;overflow-wrap:anywhere}
+.parent-demand-fee {flex-shrink:0;color:#d43e35;font-size:14px;line-height:21px;font-weight:500;white-space:nowrap}
+.parent-demand-progress {display:flex;align-items:center;gap:10px;margin-top:5px;color:#747b7b;font-size:11px;line-height:18px}
+.parent-demand-status {display:inline-flex;align-items:center;flex-shrink:0;padding:2px 8px;border-radius:5px;font-size:11px;font-weight:500;line-height:18px;white-space:nowrap}
+.parent-demand-status.is-active {background:#e2f5ef;color:#007c6b}
+.parent-demand-status.is-completed {background:#eef0f2;color:#66727b}
+.parent-demand-fields {display:grid;gap:4px;margin:10px 0 0;font-size:12px;line-height:19px}
+.parent-demand-fields>div {display:grid;grid-template-columns:28px minmax(0,1fr);gap:7px}
+.parent-demand-fields dt {color:#747b7b}
+.parent-demand-fields dd {min-width:0;margin:0;color:#4e5f6f;overflow-wrap:anywhere}
+.parent-demand-footer {gap:3px 10px;margin-top:10px;padding-top:8px;border-top:1px solid var(--line)}
+.parent-demand-footer span {min-width:0;white-space:normal;overflow-wrap:anywhere}
+
 /* 我的账单与成员分润共用视觉，正文使用现有原型文案。 */
 #billScreen .bill-scroll {padding:14px 14px 24px}
 #billScreen .bill-income-summary {display:block;position:relative;min-height:146px;margin:0;padding:16px 14px 14px;border:1px solid #ddeae5;border-radius:18px;background:linear-gradient(90deg,#fff9ed,#fff 70%)}
@@ -155,6 +231,7 @@
 .phone .bill-filter.active,.phone .bill-filter-wrap .bill-filter.active,.phone .member-commission-filters .bill-filter.active {border:0;background:var(--soft);color:#007c6b;font-weight:500}
 .phone .bill-filter:hover {color:#007c6b;background:#edf8f4}
 #billScreen .bill-panel {padding-top:8px}
+#billScreen .commission-result-count {margin:0 4px 8px;color:#7a8781;font-size:11px;line-height:18px}
 #memberCommissionToolbar {padding:28px 0 0}
 #memberCommissionToolbar .member-commission-filters {margin:0 0 16px}
 #memberCommissionToolbar .commission-list-head {justify-content:flex-start;margin:0 0 14px}
@@ -170,6 +247,11 @@
 #commissionList .commission-event-record .bill-record-status.settled,#memberCommissionList .commission-event-record .bill-record-status.settled {color:#007c6b;background:transparent}
 #commissionList .commission-event-record .commission-record-subtitle,#memberCommissionList .commission-event-record .commission-record-subtitle {margin-top:8px;color:#4e5f6f;font-size:12px;line-height:20px;word-break:normal;overflow-wrap:normal;line-break:strict}
 .commission-record-name {white-space:nowrap}
+.commission-record-methods {clear:both;display:grid;grid-template-columns:48px minmax(0,1fr);align-items:start;gap:8px;margin-top:9px;font-size:12px;line-height:22px}
+.commission-method-label {color:#6c7c87;white-space:nowrap}
+.commission-method-values {display:flex;flex-wrap:wrap;gap:4px 6px;min-width:0}
+.commission-method-tag {display:inline-flex;align-items:center;padding:0 6px;border-radius:4px;background:#f1f6f4;color:#4e5f6f;white-space:nowrap}
+.commission-method-empty {color:#6c7c87}
 .commission-record-sales {display:inline-flex;flex:0 0 auto}
 .commission-record-sales-tag {display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:5px;font-size:11px;line-height:20px;font-weight:700;vertical-align:middle}
 .commission-record-sales-tag.is-self {background:#e8f8f2;color:#007c6b}
@@ -221,7 +303,7 @@
 
 /* 收益提现：余额概览、金额、银行卡、规则、记录。 */
 #withdrawScreen .bill-scroll {padding:14px 14px 24px}
-#withdrawScreen .manage-title {font-size:16px;font-weight:600}
+#withdrawScreen .manage-title {flex:none;font-size:16px;font-weight:600}
 #withdrawScreen .withdraw-card {overflow:visible;border-radius:0;background:transparent}
 #withdrawScreen .withdraw-summary {display:block;padding:16px 14px 12px;border:1px solid #e5e9e4;border-bottom:0;border-radius:18px 18px 0 0;background:#fffefb;color:var(--ink)}
 #withdrawScreen .withdraw-summary-label {color:#747b7b;font-size:11px;line-height:18px;opacity:1}
@@ -286,7 +368,6 @@
 @media(max-width:760px) {.phone {height:min(812px,calc(100vh - 92px))}}
 @media(max-width:480px) {
   .phone {width:100%;height:calc(100vh - 60px);min-height:0}
-  #followRecordScreen .member-detail-revisit-below {bottom:max(14px,env(safe-area-inset-bottom))}
 }
 @media(max-width:360px) {
   .phone .member-list .member-card .card-action {min-width:65px;font-size:12px}
@@ -294,3 +375,78 @@
   .phone .bill-filter,.phone .bill-filter-wrap .bill-filter {font-size:10px;padding-inline:3px}
   .commission-record-footer {font-size:9px;column-gap:5px}
 }
+
+/* 家长卡片需求摘要及详情资料。 */
+.parent-demand-summary {display:grid;grid-template-columns:44px minmax(0,1fr);align-items:baseline;gap:3px 6px;min-width:0;margin:9px 0 1px;padding-left:50px;font-size:12px;line-height:20px;color:#2f4050}
+.parent-card-tags {display:inline-block;white-space:nowrap;margin-left:6px;vertical-align:1px;font-size:12px;font-weight:400;line-height:20px}
+.parent-card-tags .role-tag {margin-left:0;margin-right:6px;vertical-align:0}
+.parent-grade {color:#4e5f6f}
+.parent-subject-label,.parent-method-label {color:#66727b;font-size:11px;white-space:nowrap}
+.parent-method-label {grid-column:1;grid-row:2}
+.parent-method {grid-column:2/-1;grid-row:2;min-width:0;overflow-wrap:anywhere}
+.parent-subject-more {flex-shrink:0}
+.parent-subject-value {display:flex;align-items:baseline;gap:6px;min-width:0}
+.parent-subjects {min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.parent-subject-more {color:#007c6b;font-size:11px}
+/* 三类成员共用紧凑布局：头像右置、资料左对齐、记录单行、底部集中操作。 */
+#overviewScreen .member-list:has(.compact-member-card) {row-gap:8px}
+.phone .member-list .compact-member-card {padding:12px;border-radius:17px}
+.phone .member-list .compact-member-card .member-head {grid-template-columns:minmax(0,1fr) var(--member-avatar-size)}
+.compact-member-card .member-head>.member-info {grid-column:1;grid-row:1;min-width:0}
+.compact-member-card .member-head>.avatar {grid-column:2;grid-row:1}
+.compact-member-card .member-name {display:flex;align-items:baseline;min-width:0;gap:6px}
+.parent-card-name,.parent-member-card .parent-card-tags {flex:none}
+.parent-member-card .parent-card-tags {margin-left:0}
+.compact-member-card .member-name>.role-tag {margin-left:0;flex:none}
+.parent-heading-subjects {display:flex;align-items:baseline;gap:6px;flex:1;min-width:0;font-size:12px;font-weight:400;line-height:20px}
+.parent-subject-divider {flex:none;color:#a3ada8}
+.parent-heading-subjects .parent-subject-value {flex:1}
+.phone .member-list .parent-member-card .parent-demand-summary {margin:6px 0 0;padding-left:0;row-gap:0;line-height:18px}
+.parent-member-card .parent-method-label,.parent-member-card .parent-method {grid-row:1}
+.phone .member-list .compact-member-card .registered-member-follow {display:flex;gap:8px;margin-top:4px;padding:3px 8px;align-items:center}
+.compact-member-card .registered-follow-copy {display:contents}
+.compact-member-card .registered-follow-time {flex:none;line-height:18px}
+.compact-member-card .registered-follow-link {min-height:18px;line-height:18px}
+.compact-member-card .registered-follow-link span {line-height:18px}
+.compact-member-card .registered-follow-copy p {flex:1;min-width:0;margin:0}
+.member-card-footer {display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px;margin-top:6px;min-width:0}
+.phone .member-list .compact-member-card .member-profit {position:static;min-width:0;font-size:9px;line-height:13px}
+.phone .member-list .compact-member-card .member-profit strong {margin-top:1px;white-space:nowrap}
+.phone .member-list .member-card.compact-member-card .member-card-footer .card-actions {align-items:center;min-height:34px;margin:0;padding:0;border:0}
+.member-card-footer.actions-only {grid-template-columns:minmax(0,1fr)}
+.phone .member-list .registered-member-card.compact-member-card .member-meta .phone-link {display:inline-flex;width:auto;margin-top:0}
+#followRecordScreen .member-profile-fields {grid-column:1/-1;grid-row:2;display:grid;gap:8px;margin:2px 0 0;padding:12px 0 0;border-top:1px solid var(--line)}
+#followRecordScreen .member-profile-fields[hidden] {display:none}
+#followRecordScreen .member-profile-fields>div {display:grid;grid-template-columns:64px minmax(0,1fr);gap:10px;font-size:13px;line-height:21px}
+#followRecordScreen .member-profile-fields dt {color:#66727b}
+#followRecordScreen .member-profile-fields dd {margin:0;color:#2f4050;overflow-wrap:anywhere}
+#followRecordScreen .member-profile-fields:not([hidden])~.member-detail-summary {grid-row:3}
+/* 家长、老师详情压缩留白，完整保留地址及资料。 */
+#followRecordScreen:is(.has-parent-profile,.has-teacher-profile) .follow-record-profile {padding:12px 14px 10px;row-gap:6px}
+#followRecordScreen #followRecordGrade {display:inline-block;margin-left:6px;color:#4e5f6f;font-size:12px;line-height:20px;font-weight:400;white-space:nowrap}
+#followRecordScreen #followRecordGrade[hidden] {display:none}
+#followRecordScreen:is(.has-parent-profile,.has-teacher-profile) .member-profile-fields {gap:4px;margin:0;padding-top:6px}
+#followRecordScreen:is(.has-parent-profile,.has-teacher-profile) .member-profile-fields>div {line-height:20px;column-gap:8px}
+#followRecordScreen:is(.has-parent-profile,.has-teacher-profile) .follow-record-profile .member-detail-summary {margin:0;padding-top:6px}
+#followRecordScreen:is(.has-parent-profile,.has-teacher-profile) .member-detail-stat {min-height:24px}
+#followRecordScreen:is(.has-parent-profile,.has-teacher-profile) .member-detail-stat strong {font-size:20px;line-height:26px}
+
+/* 老师资料：两行摘要，详情完整展示；资料较多时整页滚动。 */
+.teacher-profile-summary {min-width:0;margin:9px 0 1px;padding-left:50px;color:#2f4050;font-size:12px;line-height:20px}
+.compact-member-card .teacher-profile-summary {margin:6px 0 0;padding-left:0;line-height:18px}
+.compact-member-card .teacher-subject-summary {margin-top:0}
+.teacher-qualification,.teacher-subject-summary {display:flex;align-items:baseline;gap:7px;min-width:0}
+.teacher-qualification {justify-content:space-between}
+.teacher-subject-summary {margin-top:3px}
+.teacher-school,.teacher-subjects {min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.teacher-experience,.teacher-subject-label {flex-shrink:0}
+.teacher-experience {color:#007c6b}
+.teacher-subject-label {color:#66727b;font-size:11px}
+#followRecordScreen.has-teacher-profile .follow-record-scroll {display:block;overflow-y:auto}
+#followRecordScreen.has-teacher-profile #followRecordList {overflow:visible}
+
+/* 注册成员行动轨迹：行为与结果独立于人工回访。 */
+#followRecordList .activity-record {padding-bottom:16px}
+.activity-record-heading {display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:7px;min-width:0}
+.activity-record-heading strong {min-width:0;color:#2f4050;font-size:14px;font-weight:500;line-height:22px}
+#followRecordList .activity-record .detail-record-content {color:#66727b;font-size:12px;line-height:20px}
