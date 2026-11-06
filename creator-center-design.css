@@ -129,7 +129,6 @@
 #followRecordScreen .follow-record-profile .follow-record-user {grid-row:1;grid-column:2}
 #followRecordScreen .follow-record-profile .follow-record-name {font-size:var(--member-name-font-size);line-height:23px;font-weight:500}
 #followRecordScreen .follow-record-meta {flex-wrap:wrap;flex-direction:row;align-items:center;gap:6px;margin-top:4px}
-#followRecordScreen #followRecordCity {font-size:var(--member-meta-font-size);line-height:18px;color:#4e5f6f}
 #followRecordScreen #followRecordPhone {font-size:var(--member-meta-font-size);line-height:18px;letter-spacing:0}
 #followRecordScreen .follow-record-profile .member-detail-summary {grid-column:1/-1;grid-row:2;min-width:0;width:100%;margin:2px 0 0;padding:12px 0 0;border:0;border-top:1px solid var(--line);background:transparent;box-shadow:none}
 #followRecordScreen .follow-record-profile .member-detail-stat {display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:26px}

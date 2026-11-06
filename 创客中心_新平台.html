@@ -351,7 +351,6 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .follow-record-profile .follow-record-avatar{width:40px;height:40px;font-size:16px}
 .follow-record-profile .follow-record-name{font-size:16px;line-height:22px}
 .follow-record-meta{flex-direction:column;align-items:flex-start;gap:3px;margin-top:3px;line-height:16px}
-#followRecordCity{font-size:10px;color:#8a97a3}
 #followRecordPhone{font-size:11px;letter-spacing:.15px}
 .follow-record-phone{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
 .follow-record-phone .phone-icon{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
@@ -643,7 +642,7 @@ button,input,textarea,select{font-family:inherit}
 #personalCreatorOpened[hidden],#personalCreatorLocked[hidden]{display:none!important}
 @media(max-width:390px){.personal-design-canvas{margin-left:0;margin-right:0}}
 </style>
-  <link rel="stylesheet" href="creator-center-design.css?v=20261105-commission-lesson-methods">
+  <link rel="stylesheet" href="creator-center-design.css?v=20261106-detail-phone-only">
   <link rel="stylesheet" href="promotion-home.css?v=20261103-iphone-statusbar">
   <link rel="stylesheet" href="team-transfer.css?v=20261106-team-tabs-top">
 </head>
@@ -799,7 +798,7 @@ button,input,textarea,select{font-family:inherit}
           <article class="follow-record-profile">
             <div class="detail-level-row"><span class="team-level-tag" id="memberDetailLevel"></span><span class="member-owner" id="memberDetailOwner" hidden></span></div>
             <span class="follow-record-avatar" id="followRecordAvatar" aria-hidden="true"></span>
-            <div class="follow-record-user"><div class="follow-record-name"><span id="followRecordName"></span><span class="follow-record-roles" id="followRecordRole"></span><span id="followRecordGrade" aria-label="学生年级" hidden></span></div><div class="follow-record-meta"><span id="followRecordCity"></span><a class="follow-record-phone" id="followRecordPhone"><span id="followRecordPhoneText"></span><svg class="phone-icon" viewbox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.8 9 3.2l2 5-1.7 1.4a14 14 0 0 0 5.1 5.1L15.8 13l5 2-.6 2.4c-.3 1.3-1.5 2.2-2.8 2.1A15.8 15.8 0 0 1 4.5 6.6c-.1-1.3.8-2.5 2.1-2.8Z"></path></svg></a></div></div>
+            <div class="follow-record-user"><div class="follow-record-name"><span id="followRecordName"></span><span class="follow-record-roles" id="followRecordRole"></span><span id="followRecordGrade" aria-label="学生年级" hidden></span></div><div class="follow-record-meta"><a class="follow-record-phone" id="followRecordPhone"><span id="followRecordPhoneText"></span><svg class="phone-icon" viewbox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.8 9 3.2l2 5-1.7 1.4a14 14 0 0 0 5.1 5.1L15.8 13l5 2-.6 2.4c-.3 1.3-1.5 2.2-2.8 2.1A15.8 15.8 0 0 1 4.5 6.6c-.1-1.3.8-2.5 2.1-2.8Z"></path></svg></a></div></div>
             <dl class="member-profile-fields" id="memberProfileFields" aria-label="成员资料" hidden></dl>
             <section class="member-detail-summary" id="memberDetailSummary" aria-label="成员业务概况"><div class="member-detail-stat"><span>累计推广收益</span><strong id="memberDetailProfit"></strong></div></section>
           </article>
@@ -853,5 +852,5 @@ button,input,textarea,select{font-family:inherit}
       <div class="toast" id="toast" role="status" aria-live="polite"></div>
     </section>
   </main>
-  <script src="assets/personal/activity/qrcode.js"></script><script src="creator-center.js?v=20261105-member-promotion-income"></script><script src="promotion-home.js?v=20261103-invite-close-bottom"></script><script src="team-transfer.js?v=20261106-incoming-card-clean"></script><script src="prototype-spec.js?v=20261106-incoming-card-clean"></script><script src="prototype-notes.js?v=20261105-dev-spec"></script></body>
+  <script src="assets/personal/activity/qrcode.js"></script><script src="creator-center.js?v=20261106-detail-phone-only"></script><script src="promotion-home.js?v=20261103-invite-close-bottom"></script><script src="team-transfer.js?v=20261106-incoming-card-clean"></script><script src="prototype-spec.js?v=20261106-detail-phone-only"></script><script src="prototype-notes.js?v=20261105-dev-spec"></script></body>
 </html>
