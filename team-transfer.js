@@ -46,7 +46,7 @@ window.teamTransfer = (() => {
   const personName=person=>person.name==='我'?'我':maskName(person.name);
   const senderLabel=person=>`${personName(person)}${person.phone?' '+maskPhone(person.phone):''}`;
 
-  $('.my-team-heading').insertAdjacentHTML('afterend',`<div class="team-scope-tabs" role="group" aria-label="成员来源"><button type="button" class="active" data-team-scope="own" aria-pressed="true">团队成员</button><button type="button" data-team-scope="received" aria-pressed="false">转跟进成员</button></div>`);
+  $('.my-team-heading').insertAdjacentHTML('beforebegin',`<div class="team-scope-tabs" role="group" aria-label="成员来源"><button type="button" class="active" data-team-scope="own" aria-pressed="true">团队成员</button><button type="button" data-team-scope="received" aria-pressed="false">转跟进成员</button></div>`);
   $('#memberResultCount').outerHTML=`<div class="team-list-tools"><div class="member-result-count" id="memberResultCount" role="status" aria-live="polite"></div><div class="team-list-actions"><button type="button" id="openTransferRecords">转移记录</button><button type="button" id="startTeamBatch">批量转移</button></div></div><div class="team-batch-bar" id="teamBatchBar" hidden><label><input type="checkbox" id="selectVisibleMembers">全选</label><span id="teamBatchCount" aria-live="polite">已选 0 人</span><button type="button" id="cancelTeamBatch">取消</button><button type="button" id="submitTeamBatch" disabled>转移</button></div>`;
   $('#memberDetailRevisit').insertAdjacentHTML('beforebegin','<p class="team-transfer-notice" id="detailTransferNotice" hidden></p><div class="detail-transfer-actions" id="detailTransferActions"><button type="button" id="memberDetailTransfer">转移跟进</button></div>');
   $('#detailTransferActions').append($('#memberDetailRevisit'));
@@ -82,6 +82,7 @@ window.teamTransfer = (() => {
     selected=new Set([...selected].filter(memberPhone=>items.some(item=>item.phone===memberPhone&&canTransfer(item))));
   }
   function afterRender(){
+    $('.my-team-heading').hidden=scope!=='own';
     $('#startTeamBatch').hidden=scope!=='own'||batch;
     $('#startTeamBatch').disabled=!visible.some(canTransfer);
     $('#teamBatchBar').hidden=!batch;
