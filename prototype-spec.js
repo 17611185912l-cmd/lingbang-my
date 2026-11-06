@@ -1,8 +1,8 @@
 /* 开发说明单一数据源；由 scripts/build-creator-docs.cjs 生成独立说明。 */
 window.PROMOTION_PROTOTYPE_SPEC = {
   "title": "推广中心原型开发说明",
-  "version": "20261105-member-promotion-income",
-  "updated": "2026-11-05",
+  "version": "20261106-team-scope-clean",
+  "updated": "2026-11-06",
   "intro": "以本次可交互原型为准，逐项说明入口去向、展示字段、输入约束、角色权限及演示边界。未实现或待业务确认的事项明确标注，禁止由样例推断生产规则。",
   "sections": [
     {
@@ -230,7 +230,7 @@ window.PROMOTION_PROTOTYPE_SPEC = {
         [
           "团队成员／转跟进成员",
           "切换来源",
-          "选择自己的 99 人或他人转入的 6 人；保留身份与老师筛选，退出批量并清空勾选。转入列表显示不计入团队总数提示。"
+          "选择自己的 99 人或他人转入的 6 人；保留身份与老师筛选，退出批量并清空勾选。不额外展示来源说明提示。"
         ],
         [
           "身份：全部／注册／家长／老师",
