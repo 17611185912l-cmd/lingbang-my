@@ -67,7 +67,7 @@ window.teamTransfer = (() => {
     const selecting=batch&&scope==='own'&&visible.includes(item);
     const eligible=canTransfer(item);
     const selection=selecting?`<label class="team-member-select${eligible?'':' is-disabled'}"><input type="checkbox" data-select-transfer="${item.phone}" aria-label="选择${maskName(item.name)}" ${selected.has(item.phone)?'checked':''} ${eligible?'':'disabled'}><span>${eligible?'选择成员':'已转出'}</span></label>`:'';
-    const notice=item.followTransferredOut?`<div class="card-transfer-info">已转交 ${escapeHtml(personName(item.followReceiver))} 跟进</div>`:item.transferredFollow?`<div class="card-transfer-info received"><span>${escapeHtml(senderLabel(item.sender))} 转入</span><time>${item.receivedAt}</time></div>`:'';
+    const notice=item.followTransferredOut?`<div class="card-transfer-info">已转交 ${escapeHtml(personName(item.followReceiver))} 跟进</div>`:'';
     let result=markup.replace(/(<article\b[^>]*>)/,`$1${selection}${notice}`);
     if(eligible&&!selecting){
       const action='<button class="card-action" type="button" data-transfer-member>转移跟进</button>';
