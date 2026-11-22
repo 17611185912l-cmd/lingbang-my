@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="840" viewBox="0 0 660 840">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#edf7fc"/><stop offset="1" stop-color="#fffdf6"/></linearGradient><clipPath id="clip"><rect width="660" height="840" rx="22"/></clipPath></defs>
+<g clip-path="url(#clip)" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
+<rect width="660" height="840" fill="url(#bg)"/><circle cx="630" cy="31" r="180" fill="#d8edf5" opacity=".45"/>
+<rect x="42" y="39" width="43" height="43" rx="12" fill="#277a9b"/><path d="m52 62 11-13 11 13-11 12Z" fill="#fff"/><path d="m57 62 6-7 6 7-6 6Z" fill="#277a9b"/>
+<text x="97" y="69" font-size="29" font-weight="600" fill="#153f37">领榜</text><text x="618" y="66" text-anchor="end" font-size="19" fill="#277a9b">邀请家长报名</text>
+<text x="48" y="152" font-size="43" font-weight="600" fill="#173f37">好老师，让成长</text><text x="48" y="212" font-size="43" font-weight="600" fill="#173f37">多一种可能</text>
+<text x="49" y="256" font-size="22" fill="#60756c">来领榜，找到适合孩子的老师</text><circle cx="83" cy="302" r="3" fill="#277a9b"/><text x="95" y="308" font-size="19" fill="#52665e">了解老师信息</text><circle cx="266" cy="302" r="3" fill="#277a9b"/><text x="278" y="308" font-size="19" fill="#52665e">发布学习需求</text><circle cx="449" cy="302" r="3" fill="#277a9b"/><text x="461" y="308" font-size="19" fill="#52665e">沟通授课安排</text>
+<circle cx="330" cy="439" r="125" fill="#d8edf5" opacity=".55"/><ellipse cx="330" cy="529" rx="178" ry="16" fill="#bad8e5" opacity=".35"/><rect x="202" y="375" width="239" height="142" rx="16" fill="#bcdde9" transform="rotate(-9 202 375)"/><rect x="185" y="404" width="271" height="117" rx="12" fill="#fff" stroke="#98c6d9" stroke-width="2"/><path d="M320 419v89M211 433h84m-84 20h69m-69 20h80m42-40h88m-88 20h70m-70 20h82" stroke="#bad8e5" stroke-width="5" stroke-linecap="round"/><rect x="396" y="341" width="18" height="141" rx="7" fill="#eacb88" transform="rotate(29 396 341)"/><path d="m337 474 16-14 14 8-19 10Z" fill="#a47739"/><circle cx="218" cy="365" r="27" fill="#fff"/><path d="m206 365 8 8 17-18" fill="none" stroke="#277a9b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="m447 386 5 12 13 1-10 8 3 13-11-7-11 7 3-13-10-8 13-1Z" fill="#e5c480"/>
+<text x="330" y="584" text-anchor="middle" font-size="22" fill="#277a9b">为孩子的学习，多一份选择</text>
+<rect x="28" y="625" width="604" height="185" rx="16" fill="#fff"/>
+<text x="52" y="678" font-size="25" font-weight="600" fill="#173f37">送你一份领榜邀请</text>
+<text x="52" y="714" font-size="19" fill="#687d74">邀请家长报名 · 一起发现更多可能</text>
+<text x="52" y="774" font-size="16" fill="#929d97">演示海报 · 邀请入口暂不可用</text>
+<rect x="482" y="650" width="124" height="124" rx="9" fill="#edf7fc" stroke="#d8edf5"/>
+<path d="M496 677v-13h13m70 0h13v13m0 69v13h-13m-70 0h-13v-13" stroke="#277a9b" stroke-width="3" fill="none" opacity=".5"/>
+<path d="M532 692h24v21h-24Zm-3 0h30v-7h-30Zm15-9v30" stroke="#277a9b" stroke-width="2" fill="none"/>
+<text x="544" y="742" text-anchor="middle" font-size="15" fill="#277a9b">二维码待接入</text>
+</g></svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="840" viewBox="0 0 660 840">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fcf6eb"/><stop offset="1" stop-color="#fffdf6"/></linearGradient><clipPath id="clip"><rect width="660" height="840" rx="22"/></clipPath></defs>
+<g clip-path="url(#clip)" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
+<rect width="660" height="840" fill="url(#bg)"/><circle cx="630" cy="31" r="180" fill="#f3e3c9" opacity=".45"/>
+<rect x="42" y="39" width="43" height="43" rx="12" fill="#a47739"/><path d="m52 62 11-13 11 13-11 12Z" fill="#fff"/><path d="m57 62 6-7 6 7-6 6Z" fill="#a47739"/>
+<text x="97" y="69" font-size="29" font-weight="600" fill="#153f37">领榜</text><text x="618" y="66" text-anchor="end" font-size="19" fill="#a47739">邀请合伙人</text>
+<text x="48" y="152" font-size="43" font-weight="600" fill="#173f37">携手领榜</text><text x="48" y="212" font-size="43" font-weight="600" fill="#173f37">一起连接更多可能</text>
+<text x="49" y="256" font-size="22" fill="#60756c">邀请有合作意向的你，了解领榜</text><circle cx="83" cy="302" r="3" fill="#a47739"/><text x="95" y="308" font-size="19" fill="#52665e">了解平台业务</text><circle cx="266" cy="302" r="3" fill="#a47739"/><text x="278" y="308" font-size="19" fill="#52665e">了解合作方式</text><circle cx="449" cy="302" r="3" fill="#a47739"/><text x="461" y="308" font-size="19" fill="#52665e">提交合作申请</text>
+<circle cx="330" cy="439" r="125" fill="#f3e3c9" opacity=".55"/><ellipse cx="330" cy="529" rx="178" ry="16" fill="#dbc5a0" opacity=".3"/><path d="m243 435 86-67 92 67m-178 0 86 56 92-56m-92-67v123" stroke="#d5b57f" stroke-width="4" stroke-dasharray="8 8" fill="none"/><circle cx="329" cy="368" r="43" fill="#fff"/><circle cx="243" cy="435" r="37" fill="#fff"/><circle cx="421" cy="435" r="37" fill="#fff"/><circle cx="329" cy="491" r="32" fill="#fff"/><circle cx="329" cy="356" r="11" fill="#a47739"/><path d="M307 391v-8q0-16 22-16t22 16v8Z" fill="#c2a06a"/><circle cx="243" cy="425" r="9" fill="#a47739"/><path d="M224 455v-8q0-14 19-14t19 14v8Z" fill="#d8bd91"/><circle cx="421" cy="425" r="9" fill="#a47739"/><path d="M402 455v-8q0-14 19-14t19 14v8Z" fill="#d8bd91"/><path d="m314 490 10 10 20-22" stroke="#a47739" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="m211 340 5 12 13 1-10 8 3 13-11-7-11 7 3-13-10-8 13-1Z" fill="#d6b473"/>
+<text x="330" y="584" text-anchor="middle" font-size="22" fill="#a47739">与志同道合的人，一起出发</text>
+<rect x="28" y="625" width="604" height="185" rx="16" fill="#fff"/>
+<text x="52" y="678" font-size="25" font-weight="600" fill="#173f37">送你一份领榜邀请</text>
+<text x="52" y="714" font-size="19" fill="#687d74">邀请合伙人 · 一起发现更多可能</text>
+<text x="52" y="774" font-size="16" fill="#929d97">演示海报 · 邀请入口暂不可用</text>
+<rect x="482" y="650" width="124" height="124" rx="9" fill="#fcf6eb" stroke="#f3e3c9"/>
+<path d="M496 677v-13h13m70 0h13v13m0 69v13h-13m-70 0h-13v-13" stroke="#a47739" stroke-width="3" fill="none" opacity=".5"/>
+<path d="M532 692h24v21h-24Zm-3 0h30v-7h-30Zm15-9v30" stroke="#a47739" stroke-width="2" fill="none"/>
+<text x="544" y="742" text-anchor="middle" font-size="15" fill="#a47739">二维码待接入</text>
+</g></svg>
