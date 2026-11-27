@@ -286,12 +286,9 @@
 .promotion-available-vouchers > .voucher-list { margin-top: 12px; }
 .promotion-record-card { padding: 0 17px; border-radius: 18px; background: #fff; }
 .promotion-user-list, .promotion-reward-list { margin: 0; padding: 0; list-style: none; }
-.promotion-user-list > li { display: flex; align-items: center; gap: 11px; padding: 17px 0; }
+.promotion-user-list > li { padding: 17px 0; }
 .promotion-user-list > li + li, .promotion-reward-list > li + li { border-top: 1px solid #eff3ef; }
-.promotion-user-avatar { display: grid; place-items: center; flex: none; width: 36px; height: 36px; border-radius: 50%; background: #edf4ee; color: #77987b; font-size: 14px; }
-.promotion-user-list > li:nth-child(3n + 2) .promotion-user-avatar { background: #f3f0e6; color: #a68d58; }
-.promotion-user-list > li:nth-child(3n) .promotion-user-avatar { background: #edf1f5; color: #7c93a1; }
-.promotion-user-info { flex: 1; min-width: 0; }
+.promotion-user-info { min-width: 0; }
 .promotion-user-info > div { display: flex; align-items: center; gap: 10px; }
 .promotion-user-info strong { font-size: 14px; line-height: 21px; font-weight: 500; }
 .promotion-user-info span { color: #75877a; font-size: 11px; line-height: 18px; }

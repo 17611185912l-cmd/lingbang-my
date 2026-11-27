@@ -29,3 +29,5 @@ npm run build
 发布分支：`codex/personal-center-2.0-20261122`。`npm ci`后运行`npm run build:pages`，静态产物在`dist/github-pages/`；构建同时保留既有Sites输出，不修改受保护手机运行时。此源码快照不包含本机node_modules、QA截图及冻结版本目录，版本存档继续由原工作区保管。
 
 2026-11-27：邀请用户列表移除注册状态标签，说明同步为r4。
+
+2026-11-27：邀请用户列表同步移除头像，姓名、手机号和注册时间左对齐，说明修订r5。
