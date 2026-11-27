@@ -135,7 +135,6 @@ function InvitedUserRows({ users }: { users: InvitedUser[] }) {
   return <ul className="promotion-user-list">{users.map((user) => <li key={user.id}>
     <span className="promotion-user-avatar" aria-hidden="true">{user.name.slice(0, 1)}</span>
     <div className="promotion-user-info"><div><strong>{user.name}</strong><span>{user.phone}</span></div><p>注册时间 {user.registeredAt}</p></div>
-    <span className="promotion-registered">已注册</span>
   </li>)}</ul>;
 }
 

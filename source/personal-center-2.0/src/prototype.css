@@ -296,7 +296,6 @@
 .promotion-user-info strong { font-size: 14px; line-height: 21px; font-weight: 500; }
 .promotion-user-info span { color: #75877a; font-size: 11px; line-height: 18px; }
 .promotion-user-info p { margin-top: 5px; color: #a0ada3; font-size: 10px; line-height: 16px; white-space: nowrap; }
-.promotion-registered { flex: none; color: #79a28a; font-size: 10px; line-height: 17px; }
 .promotion-reward-list > li { display: flex; align-items: flex-start; gap: 12px; padding: 18px 0; }
 .promotion-reward-icon { display: grid; place-items: center; flex: none; width: 36px; height: 36px; border-radius: 11px; background: #fbf4e4; color: #b39453; }
 .promotion-reward-icon svg { width: 20px; height: 20px; }
